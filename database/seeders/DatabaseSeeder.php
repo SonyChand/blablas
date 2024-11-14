@@ -72,6 +72,11 @@ class DatabaseSeeder extends Seeder
             ['name' => 'disposition-edit', 'description' => 'Mengubah data Disposisi'],
             ['name' => 'disposition-delete', 'description' => 'Menghapus data Disposisi'],
             ['name' => 'disposition-download', 'description' => 'Mengunduh data Disposisi'],
+            ['name' => 'employee-list', 'description' => 'Melihat data Pegawai'],
+            ['name' => 'employee-create', 'description' => 'Menambah data Pegawai'],
+            ['name' => 'employee-edit', 'description' => 'Mengubah data Pegawai'],
+            ['name' => 'employee-delete', 'description' => 'Menghapus data Pegawai'],
+            ['name' => 'employee-download', 'description' => 'Mengunduh data Pegawai'],
         ];
 
         foreach ($permissions as $permission) {

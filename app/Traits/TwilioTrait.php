@@ -12,6 +12,7 @@ trait TwilioTrait
         $twilioSid = env('TWILIO_SID');
         $twilioToken = env('TWILIO_AUTH_TOKEN');
         $twilioWhatsAppNumber = env('TWILIO_WHATSAPP_NUMBER');
+        $twilioRecipientNumber = env('TWILIO_RECIPIENT_NUMBER');
 
         try {
             $twilio = new Client($twilioSid, $twilioToken);
@@ -26,7 +27,7 @@ trait TwilioTrait
             }
 
             $twilio->messages->create(
-                "whatsapp:+{$recipientNumber}",
+                "whatsapp:+{$twilioRecipientNumber}",
                 $messageData
             );
 

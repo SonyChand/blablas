@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Letters;
+namespace App\Http\Controllers\Managements\Letters;
 
 use PDF;
 use Illuminate\View\View;
@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
-use App\Models\Letters\OutgoingLetter;
+use App\Models\Managements\Letters\OutgoingLetter;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\OutgoingLetterNotification;
 use Illuminate\Foundation\Validation\ValidatesRequests;

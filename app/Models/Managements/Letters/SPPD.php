@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Letters;
+namespace App\Models\Managements\Letters;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CommandLetter extends Model
+class SPPD extends Model
 {
     use HasFactory;
 }

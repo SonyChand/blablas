@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Letters;
+namespace App\Models\Managements\Letters;
 
 use Illuminate\Database\Eloquent\Model;
 

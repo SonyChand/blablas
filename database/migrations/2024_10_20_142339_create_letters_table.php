@@ -154,11 +154,12 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('letter_id');
-            $table->string('from');
-            $table->string('type'); // incoming or outgoing
-            $table->string('disposition_to');
+            $table->string('letter_number')->nullable();
+            $table->string('from')->nullable();
+            $table->string('type')->nullable(); // incoming or outgoing
+            $table->longText('disposition_to')->nullable();
             $table->text('notes')->nullable();
-            $table->date('disposition_date');
+            $table->date('disposition_date')->nullable();
             $table->string('signed_by')->nullable();
             $table->timestamps();
 

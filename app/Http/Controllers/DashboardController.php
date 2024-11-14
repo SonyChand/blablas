@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TestingNotification;
 use Illuminate\Http\Request;
-use App\Models\Letters\IncomingLetter;
-use App\Models\Letters\OutgoingLetter;
+use Illuminate\Support\Facades\Mail;
+use App\Models\Managements\Letters\IncomingLetter;
+use App\Models\Managements\Letters\OutgoingLetter;
 
 class DashboardController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Letters;
+namespace App\Http\Controllers\Managements\Letters;
 
 use PDF;
 use Exception;
@@ -8,18 +8,19 @@ use ZipArchive;
 use Carbon\Carbon;
 use setasign\Fpdi\Fpdi;
 use Illuminate\View\View;
+use App\Traits\TwilioTrait;
 use Illuminate\Support\Str;
 use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
+use App\Models\Managements\Letters\Disposition;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
-use App\Models\Letters\IncomingLetter;
+use App\Models\Managements\Letters\IncomingLetter;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\IncomingLetterNotification;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use App\Traits\TwilioTrait;
 
 class IncomingLetterController extends Controller
 {
@@ -99,8 +100,20 @@ class IncomingLetterController extends Controller
         $validatedData['file_path'] = $filePaths;
         $letter = IncomingLetter::create($validatedData);
 
-        $description = 'Pengguna ' . $request->user()->name . ' menambahkan surat masuk dengan nomor surat: ' . $letter->letter_number;
+        $description = 'Pengguna ' . $request->user()->name . ' menambahkan surat masuk dan disposisi dengan nomor surat: ' . $letter->letter_number;
         $this->logActivity('incoming_letters', $request->user(), $letter->id, $description);
+
+        // Tambahkan Disposition
+        $dispositionData = [
+            'uuid' => (string) Str::uuid(),
+            'letter_id' => $letter->id,
+            'letter_number' => $letter->letter_number,
+            'from' => $request->user()->name,
+            'type' => 'incoming',
+            'disposition_date' => Carbon::now()->toDateString(),
+            'signed_by' => $request->user()->name,
+        ];
+        Disposition::create($dispositionData);
 
 
         // Generate PDF
@@ -293,11 +306,10 @@ class IncomingLetterController extends Controller
                 }
             }
 
-            $recipientNumber = '6281312157307';
             $letterNumbers = IncomingLetter::whereIn('id', $letterIds)->pluck('letter_number')->toArray();
             $message = 'Pengguna ' . Auth::user()->name . ' telah menghapus data-data surat dengan nomor surat: ' . implode(', ', $letterNumbers);
 
-            $sendMessageResult = $this->sendWhatsAppMessage($recipientNumber, $message, null);
+            $sendMessageResult = $this->sendWhatsAppMessageToAdmin($message, null);
 
             if ($sendMessageResult !== true) {
                 return back()->with(['error' => $sendMessageResult]);

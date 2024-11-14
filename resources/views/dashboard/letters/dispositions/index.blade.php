@@ -124,26 +124,13 @@
                                                     <span class="fas fa-ellipsis-h fs-10"></span>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-end py-2">
-                                                    @can('disposition-edit')
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('dispositions.edit', $row->id) }}">Disposisi</a>
-                                                    @endcan
-                                                    @can('disposition-download')
-                                                        <form method="POST"
-                                                            action="{{ route('dispositions.download', $row->id) }}"
-                                                            style="display:inline">
-                                                            @csrf
-                                                            <button type="submit" class="dropdown-item">Unduh
-                                                                Disposisi</button>
-                                                        </form>
-                                                    @endcan
                                                     @can('incoming_letter-download')
                                                         @if ($row->file_path != null)
                                                             <form method="POST"
                                                                 action="{{ route('incoming-letters.download', $row->id) }}"
                                                                 style="display:inline">
                                                                 @csrf
-                                                                <button type="submit" class="dropdown-item">Unduh</button>
+                                                                <button type="submit" class="dropdown-item">Download</button>
                                                             </form>
                                                         @endif
                                                     @endcan

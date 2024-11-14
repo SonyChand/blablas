@@ -97,7 +97,7 @@
 
 
                     <div class="nav-item-wrapper"><a
-                            class="nav-link dropdown-indicator {{ request()->routeIs('*letters.*') ? '' : 'collapsed' }} label-1"
+                            class="nav-link dropdown-indicator {{ request()->is('management/*') ? '' : 'collapsed' }} label-1"
                             href="#nv-components" role="button" data-bs-toggle="collapse" aria-expanded="true"
                             aria-controls="nv-components">
                             <div class="d-flex align-items-center">
@@ -109,7 +109,7 @@
                             </div>
                         </a>
                         <div class="parent-wrapper label-1">
-                            <ul class="nav collapse parent {{ request()->routeIs('*letters.*') ? 'show' : '' }}"
+                            <ul class="nav collapse parent {{ request()->is('management/*') ? 'show' : '' }}"
                                 data-bs-parent="#navbarVerticalCollapse" id="nv-components">
                                 <li class="collapsed-nav-item-title d-none">Manajemen <span
                                         class="badge ms-2 badge badge-phoenix badge-phoenix-warning ">Demo</span>
@@ -166,6 +166,17 @@
                                         </ul>
                                     </div>
                                 </li>
+
+
+                                {{-- Pegawai --}}
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('employees.*') ? 'active' : '' }}"
+                                        href="{{ route('employees.index') }}">
+                                        <div class="d-flex align-items-center"><span
+                                                class="nav-link-text">Pegawai</span></div>
+                                    </a>
+                                </li>
+
                             </ul>
                         </div>
                     </div>
