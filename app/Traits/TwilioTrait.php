@@ -7,7 +7,7 @@ use Exception;
 
 trait TwilioTrait
 {
-    public function sendWhatsAppMessage($recipientNumber, $message, $mediaUrl = null)
+    public function sendWhatsAppMessageToAdmin($message, $mediaUrl = null)
     {
         $twilioSid = env('TWILIO_SID');
         $twilioToken = env('TWILIO_AUTH_TOKEN');
@@ -18,7 +18,7 @@ trait TwilioTrait
             $twilio = new Client($twilioSid, $twilioToken);
 
             $messageData = [
-                "from" => "whatsapp:+{$twilioWhatsAppNumber}",
+                "from" => "whatsapp:{$twilioWhatsAppNumber}",
                 "body" => $message,
             ];
 
@@ -27,7 +27,7 @@ trait TwilioTrait
             }
 
             $twilio->messages->create(
-                "whatsapp:+{$twilioRecipientNumber}",
+                "whatsapp:{$twilioRecipientNumber}",
                 $messageData
             );
 

@@ -6,13 +6,13 @@ use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Log;
-use App\Models\Letters\IncomingLetter;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Mail\Mailables\Attachment;
 use Stevebauman\Location\Facades\Location;
+use App\Models\Managements\Letters\IncomingLetter;
 
 class IncomingLetterNotification extends Mailable
 {
