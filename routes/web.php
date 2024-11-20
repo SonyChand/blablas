@@ -10,6 +10,8 @@ use App\Http\Controllers\Managements\EmployeeController;
 use App\Http\Controllers\Managements\Letters\DispositionController;
 use App\Http\Controllers\Managements\Letters\IncomingLetterController;
 use App\Http\Controllers\Managements\Letters\OutgoingLetterController;
+use App\Http\Controllers\Managements\Letters\RecommendationController;
+use App\Http\Controllers\Managements\Letters\OfficialTaskFileController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -31,12 +33,23 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'management'], f
     Route::delete('/incoming-letters/bulkDestroy', [IncomingLetterController::class, 'bulkDestroy'])->name('incoming-letters.bulkDestroy');
     Route::post('/incoming-letters/download/{id}', [IncomingLetterController::class, 'download'])->name('incoming-letters.download');
     Route::resource('incoming-letters', IncomingLetterController::class);
+
+    Route::get('outgoing-letters/export/{format}', [OutgoingLetterController::class, 'export'])->name('outgoing-letters.export');
     Route::delete('/outgoing-letters/bulkDestroy', [OutgoingLetterController::class, 'bulkDestroy'])->name('outgoing-letters.bulkDestroy');
     Route::get('/outgoing-letters/download/{id}', [OutgoingLetterController::class, 'download'])->name('outgoing-letters.download');
     Route::resource('outgoing-letters', OutgoingLetterController::class);
+
     Route::delete('/dispositions/bulkDestroy', [DispositionController::class, 'bulkDestroy'])->name('dispositions.bulkDestroy');
     Route::post('/dispositions/download/{id}', [DispositionController::class, 'download'])->name('dispositions.download');
     Route::resource('dispositions', DispositionController::class);
+
+    Route::delete('/recommendation-letters/bulkDestroy', [RecommendationController::class, 'bulkDestroy'])->name('recommendation-letters.bulkDestroy');
+    Route::post('/recommendation-letters/download/{id}', [RecommendationController::class, 'download'])->name('recommendation-letters.download');
+    Route::resource('recommendation-letters', RecommendationController::class);
+
+    Route::post('official-task-files/bulk-destroy', [OfficialTaskFileController::class, 'bulkDestroy'])->name('official-task-files.bulkDestroy');
+    Route::get('official-task-files/download/{id}', [OfficialTaskFileController::class, 'download'])->name('official-task-files.download');
+    Route::resource('official-task-files', OfficialTaskFileController::class);
 
 
     Route::put('/employees/{employee}/disconnect', [EmployeeController::class, 'disconnect'])->name('employees.disconnect');

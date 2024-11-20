@@ -129,19 +129,6 @@ class IncomingLetterController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id): View
-    {
-        $user = IncomingLetter::find($id);
-
-        return view('dashboard.letters.incoming_letters.show', compact('user'));
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -345,24 +332,5 @@ class IncomingLetterController extends Controller
         }
 
         return response()->download($zipFilePath)->deleteFileAfterSend(true);
-    }
-
-    private function compressPdf($inputPath, $outputPath)
-    {
-        $pdf = new Fpdi();
-        $pageCount = $pdf->setSourceFile($inputPath);
-
-        for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
-            $templateId = $pdf->importPage($pageNo);
-            $size = $pdf->getTemplateSize($templateId);
-
-            $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
-            $pdf->useTemplate($templateId);
-
-            // Reduce the quality of images in the PDF
-            $pdf->SetCompression(true);
-        }
-
-        $pdf->Output($outputPath, 'F');
     }
 }

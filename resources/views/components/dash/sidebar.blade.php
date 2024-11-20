@@ -115,7 +115,7 @@
                                         class="badge ms-2 badge badge-phoenix badge-phoenix-warning ">Demo</span>
                                 </li>
                                 <li class="nav-item"><a
-                                        class="nav-link dropdown-indicator {{ request()->routeIs('*letters.*') ? '' : 'collapsed' }}"
+                                        class="nav-link dropdown-indicator {{ request()->routeIs('*letters.*') || request()->routeIs('*official-task-files.*') ? '' : 'collapsed' }}"
                                         href="#nv-carousel" data-bs-toggle="collapse" aria-expanded="true"
                                         aria-controls="nv-carousel">
                                         <div class="d-flex align-items-center">
@@ -127,7 +127,7 @@
                                     </a>
                                     <!-- more inner pages-->
                                     <div class="parent-wrapper">
-                                        <ul class="nav collapse parent {{ request()->routeIs('*letters.*') ? 'show' : '' }}"
+                                        <ul class="nav collapse parent {{ request()->routeIs('*letters.*') || request()->routeIs('*official-task-files.*') ? 'show' : '' }}"
                                             data-bs-parent="#components" id="nv-carousel">
                                             <li class="nav-item">
                                                 <a class="nav-link {{ request()->routeIs('incoming-letters.*') ? 'active' : '' }}"
@@ -146,20 +146,18 @@
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#">
-                                                    <div class="d-flex align-items-center"><span class="nav-link-text"
-                                                            onclick="return alert('belum tersedia :)')">Rekomendasi
-                                                            <span
-                                                                class="badge ms-2 badge-sm badge-phoenix badge-phoenix-danger ">!</span></span>
+                                                <a class="nav-link {{ request()->routeIs('recommendation-letters.*') ? 'active' : '' }}"
+                                                    href="{{ route('recommendation-letters.index') }}">
+                                                    <div class="d-flex align-items-center"><span
+                                                            class="nav-link-text">Rekomendasi</span>
                                                     </div>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#"
-                                                    onclick="return alert('belum tersedia :)')">
+                                                <a class="nav-link {{ request()->routeIs('official-task-files.*') ? 'active' : '' }}"
+                                                    href="{{ route('official-task-files.index') }}">
                                                     <div class="d-flex align-items-center"><span
-                                                            class="nav-link-text">Berkas Tugas Dinas <span
-                                                                class="badge ms-2 badge-sm badge-phoenix badge-phoenix-danger ">!</span></span></span>
+                                                            class="nav-link-text">Berkas Tugas Dinas</span></span>
                                                     </div>
                                                 </a>
                                             </li>

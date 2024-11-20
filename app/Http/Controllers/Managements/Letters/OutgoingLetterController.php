@@ -7,12 +7,15 @@ use Illuminate\View\View;
 use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Managements\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\RedirectResponse;
-use App\Models\Managements\Letters\OutgoingLetter;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\OutgoingLetterNotification;
+use App\Exports\Letters\OutgoingLettersExport;
+use App\Models\Managements\Letters\OutgoingLetter;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class OutgoingLetterController extends Controller
@@ -46,11 +49,13 @@ class OutgoingLetterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(): View
+    public function create(Request $request): View
     {
+        $type = $request->query('type');
         $title = 'Tambah Surat Keluar';
+        $employees = Employee::all();
 
-        return view('dashboard.letters.outgoing_letters.create', compact('title'));
+        return view('dashboard.letters.outgoing_letters.create', compact('title', 'employees', 'type'));
     }
 
     /**
@@ -63,48 +68,47 @@ class OutgoingLetterController extends Controller
     {
         $validatedData = $request->validate([
             'letter_type' => 'required|string',
-            'letter_number' => 'required|string',
-            'letter_nature' => 'required|string',
-            'letter_subject' => 'required|string',
-            'letter_date' => 'required|date',
-            'letter_destination_json' => 'required|json',
-            'to' => 'required|string',
-            'letter_body' => 'required|string',
-            'letter_closing' => 'required|string',
-            'sign_name' => 'required|string',
-            'sign_nip' => 'required|string',
-            'sign_position' => 'required|string',
+            'letter_number' => 'nullable|string',
+            'letter_nature' => 'nullable|string',
+            'letter_subject' => 'nullable|string',
+            'letter_date' => 'nullable|date',
+            'letter_destination' => 'nullable|array',
+            'to' => 'nullable|string',
+            'letter_body' => 'nullable|string',
+            'event_date_start' => 'nullable|string',
+            'event_date_end' => 'nullable|string',
+            'event_time_start' => 'nullable|string',
+            'event_time_end' => 'nullable|string',
+            'event_location' => 'nullable|string',
+            'event_agenda' => 'nullable|string',
+            'letter_closing' => 'nullable|string',
             'attachment' => 'nullable|string',
-            'operator_name' => 'required|string',
+            'operator_name' => 'nullable|string',
+            'file_path' => 'nullable|array',
+            'signed_by' => 'required|exists:employees,id',
         ]);
 
-        // Convert JSON fields back to JSON strings
-        $validatedData['letter_destination'] = $validatedData['letter_destination_json'];
 
-        // Remove the temporary JSON fields
-        unset($validatedData['letter_destination_json']);
+        $outgoingLetter = OutgoingLetter::create($validatedData);
 
-        $letter = OutgoingLetter::create($validatedData);
-
-        $description = 'Pengguna ' . $request->user()->name . ' menambahkan surat keluar - surat ' . $validatedData['letter_type'] . ' dengan nomor surat: ' . $letter->letter_number;
-        $this->logActivity('outgoing_letters', $request->user(), $letter->id, $description);
-
+        $description = 'Pengguna ' . $request->user()->name . ' menambahkan surat keluar dengan nomor: ' . $outgoingLetter->letter_number;
+        $this->logActivity('outgoing_letters', $request->user(), $outgoingLetter->id, $description);
 
         // Generate PDF
         $data = [
             'title' => 'Surat Keluar',
-            'letter' => $letter
+            'letter' => $outgoingLetter
         ];
 
-        $pdf = PDF::loadView('dashboard.letters.outgoing_letters.pdf.' . $letter->letter_type, $data)
+        $pdf = PDF::loadView('dashboard.letters.outgoing_letters.pdf.' . $outgoingLetter->letter_type, $data)
             ->setPaper([0, 0, 595.28, 935.43], 'portrait');
 
         // Save PDF to storage
-        $letterTypeSlug = str_replace(' ', '_', strtolower($letter->letter_type));
-        $pdfPath = 'surat/surat_keluar/' . $letterTypeSlug . '/' . $letter->letter_number . '-' . $letter->id . '.pdf';
+        $letterTypeSlug = str_replace(' ', '_', strtolower($outgoingLetter->letter_type));
+        $pdfPath = 'surat/surat_keluar/' . $letterTypeSlug . '/' . $outgoingLetter->letter_number . '-' . $outgoingLetter->id . '.pdf';
         Storage::disk('public')->put($pdfPath, $pdf->output());
 
-        Mail::to('sonychandmaulana@gmail.com')->send(new OutgoingLetterNotification($request->user(), 'penambahan', $letter->id, null));
+        // Mail::to('sonychandmaulana@gmail.com')->send(new OutgoingLetterNotification($request->user(), 'penambahan', $letter->id, null));
 
         return redirect()->route('outgoing-letters.index')
             ->with('success', 'Surat Keluar dan PDF berhasil dibuat.');
@@ -133,8 +137,9 @@ class OutgoingLetterController extends Controller
     {
         $title = 'Edit Surat Keluar';
         $letter = OutgoingLetter::find($letterId);
+        $employees = Employee::all();
 
-        return view('dashboard.letters.outgoing_letters.edit', compact('title', 'letter'));
+        return view('dashboard.letters.outgoing_letters.edit', compact('title', 'letter', 'employees'));
     }
 
     /**
@@ -148,28 +153,27 @@ class OutgoingLetterController extends Controller
     {
         $validatedData = $request->validate([
             'letter_type' => 'required|string',
-            'letter_number' => 'required|string',
-            'letter_nature' => 'required|string',
-            'letter_subject' => 'required|string',
-            'letter_date' => 'required|date',
-            'letter_destination_json' => 'required|json',
-            'to' => 'required|string',
-            'letter_body' => 'required|string',
-            'letter_closing' => 'required|string',
-            'sign_name' => 'required|string',
-            'sign_nip' => 'required|string',
-            'sign_position' => 'required|string',
+            'letter_number' => 'nullable|string',
+            'letter_nature' => 'nullable|string',
+            'letter_subject' => 'nullable|string',
+            'letter_date' => 'nullable|date',
+            'letter_destination' => 'nullable|array',
+            'to' => 'nullable|string',
+            'letter_body' => 'nullable|string',
+            'event_date_start' => 'nullable|string',
+            'event_date_end' => 'nullable|string',
+            'event_time_start' => 'nullable|string',
+            'event_time_end' => 'nullable|string',
+            'event_location' => 'nullable|string',
+            'event_agenda' => 'nullable|string',
+            'letter_closing' => 'nullable|string',
             'attachment' => 'nullable|string',
-            'operator_name' => 'required|string',
+            'operator_name' => 'nullable|string',
+            'file_path' => 'nullable|array',
+            'signed_by' => 'required|exists:employees,id',
         ]);
 
 
-
-        // Convert JSON fields back to JSON strings
-        $validatedData['letter_destination'] = $validatedData['letter_destination_json'];
-
-        // Remove the temporary JSON fields
-        unset($validatedData['letter_destination_json']);
 
         $letter = OutgoingLetter::findOrFail($id);
 
@@ -217,7 +221,7 @@ class OutgoingLetterController extends Controller
         $pdfPath = 'surat/surat_keluar/' . $letterTypeSlug . '/' . $letter->letter_number . '-' . $letter->id . '.pdf';
         Storage::disk('public')->put($pdfPath, $pdf->output());
 
-        Mail::to('sonychandmaulana@gmail.com')->send(new OutgoingLetterNotification($request->user(), 'perubahan', $letter->id, $originalData));
+        // Mail::to('sonychandmaulana@gmail.com')->send(new OutgoingLetterNotification($request->user(), 'perubahan', $letter->id, $originalData));
 
         return redirect()->route('outgoing-letters.index')
             ->with('success', 'Surat Keluar dan PDF berhasil diperbarui.');
@@ -280,5 +284,44 @@ class OutgoingLetterController extends Controller
         $description = 'Pengguna ' . Auth::user()->name  . ' mengunduh surat keluar dengan nomor surat: ' . $letter->letter_number;
         $this->logActivity('outgoing_letters', Auth::user(), $letter->id, $description);
         return Storage::disk('public')->download($pdfPath);
+    }
+
+    public function export(Request $request, $format)
+    {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $letterType = $request->input('letter_type');
+        $orderBy = $request->input('order_by');
+
+        $query = OutgoingLetter::whereBetween('letter_date', [$startDate, $endDate])
+            ->where('letter_type', $letterType);
+
+        if ($orderBy === 'letter_number_asc') {
+            $query->orderBy('letter_number', 'asc');
+        } elseif ($orderBy === 'letter_number_desc') {
+            $query->orderBy('letter_number', 'desc');
+        } elseif ($orderBy === 'letter_date_asc') {
+            $query->orderBy('letter_date', 'asc');
+        } elseif ($orderBy === 'letter_date_desc') {
+            $query->orderBy('letter_date', 'desc');
+        }
+
+        $letters = $query->get();
+
+
+        if ($letters->isEmpty()) {
+            return redirect()->back()->with('error', 'Data surat keluar tidak ditemukan.');
+        }
+
+        $description = 'Pengguna ' . Auth::user()->name . ' mengunduh data surat keluar dalam format ' . $format;
+        $this->logActivity('outgoing_letters', Auth::user(), null, $description);
+        if ($format === 'pdf') {
+            $pdf = PDF::loadView('dashboard.letters.outgoing_letters.exports.outgoing_letters_pdf', compact('letters'));
+            return $pdf->download('surat-keluar.pdf');
+        } elseif ($format === 'excel') {
+            return Excel::download(new OutgoingLettersExport($letters), 'surat-keluar.xlsx');
+        }
+
+        return redirect()->back()->with('error', 'Format file tidak ditemukan.');
     }
 }

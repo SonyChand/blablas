@@ -2,8 +2,9 @@
 
 namespace App\Models\Managements\Letters;
 
-use App\Models\Managements\Letters\IncomingLetter;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Managements\Letters\IncomingLetter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Disposition extends Model
@@ -37,5 +38,12 @@ class Disposition extends Model
     public function letter()
     {
         return $this->belongsTo(IncomingLetter::class, 'letter_id');
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            $model->uuid = Str::uuid();
+        });
     }
 }

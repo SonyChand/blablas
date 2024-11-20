@@ -2,6 +2,7 @@
 
 namespace App\Models\Managements\Letters;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
 class IncomingLetter extends Model
@@ -36,5 +37,12 @@ class IncomingLetter extends Model
     public function dispositions()
     {
         return $this->hasMany(Disposition::class, 'letter_id');
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            $model->uuid = Str::uuid();
+        });
     }
 }

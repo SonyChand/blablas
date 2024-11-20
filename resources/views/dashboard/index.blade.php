@@ -130,11 +130,16 @@
                 </div>
                 <div class="card-body p-3">
                     <div class="echart-issue-chart" style="min-height:390px;width:100%"></div>
+                    <div class="echart-basic-bar-chart-example" style="min-height:300px"></div>
                 </div>
             </div>
 
         </div>
     </div>
 
-
+    @push('footer')
+        <script src="{{ asset('assets') }}/vendors/echarts/echarts.min.js"></script>
+        <script src="{{ asset('assets') }}/vendors/echarts/echarts.min.js"></script>
+        <script src="{{ asset('assets') }}/assets/js/crm-dashboard.js"></script>
+    @endpush
 </x-dash.layout>
