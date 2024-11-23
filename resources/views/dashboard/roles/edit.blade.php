@@ -26,9 +26,9 @@
                             <option hidden value="">Select Permission</option>
                             @foreach ($permission as $row)
                                 @if (!in_array($row->name, $rolePermissions))
-                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                    <option value="{{ $row->id }}">{{ $row->description }}</option>
                                 @else
-                                    <option value="{{ $row->id }}" selected>{{ $row->name }}</option>
+                                    <option value="{{ $row->id }}" selected>{{ $row->description }}</option>
                                 @endif
                             @endforeach
                         </select>
@@ -48,4 +48,10 @@
             </form>
         </div>
     </div>
+    @push('header')
+        <link rel="stylesheet" href="{{ asset('assets/vendors/choices/choices.min.css') }}">
+    @endpush
+    @push('footer')
+        <script src="{{ asset('assets/vendors/choices/choices.min.js') }}"></script>
+    @endpush
 </x-dash.layout>

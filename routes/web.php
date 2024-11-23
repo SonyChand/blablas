@@ -12,6 +12,14 @@ use App\Http\Controllers\Managements\Letters\IncomingLetterController;
 use App\Http\Controllers\Managements\Letters\OutgoingLetterController;
 use App\Http\Controllers\Managements\Letters\RecommendationController;
 use App\Http\Controllers\Managements\Letters\OfficialTaskFileController;
+use App\Http\Controllers\Master\Employee\MasterEmployeeCollegeController;
+use App\Http\Controllers\Master\Employee\MasterEmployeeEducationController;
+use App\Http\Controllers\Master\Employee\MasterEmployeeRankController;
+use App\Http\Controllers\Master\Employee\MasterEmployeeTypeController;
+use App\Http\Controllers\Master\Employee\MasterEmployeeWorkUnitController;
+use App\Http\Controllers\Master\Letter\MasterAddressController;
+use App\Http\Controllers\Master\Letter\MasterDispositionController;
+use App\Http\Controllers\Master\Letter\MasterSourceController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -56,6 +64,40 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'management'], f
     Route::delete('/employees/bulkDestroy', [EmployeeController::class, 'bulkDestroy'])->name('employees.bulkDestroy');
     Route::post('/employees/download/{id}', [EmployeeController::class, 'download'])->name('employees.download');
     Route::resource('employees', EmployeeController::class);
+});
+
+Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'master'], function () {
+    Route::delete('/master-letter-addresses/bulkDestroy', [MasterAddressController::class, 'bulkDestroy'])->name('master-letter-addresses.bulkDestroy');
+    Route::post('/master-letter-addresses/download/{id}', [MasterAddressController::class, 'download'])->name('master-letter-addresses.download');
+    Route::resource('master-letter-addresses', MasterAddressController::class);
+
+    Route::get('master-letter-dispositions/export/{format}', [MasterDispositionController::class, 'export'])->name('master-letter-dispositions.export');
+    Route::delete('/master-letter-dispositions/bulkDestroy', [MasterDispositionController::class, 'bulkDestroy'])->name('master-letter-dispositions.bulkDestroy');
+    Route::resource('master-letter-dispositions', MasterDispositionController::class);
+
+    Route::delete('/master-letter-sources/bulkDestroy', [MasterSourceController::class, 'bulkDestroy'])->name('master-letter-sources.bulkDestroy');
+    Route::post('/master-letter-sources/download/{id}', [MasterSourceController::class, 'download'])->name('master-letter-sources.download');
+    Route::resource('master-letter-sources', MasterSourceController::class);
+
+    Route::delete('/master-employee-types/bulkDestroy', [MasterEmployeeTypeController::class, 'bulkDestroy'])->name('master-employee-types.bulkDestroy');
+    Route::post('/master-employee-types/download/{id}', [MasterEmployeeTypeController::class, 'download'])->name('master-employee-types.download');
+    Route::resource('master-employee-types', MasterEmployeeTypeController::class);
+
+    Route::delete('/master-employee-colleges/bulkDestroy', [MasterEmployeeCollegeController::class, 'bulkDestroy'])->name('master-employee-colleges.bulkDestroy');
+    Route::post('/master-employee-colleges/download/{id}', [MasterEmployeeCollegeController::class, 'download'])->name('master-employee-colleges.download');
+    Route::resource('master-employee-colleges', MasterEmployeeCollegeController::class);
+
+    Route::delete('/master-employee-educations/bulkDestroy', [MasterEmployeeEducationController::class, 'bulkDestroy'])->name('master-employee-educations.bulkDestroy');
+    Route::post('/master-employee-educations/download/{id}', [MasterEmployeeEducationController::class, 'download'])->name('master-employee-educations.download');
+    Route::resource('master-employee-educations', MasterEmployeeEducationController::class);
+
+    Route::delete('/master-employee-ranks/bulkDestroy', [MasterEmployeeRankController::class, 'bulkDestroy'])->name('master-employee-ranks.bulkDestroy');
+    Route::post('/master-employee-ranks/download/{id}', [MasterEmployeeRankController::class, 'download'])->name('master-employee-ranks.download');
+    Route::resource('master-employee-ranks', MasterEmployeeRankController::class);
+
+    Route::delete('/master-employee-workunit/bulkDestroy', [MasterEmployeeWorkUnitController::class, 'bulkDestroy'])->name('master-employee-workunit.bulkDestroy');
+    Route::post('/master-employee-workunit/download/{id}', [MasterEmployeeWorkUnitController::class, 'download'])->name('master-employee-workunit.download');
+    Route::resource('master-employee-workunit', MasterEmployeeWorkUnitController::class);
 });
 
 require __DIR__ . '/auth.php';

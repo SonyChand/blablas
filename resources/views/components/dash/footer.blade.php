@@ -434,7 +434,7 @@
                 "closeButton": true,
                 "progressBar": true,
                 "timeOut": 3000,
-                "positionClass": "toast-bottom-center",
+                "positionClass": "toast-top-right",
                 "preventDuplicates": true
             }
 

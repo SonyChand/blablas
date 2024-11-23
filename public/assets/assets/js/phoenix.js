@@ -2764,7 +2764,7 @@
 
           const updateListControls = () => {
             listInfo &&
-              (listInfo.innerHTML = `${list.i} to ${numberOfcurrentItems} <span class='text-body-tertiary'> Items of </span>${totalItem}`);
+              (listInfo.innerHTML = `${list.i} ke ${numberOfcurrentItems} <span class='text-body-tertiary'> Data dari </span>${totalItem}`);
 
             paginationButtonPrev &&
               togglePaginationButtonDisable(
@@ -2917,9 +2917,9 @@
               listInfo &&
                 (listInfo.innerHTML = `${
                 list.matchingItems.length === 0 ? 0 : list.i
-              } to ${
+              } ke ${
                 list.matchingItems.length === 0 ? 0 : numberOfcurrentItems
-              } <span class='text-body-tertiary'> Items of </span>${
+              } <span class='text-body-tertiary'> Data dari </span>${
                 list.matchingItems.length
               }`);
             }
@@ -4132,7 +4132,7 @@
             skin: 'oxide',
             menubar: false,
             content_style: `
-        .mce-content-body { 
+        .mce-content-body {
           color: ${getColor('emphasis-color')};
           background-color: ${getColor('tinymce-bg')};
         }

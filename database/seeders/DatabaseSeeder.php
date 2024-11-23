@@ -6,6 +6,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Database\Seeders\MasterSeeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -77,6 +78,11 @@ class DatabaseSeeder extends Seeder
             ['name' => 'employee-edit', 'description' => 'Mengubah data Pegawai'],
             ['name' => 'employee-delete', 'description' => 'Menghapus data Pegawai'],
             ['name' => 'employee-download', 'description' => 'Mengunduh data Pegawai'],
+            ['name' => 'master-list', 'description' => 'Melihat data Master'],
+            ['name' => 'master-create', 'description' => 'Menambah data Master'],
+            ['name' => 'master-edit', 'description' => 'Mengubah data Master'],
+            ['name' => 'master-delete', 'description' => 'Menghapus data Master'],
+            ['name' => 'master-download', 'description' => 'Mengunduh data Master'],
         ];
 
         foreach ($permissions as $permission) {
@@ -101,5 +107,7 @@ class DatabaseSeeder extends Seeder
         $role->syncPermissions($permissions);
 
         $user->assignRole([$role->id]);
+
+        $this->call(MasterSeeder::class);
     }
 }
