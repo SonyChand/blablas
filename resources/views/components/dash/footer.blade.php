@@ -375,6 +375,9 @@
 <script src="{{ asset('assets') }}/assets/js/phoenix.js"></script>
 
 @stack('footer')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+@stack('chart')
 
 <div id="loader" data-wordLoad="{{ config('app.name', 'Sistem') . ' - ' . $subtitle }}">
     <div class="waviy">

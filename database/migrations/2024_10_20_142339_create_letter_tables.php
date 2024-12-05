@@ -161,15 +161,18 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('letter_id');
             $table->string('letter_number')->nullable();
+            $table->string('letter_nature')->nullable();
+            $table->string('agenda_number')->nullable();
             $table->string('from')->nullable();
             $table->string('type')->nullable(); // incoming or outgoing
             $table->longText('disposition_to')->nullable();
             $table->text('notes')->nullable();
             $table->date('disposition_date')->nullable();
-            $table->string('signed_by')->nullable();
+            $table->unsignedBigInteger('signed_by')->nullable();
             $table->timestamps();
 
             $table->foreign('letter_id')->references('id')->on('incoming_letters')->onDelete('cascade');
+            $table->foreign('signed_by')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 

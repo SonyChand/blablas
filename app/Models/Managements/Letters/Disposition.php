@@ -3,6 +3,7 @@
 namespace App\Models\Managements\Letters;
 
 use Illuminate\Support\Str;
+use App\Models\Managements\Employee;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Managements\Letters\IncomingLetter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,8 @@ class Disposition extends Model
         'uuid',
         'letter_id',
         'letter_number',
+        'letter_nature',
+        'agenda_number',
         'from',
         'type',
         'disposition_to',
@@ -38,6 +41,11 @@ class Disposition extends Model
     public function letter()
     {
         return $this->belongsTo(IncomingLetter::class, 'letter_id');
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'signed_by');
     }
 
     protected static function booted()

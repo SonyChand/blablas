@@ -1,4 +1,4 @@
-<nav class="navbar navbar-vertical navbar-expand-lg">
+<nav class="navbar navbar-vertical navbar-expand-lg d-print-none">
     <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
         <!-- scrollbar removed-->
         <div class="navbar-vertical-content">
@@ -116,8 +116,8 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link dropdown-indicator {{ request()->routeIs('master-letter-*.*') ? '' : 'collapsed' }}"
-                                            href="#nv-carousel" data-bs-toggle="collapse" aria-expanded="true"
-                                            aria-controls="nv-carousel">
+                                            href="#nv-master-surat" data-bs-toggle="collapse" aria-expanded="true"
+                                            aria-controls="nv-master-surat">
                                             <div class="d-flex align-items-center">
                                                 <div class="dropdown-indicator-icon-wrapper"><span
                                                         class="fas fa-caret-right dropdown-indicator-icon"></span></div>
@@ -128,7 +128,7 @@
                                         <!-- more inner pages-->
                                         <div class="parent-wrapper">
                                             <ul class="nav collapse parent {{ request()->routeIs('master-letter-*.*') ? 'show' : '' }}"
-                                                data-bs-parent="#master" id="nv-carousel">
+                                                data-bs-parent="#master" id="nv-master-surat">
                                                 <li class="nav-item">
                                                     <a class="nav-link {{ request()->routeIs('master-letter-dispositions.*') ? 'active' : '' }}"
                                                         href="{{ route('master-letter-dispositions.index') }}">

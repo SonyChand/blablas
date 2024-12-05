@@ -12,18 +12,32 @@
                 @method('PUT')
                 <!-- Updated input fields for dispositions -->
                 <div class="col-sm-12 col-md-12">
-                    <div class="form-floating">
-                        <input class="form-control" id="letter_number" type="text" name="letter_number"
-                            placeholder="Nomor Surat" value="{{ old('letter_number', $disposition->letter_number) }}"
-                            required />
-                        <label for="letter_number">Nomor Surat</label>
+                    <div class="form-floating form-floating-advance-select">
+                        <label for="letter_nature">Sifat Surat</label>
+                        <select class="form-select" id="letter_nature" data-choices="data-choices"
+                            data-options='{"removeItemButton":true,"placeholder":true}' required name="letter_nature">
+                            <option hidden value="">Pilih Sifat Surat </option>
+                            @php
+                                $natureToOptions = ['sangat_segera', 'segera', 'rahasia'];
+                                $natureTo = old('letter_nature', $disposition->letter_nature)
+                                    ? old('letter_nature', $disposition->letter_nature)
+                                    : '';
+                            @endphp
+                            @foreach ($natureToOptions as $option)
+                                <option value="{{ $option }}"
+                                    {{ $disposition->letter_nature == $option ? 'selected' : '' }}>
+                                    {{ ucwords(str_replace('_', ' ', $option)) }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12">
                     <div class="form-floating">
-                        <input class="form-control" id="from" type="text" name="from" placeholder="Dari"
-                            value="{{ old('from', $disposition->from) }}" required />
-                        <label for="from">Dari</label>
+                        <input class="form-control" id="agenda_number" type="text" name="agenda_number"
+                            placeholder="Nomor Agenda" value="{{ old('agenda_number', $disposition->agenda_number) }}"
+                            required />
+                        <label for="agenda_number">Nomor Agenda</label>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12">
@@ -34,7 +48,7 @@
                             name="disposition_to[]">
                             <option hidden value="">Pilih Ditujukan Kepada (Bisa lebih dari 1)</option>
                             @php
-                                $dispositionToOptions = ['kepala_dinas', 'kepala_bidang_p2p', 'kepala_bidan_yankes'];
+                                $dispositionToOptions = ['kepala_dinas', 'kepala_bidang_p2p', 'kepala_bidang_yankes'];
                                 $dispositionTo = is_array(old('disposition_to', $disposition->disposition_to))
                                     ? old('disposition_to', $disposition->disposition_to)
                                     : [];
@@ -50,8 +64,8 @@
                 </div>
                 <div class="col-sm-12 col-md-12">
                     <div class="form-floating">
-                        <textarea class="form-control" id="notes" name="notes" placeholder="Uraian Penugasan" required>{{ old('notes', $disposition->notes) }}</textarea>
-                        <label for="notes">Uraian Penugasan</label>
+                        <textarea class="form-control" id="notes" name="notes" placeholder="Catatan" required>{{ old('notes', $disposition->notes) }}</textarea>
+                        <label for="notes">Catatan</label>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12">
@@ -63,11 +77,21 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12">
-                    <div class="form-floating">
-                        <input class="form-control" id="signed_by" type="text" name="signed_by"
-                            placeholder="Ditandatangani Oleh" value="{{ old('signed_by', $disposition->signed_by) }}"
-                            required />
-                        <label for="signed_by">Ditandatangani Oleh</label>
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-floating form-floating-advance-select">
+                            <label for="signed_by">Ditandatangani oleh</label>
+                            <select class="form-select" id="signed_by" data-choices="data-choices" size="1"
+                                name="signed_by" data-options='{"removeItemButton":true,"placeholder":true}' required>
+                                <option value="" hidden>Pilih Pegawai</option>
+                                @foreach ($employees as $emp)
+                                    <option value="{{ $emp->id }}"
+                                        {{ $disposition->signed_by == $emp->id ? 'selected' : '' }}>
+                                        {{ $emp->name }} - {{ $emp->employee_identification_number }} -
+                                        {{ $emp->rank }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <!-- End of updated input fields -->

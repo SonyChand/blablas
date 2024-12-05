@@ -111,7 +111,6 @@ class IncomingLetterController extends Controller
             'from' => $request->user()->name,
             'type' => 'incoming',
             'disposition_date' => Carbon::now()->toDateString(),
-            'signed_by' => $request->user()->name,
         ];
         Disposition::create($dispositionData);
 

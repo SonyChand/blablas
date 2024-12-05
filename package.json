@@ -17,7 +17,9 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "apexcharts": "^4.1.0",
         "bootstrap": "^5.2.3",
+        "chart.js": "^4.4.7",
         "toastr": "^2.1.4"
     }
 }

@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Managements\Letters;
 
+use App\Traits\TwilioTrait;
+use Illuminate\Support\Str;
+use App\Traits\LogsActivity;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Managements\Employee;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Managements\Letters\Disposition;
 use App\Models\Managements\Letters\IncomingLetter;
-use App\Traits\LogsActivity;
-use App\Traits\TwilioTrait;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
+use PDF;
 
 class DispositionController extends Controller
 {
@@ -56,28 +59,43 @@ class DispositionController extends Controller
         return view('dashboard.letters.dispositions.show', compact('disposition'));
     }
 
-    public function edit(Disposition $disposition)
+    public function edit($id)
     {
-        $letters = IncomingLetter::all();
+        $letters = IncomingLetter::find($id);
         $title = 'Edit Disposisi';
-        return view('dashboard.letters.dispositions.edit', compact('disposition', 'letters', 'title'));
+        $disposition = Disposition::where('letter_id', $id)->first();
+        $employees = Employee::all();
+        return view('dashboard.letters.dispositions.edit', compact('disposition', 'letters', 'title', 'employees'));
     }
 
     public function update(Request $request, Disposition $disposition)
     {
         $validatedData = $request->validate([
-            'letter_number' => 'nullable|string',
-            'from' => 'nullable|string',
+            'letter_nature' => 'nullable|string',
+            'agenda_number' => 'nullable|string',
             'disposition_to' => 'nullable|array',
             'notes' => 'nullable|string',
             'disposition_date' => 'nullable|date',
-            'signed_by' => 'nullable|string',
+            'signed_by' => 'required|string',
         ]);
 
         $disposition->update($validatedData);
 
         $description = 'Pengguna ' . Auth::user()->name . ' mengubah disposisi dengan nomor surat: ' . $disposition->letter_number;
         $this->logActivity('dispositions', Auth::user(), $disposition->id, $description);
+
+        $data = [
+            'title' => 'Letter Details',
+            'disposition' => $disposition,
+        ];
+
+        $pdf = PDF::loadView('dashboard.letters.dispositions.pdf', $data)
+            ->setPaper([0, 0, 595.28, 935.43], 'portrait');
+
+        // Save PDF to storage
+        $dispositionTypeSlug = str_replace(' ', '_', strtolower($disposition->letter_type));
+        $pdfPath = 'surat/surat_masuk/disposisi/' . $dispositionTypeSlug . '/' . $disposition->letter_number . '-' . $disposition->id . '.pdf';
+        Storage::disk('public')->put($pdfPath, $pdf->output());
 
         return redirect()->route('incoming-letters.index')->with('success', 'Disposisi dengan nomor surat: ' . $disposition->letter_number . ' berhasil diperbarui.');
     }
@@ -93,5 +111,16 @@ class DispositionController extends Controller
         $disposition->delete();
 
         return redirect()->route('incoming-letters.index')->with('success', 'Disposisi berhasil dihapus.');
+    }
+
+    public function download($id)
+    {
+        $letter = IncomingLetter::find($id);
+        $disposition = Disposition::where('letter_id', $id)->first();
+        $letterTypeSlug = str_replace(' ', '_', strtolower($disposition->letter_type));
+        $pdfPath = 'surat/surat_masuk/disposisi/' . $letterTypeSlug . '/' . $letter->letter_number . '-' . $disposition->id . '.pdf';
+        $description = 'Pengguna ' . Auth::user()->name  . ' mengunduh disposisi dengan nomor surat: ' . $letter->letter_number;
+        $this->logActivity('dispositions', Auth::user(), $letter->id, $description);
+        return Storage::disk('public')->download($pdfPath);
     }
 }

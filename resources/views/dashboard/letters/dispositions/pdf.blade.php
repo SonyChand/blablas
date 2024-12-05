@@ -7,8 +7,11 @@
     <style>
         /* Add your custom styles here */
         body {
-            font-size: 12pt;
+            font-size: 11pt;
             font-family: Arial, sans-serif;
+            margin-left: 24pt;
+            margin-right: 16pt;
+            line-height: 1.2;
         }
 
         .logo {
@@ -39,63 +42,82 @@
                 <span style="font-size: 15pt;"><strong>PEMERINTAH KABUPATEN CIAMIS</strong></span><br>
                 <span style="font-size: 15pt;"><strong>DINAS KESEHATAN</strong></span><br>
                 <span>
-                    Jalan. Mr. Iwa Kusumasomantri No 12<br>
+                    Jalan Mr. Iwa Kusumasomantri No. 12<br>
                     Tlp. (0265) 771139, Faximile (0265) 773828 <br>
-                    Website: www.dinkes.ciamiskab.go.id , Pos 46213
+                    Website: www.dinkes.ciamiskab.go.id, Pos 46213
                 </span>
             </td>
         </tr>
     </table><br>
 
-    <table class="table table-sm table-borderless" style="line-height: 8px;">
-        <tr>
-            <td style="width: 15%; margin-left:-50px;">Nomor</td>
-            <td>: {{ $letter->letter_number }}</td>
+    <table class="table table-lg border border-dark" style="line-height: 1.5;">
+        <tr class="border border-dark">
+            <td class="text-center border border-dark" colspan="2">LEMBAR DISPOSISI</td>
         </tr>
-        <tr>
-            <td>Perihal</td>
-            <td>: {{ $letter->letter_number }}</td>
+        <tr class="border border-dark">
+            <td class="border border-dark">
+                Surat dari : @foreach ($disposition->letter->source_letter as $src)
+                    {{ ucwords(str_replace('_', ' ', $src)) }},
+                @endforeach
+                <br>
+                <br>
+                No Surat : {{ $disposition->letter->letter_number }}<br>
+                Tgl Surat :
+                {{ \Carbon\Carbon::parse($disposition->letter->letter_date)->translatedFormat('d F Y') }}<br>
+            </td>
+            <td class="border border-dark">
+                Diterima Tgl :
+                {{ \Carbon\Carbon::parse($disposition->disposition_date)->translatedFormat('d F Y') }}<br>
+                No. Agenda :{{ $disposition->agenda_number }}<br>
+                Sifat : {{ $disposition->letter->letter_nature }}<br><br>
+                <input type="checkbox" {{ $disposition->letter_nature == 'sangat_segera' ? 'checked' : '' }}> Sangat
+                Segera <br>
+                <input type="checkbox" {{ $disposition->letter_nature == 'segera' ? 'checked' : '' }}> Segera <br>
+                <input type="checkbox" {{ $disposition->letter_nature == 'rahasia' ? 'checked' : '' }}> Rahasia
+            </td>
         </tr>
-        <tr>
-            <td>Lampiran</td>
-            <td>: Tidak ada</td>
+        <tr class="border border-dark">
+            <td colspan="2" height="50px" class="border border-dark">
+                Hal : {{ $disposition->letter->subject }}
+            </td>
         </tr>
+        <tr class="border border-dark">
+            <td class="border border-dark">
+                Diteruskan kepada Sdr. : <br><br>
+                @foreach ($disposition->disposition_to as $dis)
+                    <input type="checkbox" checked> {{ ucwords(str_replace('_', ' ', $dis)) }} <br>
+                @endforeach
+                <input type="checkbox"> ................. <br>
+                <input type="checkbox"> ................. <br>
+                <input type="checkbox"> ................. <br>
+            </td>
+            <td class="border border-dark">
+                Dengan Hormat harap : <br><br>
+                <input type="checkbox"> Tanggapan dan saran <br>
+                <input type="checkbox"> Proses lebih lanjut <br>
+                <input type="checkbox"> Koordinasi/konfirmasikan <br>
+                <input type="checkbox"> ....................... <br>
+            </td>
+        </tr>
+        <td colspan="2" height="100px" class="border border-dark">
+            Catatan : <br>{{ $disposition->notes }}
+        </td>
     </table>
 
-    <div style="text-indent: 20px;" class="mt-0 pt-0">
-        <p class="mb-0 pb-0" style="text-indent: 0;">Dengan hormat,</p>
-        <p>{{ $letter->content }}</p>
-    </div>
-
-    <table class="table table-sm table-borderless mb-0" style="line-height: 8px;">
-        <tr>
-            <td style="width: 15%;">Hari/Tanggal</td>
-            <td>: {{ \Carbon\Carbon::parse($letter->date)->translatedFormat('l, d F Y') }}</td>
-        </tr>
-        <tr>
-            <td>Waktu</td>
-            <td>: Mulai - selesai</td>
-        </tr>
-        <tr>
-            <td>Tempat</td>
-            <td>: Dinas Kesehatan</td>
-        </tr>
-    </table>
-
-    <p class="mt-0">ini penutup</p><br>
 
 
-    <table class="table table-sm table-borderless mt-5" style="page-break-after: avoid;">
+
+
+    <table class="table table-sm table-borderless mt-5" style="page-break-after: avoid;line-height: 1.2 !important">
         <tr class="text-center">
             <td style="width: 40%;"></td>
             <td style="width: 20%;">
             </td>
             <td style="width: 40%;">
-                <span>Hormat kami,</span><br>
-                <span>Web Developer</span>
+                <span>{{ $disposition->employee->position }} Kesehatan Kab. Ciamis</span>
             </td>
         </tr>
-        <tr class="text-center">
+        <tr class="text-center" style="line-height: 1,1 !important">
             <td></td>
             <td></td>
             <td>
@@ -103,12 +125,13 @@
                     style="width: 60px !important">
             </td>
         </tr>
-        <tr class="text-center">
+        <tr class="text-center" style="line-height: 1,1 !important">
             <td></td>
             <td></td>
             <td>
-                <strong><u>Lord Daud</u></strong><br>
-                NIP. 1241241241241
+                <strong>{{ $disposition->employee->name }}</strong><br>
+                {{ $disposition->employee->rank }}<br>
+                NIP. {{ $disposition->employee->employee_identification_number }}
             </td>
         </tr>
     </table>

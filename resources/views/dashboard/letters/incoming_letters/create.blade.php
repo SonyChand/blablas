@@ -43,12 +43,13 @@
                             <option value="kepala_dinas"
                                 {{ in_array('kepala_dinas', old('addressed_to', [])) ? 'selected' : '' }}>Kepala Dinas
                             </option>
-                            <option value="kepala_bidang_p2p"
-                                {{ in_array('kepala_bidang_p2p', old('addressed_to', [])) ? 'selected' : '' }}>Kepala
+                            <option value="kepala_bidang_p2P"
+                                {{ in_array('kepala_bidang_p2P', old('addressed_to', [])) ? 'selected' : '' }}>Kepala
                                 Bidang P2P</option>
-                            <option value="kepala_bidan_yankes"
-                                {{ in_array('kepala_bidan_yankes', old('addressed_to', [])) ? 'selected' : '' }}>Kepala
-                                Bidan Yankes</option>
+                            <option value="kepala_bidang_yankes"
+                                {{ in_array('kepala_bidang_yankes', old('addressed_to', [])) ? 'selected' : '' }}>
+                                Kepala
+                                Bidang Yankes</option>
                         </select>
                     </div>
                 </div>
@@ -98,9 +99,9 @@
                             <option value="kepala_bidang_p2p"
                                 {{ in_array('kepala_bidang_p2p', old('forwarded_disposition', [])) ? 'selected' : '' }}>
                                 Kepala Bidang P2P</option>
-                            <option value="kepala_bidan_yankes"
-                                {{ in_array('kepala_bidan_yankes', old('forwarded_disposition', [])) ? 'selected' : '' }}>
-                                Kepala Bidan Yankes</option>
+                            <option value="kepala_bidang_yankes"
+                                {{ in_array('kepala_bidang_yankes', old('forwarded_disposition', [])) ? 'selected' : '' }}>
+                                Kepala Bidang Yankes</option>
                         </select>
                     </div>
                 </div>
@@ -112,10 +113,11 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12">
-                    <label for="file_path">Upload Lampiran</label>
+                    <label for="file_path">Upload Surat Masuk</label>
                     <input class="form-control" id="file_path" type="file" name="file_path[]" accept=".pdf"
                         multiple />
-                    <small class="text-muted">hanya format PDF. Bisa lebih dari 1.</small>
+                    <small class="text-muted">hanya format PDF dan gambar (JPG, PNG). Bisa lebih dari
+                        1.</small>
                 </div>
                 <!-- End of new input fields -->
                 <div class="col-12 gy-6">

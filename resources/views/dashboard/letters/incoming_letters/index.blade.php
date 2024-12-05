@@ -87,18 +87,18 @@
                                     <td class=" text-center time white-space-nowrap ps-0 id py-4">
                                         {{ ++$i }}</td>
                                     <td class=" time white-space-nowrap ps-0 email py-4">
-                                        <ol>
-                                            @foreach ($row->source_letter as $src)
-                                                <li>{{ ucwords(str_replace('_', ' ', $src)) }}</li>
-                                            @endforeach
-                                        </ol>
+
+                                        @foreach ($row->source_letter as $src)
+                                            {{ ucwords(str_replace('_', ' ', $src)) }}
+                                        @endforeach
+
                                     </td>
                                     <td class=" time white-space-nowrap ps-0 name py-4">
-                                        <ol>
-                                            @foreach ($row->addressed_to as $addr)
-                                                <li>{{ ucwords(str_replace('_', ' ', $addr)) }}</li>
-                                            @endforeach
-                                        </ol>
+
+                                        @foreach ($row->addressed_to as $addr)
+                                            {{ ucwords(str_replace('_', ' ', $addr)) }}
+                                        @endforeach
+
                                     </td>
                                     <td class=" time white-space-nowrap ps-0 whatsapp py-4">
                                         {{ $row->letter_number }}</td>

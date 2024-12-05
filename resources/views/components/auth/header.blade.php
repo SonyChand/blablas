@@ -10,7 +10,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>{{ config('app.name', 'Laravel') }} - {{ $title }}</title>
+    <title>{{ config('app.name', 'SiDANIS') }} - {{ $title }}</title>
 
 
     <!-- ===============================================-->
@@ -48,6 +48,9 @@
     <link href="{{ asset('assets') }}/assets/css/user.min.css" type="text/css" rel="stylesheet"
         id="user-style-default">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr@latest/build/toastr.min.css">
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
     <script>
         var phoenixIsRTL = window.config.config.phoenixIsRTL;
         if (phoenixIsRTL) {
