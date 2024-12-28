@@ -3,11 +3,16 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Str;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Seeders\SpmSeeder;
 use Illuminate\Database\Seeder;
+use Database\Seeders\TahunSeeder;
 use Database\Seeders\MasterSeeder;
 use Spatie\Permission\Models\Role;
+use Database\Seeders\LayananSeeder;
+use Database\Seeders\PuskesmasSeeder;
+use Database\Seeders\SubLayananSeeder;
 use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
@@ -83,6 +88,31 @@ class DatabaseSeeder extends Seeder
             ['name' => 'master-edit', 'description' => 'Mengubah data Master'],
             ['name' => 'master-delete', 'description' => 'Menghapus data Master'],
             ['name' => 'master-download', 'description' => 'Mengunduh data Master'],
+            ['name' => 'tahun-list', 'description' => 'Melihat data Tahun'],
+            ['name' => 'tahun-create', 'description' => 'Menambah data Tahun'],
+            ['name' => 'tahun-edit', 'description' => 'Mengubah data Tahun'],
+            ['name' => 'tahun-delete', 'description' => 'Menghapus data Tahun'],
+            ['name' => 'tahun-download', 'description' => 'Mengunduh data Tahun'],
+            ['name' => 'layanan-list', 'description' => 'Melihat data Layanan SPM'],
+            ['name' => 'layanan-create', 'description' => 'Menambah data Layanan SPM'],
+            ['name' => 'layanan-edit', 'description' => 'Mengubah data Layanan SPM'],
+            ['name' => 'layanan-delete', 'description' => 'Menghapus data Layanan SPM'],
+            ['name' => 'layanan-download', 'description' => 'Mengunduh data Layanan SPM'],
+            ['name' => 'sub-layanan-list', 'description' => 'Melihat data Sub Layanan SPM'],
+            ['name' => 'sub-layanan-create', 'description' => 'Menambah data Sub Layanan SPM'],
+            ['name' => 'sub-layanan-edit', 'description' => 'Mengubah data Sub Layanan SPM'],
+            ['name' => 'sub-layanan-delete', 'description' => 'Menghapus data Sub Layanan SPM'],
+            ['name' => 'sub-layanan-download', 'description' => 'Mengunduh data Sub Layanan SPM'],
+            ['name' => 'spm-list', 'description' => 'Melihat data SPM'],
+            ['name' => 'spm-create', 'description' => 'Menambah data SPM'],
+            ['name' => 'spm-edit', 'description' => 'Mengubah data SPM'],
+            ['name' => 'spm-delete', 'description' => 'Menghapus data SPM'],
+            ['name' => 'spm-download', 'description' => 'Mengunduh data SPM'],
+            ['name' => 'puskesmas-list', 'description' => 'Melihat data Puskesmas'],
+            ['name' => 'puskesmas-create', 'description' => 'Menambah data Puskesmas'],
+            ['name' => 'puskesmas-edit', 'description' => 'Mengubah data Puskesmas'],
+            ['name' => 'puskesmas-delete', 'description' => 'Menghapus data Puskesmas'],
+            ['name' => 'puskesmas-download', 'description' => 'Mengunduh data Puskesmas'],
         ];
 
         foreach ($permissions as $permission) {
@@ -109,5 +139,10 @@ class DatabaseSeeder extends Seeder
         $user->assignRole([$role->id]);
 
         $this->call(MasterSeeder::class);
+        $this->call(TahunSeeder::class);
+        $this->call(PuskesmasSeeder::class);
+        $this->call(LayananSeeder::class);
+        $this->call(SubLayananSeeder::class);
+        $this->call(SpmSeeder::class);
     }
 }

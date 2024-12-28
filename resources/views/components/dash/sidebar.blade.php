@@ -1,6 +1,5 @@
 <nav class="navbar navbar-vertical navbar-expand-lg d-print-none">
     <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
-        <!-- scrollbar removed-->
         <div class="navbar-vertical-content">
             <ul class="navbar-nav flex-column" id="navbarVerticalNav">
 
@@ -216,6 +215,57 @@
                                         </div>
                                     </li>
 
+                                    <li class="nav-item">
+                                        <a class="nav-link dropdown-indicator {{ request()->routeIs('master-spm-*.*') ? '' : 'collapsed' }}"
+                                            href="#nv-master-spm" data-bs-toggle="collapse" aria-expanded="true"
+                                            aria-controls="nv-master-spm">
+                                            <div class="d-flex align-items-center">
+                                                <div class="dropdown-indicator-icon-wrapper"><span
+                                                        class="fas fa-caret-right dropdown-indicator-icon"></span></div>
+                                                <span class="nav-link-text">e-SPM <span
+                                                        class="badge ms-2 badge badge-phoenix badge-phoenix-warning ">Demo</span></span>
+                                            </div>
+                                        </a>
+                                        <!-- more inner pages-->
+                                        <div class="parent-wrapper">
+                                            <ul class="nav collapse parent {{ request()->routeIs('master-spm-*.*') ? 'show' : '' }}"
+                                                data-bs-parent="#master" id="nv-master-spm">
+                                                <li class="nav-item">
+                                                    <a class="nav-link {{ request()->routeIs('master-spm-tahun.*') ? 'active' : '' }}"
+                                                        href="{{ route('master-spm-tahun.index') }}">
+                                                        <div class="d-flex align-items-center"><span
+                                                                class="nav-link-text">Tahun</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link {{ request()->routeIs('master-spm-layanan.*') ? 'active' : '' }}"
+                                                        href="{{ route('master-spm-layanan.index') }}">
+                                                        <div class="d-flex align-items-center"><span
+                                                                class="nav-link-text">Layanan</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link {{ request()->routeIs('master-spm-sub-layanan.*') ? 'active' : '' }}"
+                                                        href="{{ route('master-spm-sub-layanan.index') }}">
+                                                        <div class="d-flex align-items-center"><span
+                                                                class="nav-link-text">Sub Layanan</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link {{ request()->routeIs('master-spm-puskesmas.*') ? 'active' : '' }}"
+                                                        href="{{ route('master-spm-puskesmas.index') }}">
+                                                        <div class="d-flex align-items-center"><span
+                                                                class="nav-link-text">Puskesmas</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+
 
 
                                 </ul>
@@ -331,19 +381,17 @@
                             data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center"><span class="nav-link-icon"><span
                                         data-feather="file"></span></span><span class="nav-link-text-wrapper"><span
-                                        class="nav-link-text">e-Pelaporan
-                                        Bidang <span
+                                        class="nav-link-text">Renstra <span
                                             class="badge ms-2 badge-sm badge-phoenix badge-phoenix-danger ">!</span></span></span>
                             </div>
                         </a>
                     </div>
-                    <div class="nav-item-wrapper"><a class="nav-link label-1"
-                            onclick="return alert('belum tersedia :)')" href="#" role="button"
-                            data-bs-toggle="" aria-expanded="false">
+                    <div class="nav-item-wrapper"><a class="nav-link label-1" href="{{ route('spm.index') }}"
+                            role="button" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center"><span class="nav-link-icon"><span
                                         data-feather="database"></span></span><span
-                                    class="nav-link-text-wrapper"><span class="nav-link-text">e-PKP <span
-                                            class="badge ms-2 badge-sm badge-phoenix badge-phoenix-danger ">!</span></span></span>
+                                    class="nav-link-text-wrapper"><span class="nav-link-text">e-SPM <span
+                                            class="badge ms-2 badge badge-phoenix badge-phoenix-warning ">Demo</span></span></span>
                             </div>
                         </a>
                     </div>

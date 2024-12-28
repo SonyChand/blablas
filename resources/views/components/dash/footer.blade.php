@@ -373,7 +373,18 @@
 <script src="{{ asset('assets') }}/vendors/feather-icons/feather.min.js"></script>
 <script src="{{ asset('assets') }}/vendors/dayjs/dayjs.min.js"></script>
 <script src="{{ asset('assets') }}/assets/js/phoenix.js"></script>
+<script src="https://code.jquery.com/jquery-4.0.0-beta.2.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
 
+<script type="text/javascript">
+    const reloadTable = () => {
+        $('#yajra').DataTable().draw(false);
+    }
+    const resetForm = (form) => {
+        $(form)[0].reset();
+    }
+</script>
 @stack('footer')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

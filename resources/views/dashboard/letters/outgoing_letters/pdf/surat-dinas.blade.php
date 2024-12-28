@@ -11,6 +11,7 @@
             font-family: Arial, sans-serif;
             margin-left: 24pt;
             margin-right: 16pt;
+            line-height: 1.5;
             /* Add left margin */
         }
 
@@ -72,9 +73,9 @@
     </table>
 
     <p>Yth. {{ $letter->to }}</p>
-    <div style="text-indent: 20px;" class="mt-0 pt-0">
+    <div class="text-justify" style="text-indent: 20px; line-height:1.5 !important;" class="mt-0 pt-0">
         <p class="mb-0 pb-0">Di Tempat,</p><br>
-        <p class="text-justify">{!! $letter->letter_body !!}</p>
+        <p class="text-justify" style="line-height:1.5 !important; text-style:">{!! $letter->letter_body !!}</p>
         <table class="table table-sm table-borderless mb-0" style="line-height: 12px;">
             @if ($letter->event_date_start && $letter->event_date_end && $letter->event_date_start != $letter->event_date_end)
                 <tr>
@@ -131,7 +132,7 @@
         <tr class="text-center">
             <td></td>
             <td></td>
-            <td>
+            <td style="line-height: 1.5 !important">
                 <strong>{{ $letter->employee->name }}</strong><br>
                 {{ $letter->employee->rank }}<br>
                 NIP. {{ $letter->employee->employee_identification_number }}

@@ -49,7 +49,7 @@ return new class extends Migration
             $table->string('operator_name')->nullable();
             $table->longText('file_path')->nullable();
             $table->unsignedBigInteger('signed_by');
-            $table->foreign('signed_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('signed_by')->references('id')->on('employees')->onDelete('cascade');
             $table->timestamps();
         });
 

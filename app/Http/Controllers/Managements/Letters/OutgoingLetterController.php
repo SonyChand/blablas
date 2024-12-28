@@ -85,7 +85,7 @@ class OutgoingLetterController extends Controller
             'attachment' => 'nullable|string',
             'operator_name' => 'nullable|string',
             'file_path' => 'nullable|array',
-            'signed_by' => 'required|exists:employees,id',
+            'signed_by' => 'required',
         ]);
 
 

@@ -6,20 +6,25 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Backend\SPM\SpmController;
+use App\Http\Controllers\Backend\SPM\TahunController;
+use App\Http\Controllers\Backend\SPM\LayananController;
 use App\Http\Controllers\Managements\EmployeeController;
+use App\Http\Controllers\Backend\SPM\PuskesmasController;
+use App\Http\Controllers\Backend\SPM\SubLayananController;
+use App\Http\Controllers\Master\Letter\MasterSourceController;
+use App\Http\Controllers\Master\Letter\MasterAddressController;
 use App\Http\Controllers\Managements\Letters\DispositionController;
+use App\Http\Controllers\Master\Letter\MasterDispositionController;
 use App\Http\Controllers\Managements\Letters\IncomingLetterController;
 use App\Http\Controllers\Managements\Letters\OutgoingLetterController;
 use App\Http\Controllers\Managements\Letters\RecommendationController;
-use App\Http\Controllers\Managements\Letters\OfficialTaskFileController;
-use App\Http\Controllers\Master\Employee\MasterEmployeeCollegeController;
-use App\Http\Controllers\Master\Employee\MasterEmployeeEducationController;
 use App\Http\Controllers\Master\Employee\MasterEmployeeRankController;
 use App\Http\Controllers\Master\Employee\MasterEmployeeTypeController;
+use App\Http\Controllers\Managements\Letters\OfficialTaskFileController;
+use App\Http\Controllers\Master\Employee\MasterEmployeeCollegeController;
 use App\Http\Controllers\Master\Employee\MasterEmployeeWorkUnitController;
-use App\Http\Controllers\Master\Letter\MasterAddressController;
-use App\Http\Controllers\Master\Letter\MasterDispositionController;
-use App\Http\Controllers\Master\Letter\MasterSourceController;
+use App\Http\Controllers\Master\Employee\MasterEmployeeEducationController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -98,6 +103,18 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'master'], funct
     Route::delete('/master-employee-workunit/bulkDestroy', [MasterEmployeeWorkUnitController::class, 'bulkDestroy'])->name('master-employee-workunit.bulkDestroy');
     Route::post('/master-employee-workunit/download/{id}', [MasterEmployeeWorkUnitController::class, 'download'])->name('master-employee-workunit.download');
     Route::resource('master-employee-workunit', MasterEmployeeWorkUnitController::class);
+
+    Route::resource('master-spm-tahun', TahunController::class);
+    Route::resource('master-spm-puskesmas', PuskesmasController::class);
+    Route::resource('master-spm-layanan', LayananController::class);
+    Route::resource('master-spm-sub-layanan', SubLayananController::class);
+
+
+    Route::post('spm/tahunSpm', [SpmController::class, 'tahunSpm'])->name('spm.tahunspm');
+    Route::put('spm/liveUpdate', [SpmController::class, 'liveUpdate'])->name('spm.liveupdate');
+    Route::get('spm/export/{format}', [SpmController::class, 'export'])->name('spm.export');
+    Route::get('spm/serverside', [SpmController::class, 'serverside'])->name('spm.serverside');
+    Route::resource('spm', SpmController::class);
 });
 
 require __DIR__ . '/auth.php';

@@ -137,9 +137,9 @@
                     </div>
                     <div class="col-sm-12 col-md-6">
                         <div class="form-floating">
-                            <input class="form-control" id="event_time_start" type="time" name="event_time_start"
-                                placeholder="Tanggal Tugas" value="{{ old('event_time_start') }}" required />
-                            <label for="event_time_start">Waktu Berakhir Tugas</label>
+                            <input class="form-control" id="event_time_end" type="time" name="event_time_end"
+                                placeholder="Tanggal Tugas" value="{{ old('event_time_end') }}" required />
+                            <label for="event_time_end">Waktu Berakhir Tugas</label>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">

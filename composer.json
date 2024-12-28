@@ -6,19 +6,21 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "arielmejiadev/larapex-charts": "^2.1",
         "barryvdh/laravel-dompdf": "^3.0",
         "diglactic/laravel-breadcrumbs": "^9.0",
         "intervention/image": "^3.9",
-        "laravel/framework": "^11.9",
+        "laravel/framework": "^11.31",
+        "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "^3.1",
-        "openai-php/laravel": "^0.10.2",
         "setasign/fpdi": "^2.6",
         "spatie/laravel-permission": "^6.10",
         "stevebauman/location": "^7.4",
-        "twilio/sdk": "^8.3"
+        "yajra/laravel-datatables-oracle": "11.1"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.14",
         "fakerphp/faker": "^1.23",
         "laravel/breeze": "^2.2",
         "laravel/pail": "^1.1",

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Backend\SPM\Spm;
+use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -12,6 +14,13 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles;
+
+    public static function booted()
+    {
+        static::creating(function ($model) {
+            $model->uuid = Str::uuid();
+        });
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -58,6 +67,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function activities()
     {
         return $this->hasMany(Activity::class);
+    }
+
+    public function spmUpdate()
+    {
+        return $this->hasMany(Spm::class, 'id', 'updated_by');
     }
 
     public function getMaskedEmailAttribute()
