@@ -48,24 +48,6 @@
     <link href="{{ asset('assets') }}/assets/css/user.min.css" type="text/css" rel="stylesheet"
         id="user-style-default">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr@latest/build/toastr.min.css">
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @endif
-    <script>
-        var phoenixIsRTL = window.config.config.phoenixIsRTL;
-        if (phoenixIsRTL) {
-            var linkDefault = document.getElementById('style-default');
-            var userLinkDefault = document.getElementById('user-style-default');
-            linkDefault.setAttribute('disabled', true);
-            userLinkDefault.setAttribute('disabled', true);
-            document.querySelector('html').setAttribute('dir', 'rtl');
-        } else {
-            var linkRTL = document.getElementById('style-rtl');
-            var userLinkRTL = document.getElementById('user-style-rtl');
-            linkRTL.setAttribute('disabled', true);
-            userLinkRTL.setAttribute('disabled', true);
-        }
-    </script>
     <style>
         #loader {
             position: fixed;
@@ -73,7 +55,7 @@
             top: 0px;
             width: 100%;
             height: 100%;
-            z-index: 9999;
+            z-index: 99999;
             text-align: center;
             background-color: black;
             vertical-align: middle;
@@ -88,13 +70,18 @@
             pointer-events: none;
         }
 
+        #loader.fade-in {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         #loader img {
             position: absolute;
             top: 40%;
             right: 50%;
             transform: translate(50%, -50%);
             width: 8%;
-            z-index: 9999;
+            z-index: 99999;
             text-align: center;
             vertical-align: middle;
             color: #fff;
@@ -111,7 +98,7 @@
             display: table-cell;
             text-align: center;
             vertical-align: middle;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
         }
 
         .waviy {
@@ -160,7 +147,7 @@
                 right: 50%;
                 transform: translate(50%, -50%);
                 width: 20%;
-                z-index: 9999;
+                z-index: 99999;
                 text-align: center;
                 vertical-align: middle;
                 color: #fff;

@@ -5,18 +5,12 @@
     <div class="row vh-100 g-0">
         <div class="col-lg-5 position-relative d-none d-lg-block">
             <div class="bg-holder" style="background-image:url({{ asset('assets/') }}/assets/img/web/cover2.png);">
-                {{-- <img src="{{ asset('assets') }}\assets\img\logos\logoDinkes.png" alt="phoenix" width="30"style="position: absolute; top: 20px; left: 20px;" /> --}}
             </div>
-
-            <!--/.bg-holder-->
 
         </div>
         <div class="col-lg-7">
             <div class="row flex-center h-100 g-0 px-4 px-sm-0">
                 <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3">
-                    <a href="{{ route('home.index') }}" alt="phoenix" width="58"
-                        style="position: absolute; top: 20px; right: 20px;"
-                        class="btn btn-sm btn-outline-primary">Beranda</a>
                     <a class="d-flex flex-center text-decoration-none mb-4" href="{{ route('home.index') }}">
                         <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block"><img
                                 src="{{ asset('assets') }}\assets\img\logos\logoDinkes.png" alt="phoenix"
@@ -25,7 +19,7 @@
                     </a>
                     <div class="text-center mb-7">
                         <h3 class="text-body-highlight">Login</h3>
-                        <p class="text-body-tertiary">masuk ke {{ config('app.name', 'Laravel') }}</p>
+                        <p class="text-body-tertiary">masuk ke {{ config('app.name', 'SiDanis') }}</p>
                     </div>
                     <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate=""
                         onsubmit="showLoader()">
@@ -35,7 +29,7 @@
                             <div class="form-icon-container">
                                 <input class="form-control form-icon-input" id="email" type="email"
                                     placeholder="name@example.com" name="email" value="{{ old('email') }}" required
-                                    autofocus autocomplete="username" /><span
+                                    autofocus autocomplete="email" /><span
                                     class="fas fa-user text-body fs-9 form-icon"></span>
                             </div>
                             <div class="valid-feedback">Looks good!</div>

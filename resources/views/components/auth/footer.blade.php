@@ -33,6 +33,7 @@
 <script src="{{ asset('assets') }}/vendors/feather-icons/feather.min.js"></script>
 <script src="{{ asset('assets') }}/vendors/dayjs/dayjs.min.js"></script>
 <script src="{{ asset('assets') }}/assets/js/phoenix.js"></script>
+<script src="https://code.jquery.com/jquery-4.0.0-beta.2.js"></script>
 
 <div id="loader" data-wordLoad="{{ config('app.name', 'Sistem') . ' - ' . $subtitle }}">
     <div class="waviy">
@@ -52,6 +53,8 @@
 <script>
     // Function to show the loader
     function showLoader() {
+        event.preventDefault();
+        event.stopPropagation();
         // Get the form element
         const form = document.querySelector('.needs-validation');
         const loader = document.getElementById('loader');
@@ -70,6 +73,9 @@
             setTimeout(() => {
                 loader.classList.add('fade-in');
             }, 50);
+
+            // Submit the form
+            form.submit();
         }
     }
 
@@ -86,7 +92,7 @@
                 "closeButton": true,
                 "progressBar": true,
                 "timeOut": 3000,
-                "positionClass": "toast-bottom-center",
+                "positionClass": "toast-top-right",
                 "preventDuplicates": true
             }
 

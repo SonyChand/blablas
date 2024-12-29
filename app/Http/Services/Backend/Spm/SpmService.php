@@ -282,78 +282,78 @@ class SpmService
                     })
                     ->addColumn('total_dilayani', function ($data) use ($totalDilayani) {
                         $total_dilayani = '
-                        <div class="text-center">' . $totalDilayani[$data->sub_layanan_id] . '</div>';
+                        <div class="text-center">' . number_format($totalDilayani[$data->sub_layanan_id], 0, ',', '.') . '</div>';
                         return $total_dilayani;
                     })
                     ->addColumn('januari', function ($data) use ($totalJanuari) {
                         $januari = '
-                        <div class="text-center">' . $totalJanuari[$data->sub_layanan_id] . '</div>';
+                        <div class="text-center">' . number_format($totalJanuari[$data->sub_layanan_id], 0, ',', '.') . '</div>';
                         return $januari;
                     })
                     ->addColumn('februari', function ($data) use ($totalFebruari) {
                         $februari = '
-                        <div class="text-center">' . $totalFebruari[$data->sub_layanan_id] . '</div>';
+                        <div class="text-center">' . number_format($totalFebruari[$data->sub_layanan_id], 0, ',', '.') . '</div>';
                         return $februari;
                     })
                     ->addColumn('maret', function ($data) use ($totalMaret) {
                         $maret = '
-                        <div class="text-center">' . $totalMaret[$data->sub_layanan_id] . '</div>';
+                        <div class="text-center">' . number_format($totalMaret[$data->sub_layanan_id], 0, ',', '.') . '</div>';
                         return $maret;
                     })
                     ->addColumn('april', function ($data) use ($totalApril) {
                         $april = '
-                        <div class="text-center">' . $totalApril[$data->sub_layanan_id] . '</div>';
+                        <div class="text-center">' . number_format($totalApril[$data->sub_layanan_id], 0, ',', '.') . '</div>';
                         return $april;
                     })
                     ->addColumn('mei', function ($data) use ($totalMei) {
                         $mei = '
-                        <div class="text-center">' . $totalMei[$data->sub_layanan_id] . '</div>';
+                        <div class="text-center">' . number_format($totalMei[$data->sub_layanan_id], 0, ',', '.') . '</div>';
                         return $mei;
                     })
                     ->addColumn('juni', function ($data) use ($totalJuni) {
                         $juni = '
-                        <div class="text-center">' . $totalJuni[$data->sub_layanan_id] . '</div>';
+                        <div class="text-center">' . number_format($totalJuni[$data->sub_layanan_id], 0, ',', '.') . '</div>';
                         return $juni;
                     })
                     ->addColumn('juli', function ($data) use ($totalJuli) {
                         $juli = '
-                        <div class="text-center">' . $totalJuli[$data->sub_layanan_id] . '</div>';
+                        <div class="text-center">' . number_format($totalJuli[$data->sub_layanan_id], 0, ',', '.') . '</div>';
                         return $juli;
                     })
                     ->addColumn('agustus', function ($data) use ($totalAgustus) {
                         $agustus = '
-                        <div class="text-center">' . $totalAgustus[$data->sub_layanan_id] . '</div>';
+                        <div class="text-center">' . number_format($totalAgustus[$data->sub_layanan_id], 0, ',', '.') . '</div>';
                         return $agustus;
                     })
                     ->addColumn('september', function ($data) use ($totalSeptember) {
                         $september = '
-                        <div class="text-center">' . $totalSeptember[$data->sub_layanan_id] . '</div>';
+                        <div class="text-center">' . number_format($totalSeptember[$data->sub_layanan_id], 0, ',', '.') . '</div>';
                         return $september;
                     })
                     ->addColumn('oktober', function ($data) use ($totalOktober) {
                         $oktober = '
-                        <div class="text-center">' . $totalOktober[$data->sub_layanan_id] . '</div>';
+                        <div class="text-center">' . number_format($totalOktober[$data->sub_layanan_id], 0, ',', '.') . '</div>';
                         return $oktober;
                     })
                     ->addColumn('november', function ($data) use ($totalNovember) {
                         $november = '
-                        <div class="text-center">' . $totalNovember[$data->sub_layanan_id] . '</div>';
+                        <div class="text-center">' . number_format($totalNovember[$data->sub_layanan_id], 0, ',', '.') . '</div>';
                         return $november;
                     })
                     ->addColumn('desember', function ($data) use ($totalDesember) {
                         $desember = '
-                        <div class="text-center">' . $totalDesember[$data->sub_layanan_id] . '</div>';
+                        <div class="text-center">' . number_format($totalDesember[$data->sub_layanan_id], 0, ',', '.') . '</div>';
                         return $desember;
                     })
                     ->addColumn('total_terlayani', function ($data) {
                         $total_terlayani = '
-                        <div class="text-center">' . $data->total_terlayani . '</div>';
+                        <div class="text-center">' . number_format($data->total_dilayani, 0, ',', '.') . '</div>';
                         return $total_terlayani;
                     })
                     ->addColumn('belum_terlayani', function ($data) use ($totalDilayani, $totalJanuari, $totalFebruari, $totalMaret, $totalApril, $totalMei, $totalJuni, $totalJuli, $totalAgustus, $totalSeptember, $totalOktober, $totalNovember, $totalDesember) {
                         $totalD = $totalDilayani[$data->sub_layanan_id] ?? 0;
                         $totalT = ($totalJanuari[$data->sub_layanan_id] ?? 0) + ($totalFebruari[$data->sub_layanan_id] ?? 0) + ($totalMaret[$data->sub_layanan_id] ?? 0) + ($totalApril[$data->sub_layanan_id] ?? 0) + ($totalMei[$data->sub_layanan_id] ?? 0) + ($totalJuni[$data->sub_layanan_id] ?? 0) + ($totalJuli[$data->sub_layanan_id] ?? 0) + ($totalAgustus[$data->sub_layanan_id] ?? 0) + ($totalSeptember[$data->sub_layanan_id] ?? 0) + ($totalOktober[$data->sub_layanan_id] ?? 0) + ($totalNovember[$data->sub_layanan_id] ?? 0) + ($totalDesember[$data->sub_layanan_id] ?? 0);
-                        return '<div class="text-center">' . ($totalD - $totalT) . '</div >';
+                        return '<div class="text-center">' . number_format($totalD - $totalT, 0, ',', '.') . '</div >';
                     })
                     ->addColumn('total_pencapaian', function ($data) use ($totalDilayani, $totalJanuari, $totalFebruari, $totalMaret, $totalApril, $totalMei, $totalJuni, $totalJuli, $totalAgustus, $totalSeptember, $totalOktober, $totalNovember, $totalDesember) {
                         $totalD = $totalDilayani[$data->sub_layanan_id] ?? 0;
