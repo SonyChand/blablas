@@ -17,31 +17,6 @@
                         onsubmit="showLoader()">
                         @csrf
                         <div class="input-group mb-3">
-                            <select name="bulan" class="form-select" id="bulan" required>
-                                <option value="" hidden>Pilih Bulan</option>
-                                @php
-                                    $namaBulan = [
-                                        '1' => 'Januari',
-                                        '2' => 'Februari',
-                                        '3' => 'Maret',
-                                        '4' => 'April',
-                                        '5' => 'Mei',
-                                        '6' => 'Juni',
-                                        '7' => 'Juli',
-                                        '8' => 'Agustus',
-                                        '9' => 'September',
-                                        '10' => 'Oktober',
-                                        '11' => 'November',
-                                        '12' => 'Desember',
-                                    ];
-                                @endphp
-                                @foreach ($namaBulan as $bulan => $bulanItem)
-                                    <option value="{{ $bulan }}"
-                                        {{ old('bulan', session('bulan_spm')) == $bulan ? 'selected' : '' }}>
-                                        {{ $bulanItem }}
-                                    </option>
-                                @endforeach
-                            </select>
                             <select name="tahun" class="form-select" id="tahun" required>
                                 <option value="" hidden>Pilih Tahun</option>
                                 @foreach ($tahuns as $tahunItem)
@@ -63,31 +38,41 @@
                 <div class="card-header p-4 border-bottom bg-body">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="mb-0" autofocus>{{ $title }}<span
+                            <h4 class="mb-0" autofocus>{{ $title }} tahun {{ $tahunSpm->tahun }}<span
                                     class="fw-normal text-body-tertiary ms-3"></span></h4>
-                        </div>
-                        <div class="col col-md-auto">
-                            <nav class="nav justify-content-end doc-tab-nav align-items-center" role="tablist">
-
-                                @can('spm-create')
-                                    <a class="btn btn-sm btn-primary" href="{{ route('spm.create') }}">
-                                        <i class="fa-solid fa-plus me-2"></i>Tambah
-                                    </a>
-                                @endcan
-                            </nav>
                         </div>
                     </div>
                 </div>
                 <div class="card-body p-4">
                     <div class="table-responsive-sm scrollbar">
-                        <table class="table table-bordered table-striped" id="yajra" width="100%">
+                        <table class="table table-bordered table-striped" id="yajra" width="100%"
+                            style="font-size: 11pt;">
                             <thead>
                                 <tr class="text-center align-middle">
-                                    <th>Kode</th>
-                                    @foreach ($columnDetail as $column => $details)
-                                        <th class="text-center">{{ ucwords($details['label']) }}</th>
-                                    @endforeach
-                                    <th>Aksi</th>
+                                    <th rowspan="2">*</th>
+                                    <th rowspan="2">Kode</th>
+                                    <th rowspan="2" class="text-center">Uraian</th>
+                                    <th rowspan="2">Satuan</th>
+                                    <th rowspan="2">Total Dilayani</th>
+                                    <th colspan="13" class="text-center">Jumlah yang Terlayani</th>
+                                    <th rowspan="2">Yang belum Terlayani</th>
+                                    <th rowspan="2">%</th>
+                                    <th rowspan="2">Aksi</th>
+                                </tr>
+                                <tr class="text-center">
+                                    <th><span class="mx-2">Januari</span></th>
+                                    <th><span class="mx-2">Februari</span></th>
+                                    <th><span class="mx-2">Maret</span></th>
+                                    <th><span class="mx-2">April</span></th>
+                                    <th><span class="mx-2">Mei</span></th>
+                                    <th><span class="mx-2">Juni</span></th>
+                                    <th><span class="mx-2">Juli</span></th>
+                                    <th><span class="mx-2">Agustus</span></th>
+                                    <th><span class="mx-2">September</span></th>
+                                    <th><span class="mx-2">Oktober</span></th>
+                                    <th><span class="mx-2">November</span></th>
+                                    <th><span class="mx-2">Desember</span></th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -100,7 +85,6 @@
         </div>
     </div>
     @push('footer')
-        <script src="{{ asset('vendor/larapex-charts/apexcharts.js') }}"></script>
         <script>
             let submit_method;
 
@@ -116,61 +100,98 @@
                     responsive: true,
                     ajax: "{{ route('spm.serverside') }}",
                     columns: [{
-                            data: 'kode',
-                            name: 'kode',
+                            data: 'sub_id',
+                            name: 'sub_id',
                             orderable: true,
                             searchable: true
                         },
-                        @foreach ($columnDetail as $column => $details)
-                            {
-                                data: '{{ $column }}',
-                                name: '{{ $column }}'
-                            },
-                        @endforeach {
+                        {
+                            data: 'kode',
+                            name: 'kode'
+                        },
+                        {
+                            data: 'sub_layanan_id',
+                            name: 'sub_layanan_id'
+                        },
+                        {
+                            data: 'satuan',
+                            name: 'satuan',
+                        },
+                        {
+                            data: 'total_dilayani',
+                            name: 'total_dilayani',
+                        },
+                        {
+                            data: 'januari',
+                            name: 'januari',
+                        },
+                        {
+                            data: 'februari',
+                            name: 'februari',
+                        },
+                        {
+                            data: 'maret',
+                            name: 'maret',
+                        },
+                        {
+                            data: 'april',
+                            name: 'april',
+                        },
+                        {
+                            data: 'mei',
+                            name: 'mei',
+                        },
+                        {
+                            data: 'juni',
+                            name: 'juni',
+                        },
+                        {
+                            data: 'juli',
+                            name: 'juli',
+                        },
+                        {
+                            data: 'agustus',
+                            name: 'agustus',
+                        },
+                        {
+                            data: 'september',
+                            name: 'september',
+                        },
+                        {
+                            data: 'oktober',
+                            name: 'oktober',
+                        },
+                        {
+                            data: 'november',
+                            name: 'november',
+                        },
+                        {
+                            data: 'desember',
+                            name: 'desember',
+                        },
+                        {
+                            data: 'total_terlayani',
+                            name: 'total_terlayani',
+                        },
+                        {
+                            data: 'belum_terlayani',
+                            name: 'belum_terlayani',
+                        },
+                        {
+                            data: 'total_pencapaian',
+                            name: 'total_pencapaian',
+                        },
+                        {
                             data: 'action',
                             name: 'action',
                         }
-                    ]
+                    ],
+                    lengthMenu: [10, 20, 50, 100, 200], // Menyediakan opsi untuk 100, 200
+                    pageLength: 200
                 });
             };
 
-            const deleteData = (e) => {
-                let id = e.getAttribute('data-id');
-
-                Swal.fire({
-                    title: "Apakah anda yakin?",
-                    text: "Apakah anda ingin menghapus data ini?",
-                    icon: "question",
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
-                    confirmButtonText: "Delete",
-                    cancelButtonText: "Cancel",
-                    allowOutsideClick: false,
-                    showCancelButton: true,
-                    showCloseButton: true
-                }).then((result) => {
-                    if (result.value) {
-
-                        $.ajax({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            type: "DELETE",
-                            url: "/spm/" + id,
-                            dataType: "json",
-                            success: function(response) {
-                                reloadTable();
-                                toastr.success(response.message);
-                            },
-                            error: function(response) {
-                                toastr.error(response.message);
-                            }
-                        });
-                    }
-                })
-            }
-
-            const editableColumns = [3, 4];
+            const editableColumns = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
             let currentEditableRow = null;
 
             $('#yajra').on('click', '#btn-edit', function(e) {
@@ -218,9 +239,6 @@
         <button id="btn-edit" type="button" class="btn btn-sm btn-warning" data-id="${dataId}">
             <i class="fas fa-edit"></i>
         </button>
-        <button type="button" class="btn btn-sm btn-danger" onclick="deleteData(this)" data-id="${dataId}">
-            <i class="fas fa-trash-alt"></i>
-        </button>
     </div>
 `);
             }
@@ -233,10 +251,32 @@
                     if (editableColumns.includes(index)) {
                         const inputValue = $(this).find('input').val();
 
-                        if (index === 3)
-                            updatedData.dilayani = inputValue;
                         if (index === 4)
-                            updatedData.terlayani = inputValue;
+                            updatedData.total_dilayani = inputValue;
+                        if (index === 5)
+                            updatedData.januari = inputValue;
+                        if (index === 6)
+                            updatedData.februari = inputValue;
+                        if (index === 7)
+                            updatedData.maret = inputValue;
+                        if (index === 8)
+                            updatedData.april = inputValue;
+                        if (index === 9)
+                            updatedData.mei = inputValue;
+                        if (index === 10)
+                            updatedData.juni = inputValue;
+                        if (index === 11)
+                            updatedData.juli = inputValue;
+                        if (index === 12)
+                            updatedData.agustus = inputValue;
+                        if (index === 13)
+                            updatedData.september = inputValue;
+                        if (index === 14)
+                            updatedData.oktober = inputValue;
+                        if (index === 15)
+                            updatedData.november = inputValue;
+                        if (index === 16)
+                            updatedData.desember = inputValue;
                     }
                 })
 
@@ -245,8 +285,19 @@
                     type: 'PUT',
                     data: {
                         id: dataId,
-                        dilayani: updatedData.dilayani,
-                        terlayani: updatedData.terlayani,
+                        total_dilayani: updatedData.total_dilayani,
+                        terlayani_januari: updatedData.januari,
+                        terlayani_februari: updatedData.februari,
+                        terlayani_maret: updatedData.maret,
+                        terlayani_april: updatedData.april,
+                        terlayani_mei: updatedData.mei,
+                        terlayani_juni: updatedData.juni,
+                        terlayani_juli: updatedData.juli,
+                        terlayani_agustus: updatedData.agustus,
+                        terlayani_september: updatedData.september,
+                        terlayani_oktober: updatedData.oktober,
+                        terlayani_november: updatedData.november,
+                        terlayani_desember: updatedData.desember,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {

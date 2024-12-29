@@ -24,23 +24,31 @@ class SpmSeeder extends Seeder
         foreach ($puskesmasList as $puskesmas) {
             foreach ($subLayananList as $subLayanan) {
                 foreach ($tahunList as $tahun) {
-                    for ($bulan = 1; $bulan <= 12; $bulan++) {
-                        $spmData[] = [
-                            'puskesmas_id' => $puskesmas->id,
-                            'sub_layanan_id' => $subLayanan->id,
-                            'tahun_id' => $tahun->id,
-                            'dilayani' => 0,
-                            'terlayani' => 0,
-                            'bulan' => $bulan,
-                            'created_at' => now(), // Tambahkan timestamp
-                            'updated_at' => now(), // Tambahkan timestamp
-                        ];
+                    $spmData[] = [
+                        'puskesmas_id' => $puskesmas->id,
+                        'sub_layanan_id' => $subLayanan->id,
+                        'tahun_id' => $tahun->id,
+                        'terlayani_januari' => 0,
+                        'terlayani_februari' => 0,
+                        'terlayani_maret' => 0,
+                        'terlayani_april' => 0,
+                        'terlayani_mei' => 0,
+                        'terlayani_juni' => 0,
+                        'terlayani_juli' => 0,
+                        'terlayani_agustus' => 0,
+                        'terlayani_september' => 0,
+                        'terlayani_oktober' => 0,
+                        'terlayani_november' => 0,
+                        'terlayani_desember' => 0,
+                        'total_dilayani' => 0,
+                        'created_at' => now(), // Tambahkan timestamp
+                        'updated_at' => now(), // Tambahkan timestamp
+                    ];
 
-                        // Jika jumlah data mencapai 1000, lakukan batch insert
-                        if (count($spmData) >= 1000) {
-                            Spm::insert($spmData);
-                            $spmData = []; // Reset array
-                        }
+                    // Jika jumlah data mencapai 1000, lakukan batch insert
+                    if (count($spmData) >= 1000) {
+                        Spm::insert($spmData);
+                        $spmData = []; // Reset array
                     }
                 }
             }

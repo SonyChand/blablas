@@ -16,33 +16,30 @@ class SpmService
             try {
                 $totalData = Spm::where('tahun_id', session('tahun_spm') ?? 1)
                     ->where('puskesmas_id', Auth()->user()->puskesmas_id)
-                    ->where('bulan', session('bulan_spm') ?? 1)->count();
+                    ->count();
                 $totalFiltered = $totalData;
 
                 $limit = $request->length;
                 $start = $request->start;
 
                 if (empty($request->search['value'])) {
-                    $data = Spm::latest()
-                        ->where('tahun_id', session('tahun_spm', 1))
-                        ->where('bulan', session('bulan_spm', 1))
+                    $data = Spm::where('tahun_id', session('tahun_spm', 1))
                         ->where('puskesmas_id', Auth()->user()->puskesmas_id)
                         ->with('subLayanan:id,kode,uraian,satuan')
                         ->skip($start)
                         ->take($limit)
-                        ->orderBy('id', 'ASC')
-                        ->get(array_merge(['id'], $this->columns()));
+                        ->orderBy('sub_layanan_id', 'desc')
+                        ->get(['id', 'sub_layanan_id', 'terlayani_januari', 'terlayani_februari', 'terlayani_maret', 'terlayani_april', 'terlayani_mei', 'terlayani_juni', 'terlayani_juli', 'terlayani_agustus', 'terlayani_september', 'terlayani_oktober', 'terlayani_november', 'terlayani_desember', 'total_dilayani']);
                 } else {
                     $data = Spm::filter($request->search['value'])
                         ->latest()
                         ->where('tahun_id', session('tahun_spm', 1))
-                        ->where('bulan', session('bulan_spm', 1))
                         ->where('puskesmas_id', Auth()->user()->puskesmas_id)
                         ->with('subLayanan:id,kode,uraian,satuan')
                         ->skip($start)
                         ->take($limit)
-                        ->orderBy('id', 'ASC')
-                        ->get(array_merge(['id'], $this->columns()));
+                        ->orderBy('sub_layanan_id', 'desc')
+                        ->get(['id', 'sub_layanan_id', 'terlayani_januari', 'terlayani_februari', 'terlayani_maret', 'terlayani_april', 'terlayani_mei', 'terlayani_juni', 'terlayani_juli', 'terlayani_agustus', 'terlayani_september', 'terlayani_oktober', 'terlayani_november', 'terlayani_desember', 'total_dilayani']);
 
                     $totalFiltered = $data->count();
                 }
@@ -52,19 +49,101 @@ class SpmService
                     ->editColumn('sub_layanan_id', function ($data) {
                         return $data->subLayanan->uraian;
                     })
-                    ->editColumn('tahun_id', function ($data) {
-                        return $data->tahun->tahun;
-                    })
-                    ->editColumn('bulan', function ($data) {
-                        return date('M', mktime(0, 0, 0, $data->bulan, 1, 2000));
-                    })
-                    ->editColumn('updated_by', function ($data) {
-                        return $data->user->name ?? 0;
+                    ->addColumn('sub_id', function ($data) {
+                        $id = '
+                        <div class="text-center">' . $data->subLayanan->id . '</div>';
+                        return $id;
                     })
                     ->addColumn('kode', function ($data) {
                         $kode = '
                         <div class="text-center">' . $data->subLayanan->kode . '</div>';
                         return $kode;
+                    })
+                    ->addColumn('satuan', function ($data) {
+                        $satuan = '
+                        <div class="text-center">' . $data->subLayanan->satuan . '</div>';
+                        return $satuan;
+                    })
+                    ->addColumn('total_dilayani', function ($data) {
+                        $total_dilayani = '
+                        <div class="text-center">' . $data->total_dilayani . '</div>';
+                        return $total_dilayani;
+                    })
+                    ->addColumn('januari', function ($data) {
+                        $januari = '
+                        <div class="text-center">' . $data->terlayani_januari . '</div>';
+                        return $januari;
+                    })
+                    ->addColumn('februari', function ($data) {
+                        $februari = '
+                        <div class="text-center">' . $data->terlayani_februari . '</div>';
+                        return $februari;
+                    })
+                    ->addColumn('maret', function ($data) {
+                        $maret = '
+                        <div class="text-center">' . $data->terlayani_maret . '</div>';
+                        return $maret;
+                    })
+                    ->addColumn('april', function ($data) {
+                        $april = '
+                        <div class="text-center">' . $data->terlayani_april . '</div>';
+                        return $april;
+                    })
+                    ->addColumn('mei', function ($data) {
+                        $mei = '
+                        <div class="text-center">' . $data->terlayani_mei . '</div>';
+                        return $mei;
+                    })
+
+                    ->addColumn('juni', function ($data) {
+                        $juni = '
+                        <div class="text-center">' . $data->terlayani_juni . '</div>';
+                        return $juni;
+                    })
+                    ->addColumn('juli', function ($data) {
+                        $juli = '
+                        <div class="text-center">' . $data->terlayani_juli . '</div>';
+                        return $juli;
+                    })
+                    ->addColumn('agustus', function ($data) {
+                        $agustus = '
+                        <div class="text-center">' . $data->terlayani_agustus . '</div>';
+                        return $agustus;
+                    })
+                    ->addColumn('september', function ($data) {
+                        $september = '
+                        <div class="text-center">' . $data->terlayani_september . '</div>';
+                        return $september;
+                    })
+                    ->addColumn('oktober', function ($data) {
+                        $oktober = '
+                        <div class="text-center">' . $data->terlayani_oktober . '</div>';
+                        return $oktober;
+                    })
+                    ->addColumn('november', function ($data) {
+                        $november = '
+                        <div class="text-center">' . $data->terlayani_november . '</div>';
+                        return $november;
+                    })
+                    ->addColumn('desember', function ($data) {
+                        $desember = '
+                        <div class="text-center">' . $data->terlayani_desember . '</div>';
+                        return $desember;
+                    })
+                    ->addColumn('total_terlayani', function ($data) {
+                        $total_terlayani = '
+                        <div class="text-center">' . Spm::totalTerlayani($data->sub_layanan_id) . '</div>';
+                        return $total_terlayani;
+                    })
+                    ->addColumn('belum_terlayani', function ($data) {
+                        $belum_terlayani = '
+                        <div class="text-center">' . Spm::belumTerlayani($data->sub_layanan_id) . '</div>';
+                        return $belum_terlayani;
+                    })
+                    ->addColumn('total_pencapaian', function ($data) {
+                        $total_pencapaian = '
+                        <div class="text-center">' . round(Spm::totalPencapaian($data->sub_layanan_id), 2) . '%</div>';
+                        return $total_pencapaian;
                     })
                     ->addColumn('action', function ($data) {
                         $actionBtn = '
@@ -74,16 +153,13 @@ class SpmService
                         <button id="btn-edit" type="button" class="btn btn-sm btn-warning" data-id="' . $data->id . '">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button type="button" class="btn btn-sm btn-danger" onclick="deleteData(this)" data-id="' . $data->id . '">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
                         </div>
                     </div>
                 ';
 
                         return $actionBtn;
                     })
-                    ->rawColumns(array_merge($this->columns(), ['action', 'kode']))
+                    ->rawColumns(['sub_layanan_id', 'sub_id', 'action', 'kode', 'satuan', 'total_dilayani', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember', 'total_terlayani', 'belum_terlayani', 'total_pencapaian'])
                     ->with([
                         'recordsTotal' => $totalData,
                         'recordsFiltered' => $totalFiltered,
@@ -130,30 +206,18 @@ class SpmService
     {
         return [
             'sub_layanan_id' => 'Uraian',
-            'tahun_id' => 'Tahun',
-            'dilayani' => 'Dilayani',
-            'terlayani' => 'Terlayani',
-            'belum_terlayani' => 'Belum Terlayani',
-            'pencapaian' => 'Pencapaian',
-            'updated_by' => 'Diubah Oleh',
         ];
     }
 
     public function columnExclude()
     {
-        return ['id', 'bulan', 'updated_by', 'created_at', 'updated_at'];
+        return ['id', 'tahun_id', 'dilayani', 'terlayani', 'pencapaian', 'bulan', 'updated_by', 'created_at', 'updated_at'];
     }
 
     public function columnTypes()
     {
         return [
-
             'sub_layanan_id' => 'sub_layanans',
-            'tahun_id' => 'tahuns',
-            'dilayani' => 'integer',
-            'terlayani' => 'integer',
-            'belum_terlayani' => 'integer',
-            'pencapaian' => 'decimal',
         ];
     }
 

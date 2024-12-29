@@ -20,66 +20,105 @@ class Spm extends Model
         'puskesmas_id',
         'sub_layanan_id',
         'tahun_id',
-        'dilayani',
-        'terlayani',
-        'belum_terlayani',
-        'pencapaian',
-        'bulan',
+        'terlayani_januari',
+        'terlayani_februari',
+        'terlayani_maret',
+        'terlayani_april',
+        'terlayani_mei',
+        'terlayani_juni',
+        'terlayani_juli',
+        'terlayani_agustus',
+        'terlayani_september',
+        'terlayani_oktober',
+        'terlayani_november',
+        'terlayani_desember',
+        'total_dilayani',
         'updated_by',
     ];
+
+    public static function totalTerlayani($subLayananId, $tahunId = null, $bulan = null)
+    {
+        $query = self::where('sub_layanan_id', $subLayananId);
+
+        if ($tahunId) {
+            $query->where('tahun_id', $tahunId);
+        }
+
+        if ($bulan) {
+            $query->where('bulan', $bulan);
+        }
+
+        return $query->sum('terlayani_januari') +
+            $query->sum('terlayani_februari') +
+            $query->sum('terlayani_maret') +
+            $query->sum('terlayani_april') +
+            $query->sum('terlayani_mei') +
+            $query->sum('terlayani_juni') +
+            $query->sum('terlayani_juli') +
+            $query->sum('terlayani_agustus') +
+            $query->sum('terlayani_september') +
+            $query->sum('terlayani_oktober') +
+            $query->sum('terlayani_november') +
+            $query->sum('terlayani_desember');
+    }
+
+
+    public static function totalPencapaian($subLayananId, $tahunId = null, $bulan = null)
+    {
+        $query = self::where('sub_layanan_id', $subLayananId);
+
+        if ($tahunId) {
+            $query->where('tahun_id', $tahunId);
+        }
+
+        if ($bulan) {
+            $query->where('bulan', $bulan);
+        }
+
+        $totalTerlayani = self::totalTerlayani($subLayananId, $tahunId, $bulan);
+        $totalDilayani = $query->sum('total_dilayani');
+
+        // Validasi untuk menghindari division by zero
+        if ($totalDilayani == 0) {
+            return 0; // Atau bisa juga return null atau 'N/A' sesuai kebutuhan
+        }
+
+        return ($totalTerlayani / $totalDilayani) * 100;
+    }
+
+    public static function belumTerlayani($subLayananId, $tahunId = null, $bulan = null)
+    {
+        $query = self::where('sub_layanan_id', $subLayananId);
+
+        if ($tahunId) {
+            $query->where('tahun_id', $tahunId);
+        }
+
+        if ($bulan) {
+            $query->where('bulan', $bulan);
+        }
+        $totalDilayani = $query->sum('total_dilayani');
+        $totalTerlayani = self::totalTerlayani($subLayananId, $tahunId, $bulan);
+        return $totalDilayani - $totalTerlayani;
+    }
+
+    public static function totalTerlayaniperBulan($subLayananId, $bulanId)
+    {
+        return self::where('sub_layanan_id', $subLayananId)
+            ->sum('terlayani');
+    }
 
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($spm) {
-            $spm->calculateMetrics();
-            $spm->updateSPMTotal();
             $spm->setUpdatedBy();
         });
 
         static::updating(function ($spm) {
-            $spm->calculateMetrics();
-            $spm->updateSPMTotal();
             $spm->setUpdatedBy();
         });
-    }
-
-    protected function calculateMetrics(): void
-    {
-        $this->belum_terlayani = ($this->dilayani - $this->terlayani) ?? 0;
-
-        // Calculate pencapaian safely
-        $this->pencapaian = $this->dilayani > 0
-            ? ($this->terlayani / $this->dilayani) * 100
-            : 0;
-    }
-
-    protected function updateSPMTotal(): void
-    {
-        $spmQuery = Spm::where([
-            'puskesmas_id' => $this->puskesmas_id,
-            'tahun_id' => $this->tahun_id,
-            'sub_layanan_id' => $this->sub_layanan_id
-        ]);
-
-        $totalDilayani = $spmQuery->sum('dilayani');
-        $totalTerlayani = $spmQuery->sum('terlayani');
-
-
-        $spmTotal = SpmTotal::firstOrNew(['spm_id' => $this->id]);
-
-        $spmTotal->spm_id = $this->id;
-        $spmTotal->total_dilayani = $totalDilayani;
-        $spmTotal->total_terlayani = $totalTerlayani;
-        $spmTotal->total_belum_terlayani = $totalDilayani - $totalTerlayani;
-
-        // Calculate total_pencapaian safely
-        $spmTotal->total_pencapaian = $totalDilayani > 0
-            ? ($totalTerlayani / $totalDilayani) * 100
-            : 0;
-
-        $spmTotal->save();
     }
 
     protected function setUpdatedBy(): void
@@ -124,11 +163,19 @@ class Spm extends Model
                 ->orWhereHas('tahun', function ($q) use ($search) {
                     $q->where('tahun', 'like', "%{$search}%");
                 })
-                ->orWhere('dilayani', 'like', "%{$search}%")
-                ->orWhere('terlayani', 'like', "%{$search}%")
-                ->orWhere('belum_terlayani', 'like', "%{$search}%")
-                ->orWhere('pencapaian', 'like', "%{$search}%")
-                ->orWhere('bulan', 'like', "%{$search}%");
+                ->orWhere('terlayani_januari', 'like', "%{$search}%")
+                ->orWhere('terlayani_februari', 'like', "%{$search}%")
+                ->orWhere('terlayani_maret', 'like', "%{$search}%")
+                ->orWhere('terlayani_april', 'like', "%{$search}%")
+                ->orWhere('terlayani_mei', 'like', "%{$search}%")
+                ->orWhere('terlayani_juni', 'like', "%{$search}%")
+                ->orWhere('terlayani_juli', 'like', "%{$search}%")
+                ->orWhere('terlayani_agustus', 'like', "%{$search}%")
+                ->orWhere('terlayani_september', 'like', "%{$search}%")
+                ->orWhere('terlayani_oktober', 'like', "%{$search}%")
+                ->orWhere('terlayani_november', 'like', "%{$search}%")
+                ->orWhere('terlayani_desember', 'like', "%{$search}%")
+                ->orWhere('total_dilayani', 'like', "%{$search}%");
         });
     }
 }

@@ -28,8 +28,9 @@ class SpmController extends Controller
     public function index()
     {
         $tahuns = Tahun::all();
+        $tahunSpm = Tahun::where('id', session('tahun_spm', 1))->first();
         $title = 'Data SPM';
-        $spms = Spm::paginate(1000);
+        $spms = Spm::paginate(200);
         $columns = $this->spmService->columns();
 
         $columnLabels = $this->spmService->columnLabels();
@@ -39,7 +40,7 @@ class SpmController extends Controller
 
         $columnDetail = $this->spmService->getAttributesWithDetails();
 
-        return view('backend.spm.spm.index', compact('spms', 'title', 'columns', 'columnLabels', 'excludedColumns', 'columnDetail', 'tahuns'));
+        return view('backend.spm.spm.index', compact('spms', 'title', 'columns', 'columnLabels', 'excludedColumns', 'columnDetail', 'tahuns', 'tahunSpm'));
     }
 
 
@@ -98,18 +99,30 @@ class SpmController extends Controller
         try {
             // Validate the incoming request data
             $validatedData = $request->validate([
-                'dilayani' => 'required|integer',
-                'terlayani' => 'required|integer'
+                'terlayani_januari' => 'integer|nullable',
+                'terlayani_februari' => 'integer|nullable',
+                'terlayani_maret' => 'integer|nullable',
+                'terlayani_april' => 'integer|nullable',
+                'terlayani_mei' => 'integer|nullable',
+                'terlayani_juni' => 'integer|nullable',
+                'terlayani_juli' => 'integer|nullable',
+                'terlayani_agustus' => 'integer|nullable',
+                'terlayani_september' => 'integer|nullable',
+                'terlayani_oktober' => 'integer|nullable',
+                'terlayani_november' => 'integer|nullable',
+                'terlayani_desember' => 'integer|nullable',
+                'total_dilayani' => 'integer|nullable',
             ]);
 
-            // Find the user by ID
-            $spm = Spm::findOrFail($request->id); // Use findOrFail to throw a 404 if not found
+            // dd($validatedData);
 
+
+            // Find the user by ID
+            $spm = Spm::findOrFail($request->id);
             $spmOriginal = Spm::findOrFail($request->id);
-            // Update spm attributes
-            $spm->dilayani = $validatedData['dilayani'];
-            $spm->terlayani = $validatedData['terlayani'];
-            $spm->save();
+            $spm->update($validatedData);
+
+
 
 
             $description = "Nilai SPM " . $spmOriginal->subLayanan->kode . " telah diubah oleh " . Auth::user()->name;
@@ -139,14 +152,12 @@ class SpmController extends Controller
     public function tahunSpm(Request $request)
     {
         $validatedData = $request->validate([
-            'bulan' => 'required|min:1|max:12',
             'tahun' => 'required|min:1|max:2'
         ]);
         // put to session
         session([
             'tahun_spm' => $validatedData['tahun'],
-            'bulan_spm' => $validatedData['bulan']
         ]);
-        return redirect()->route('spm.index')->with('success', 'Bulan dan Tahun SPM berhasil diubah.');
+        return redirect()->route('spm.index')->with('success', 'Tahun SPM berhasil diubah.');
     }
 }

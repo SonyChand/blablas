@@ -46,25 +46,22 @@ return new class extends Migration
             $table->foreign('sub_layanan_id')->references('id')->on('sub_layanans')->onDelete('cascade');
             $table->unsignedBigInteger('tahun_id');
             $table->foreign('tahun_id')->references('id')->on('tahuns')->onDelete('cascade');
-            $table->integer('dilayani')->nullable();
-            $table->integer('terlayani')->nullable();
-            $table->integer('belum_terlayani')->nullable();
-            $table->decimal('pencapaian', 5, 2)->nullable();
-            $table->integer('bulan');
+            $table->integer('terlayani_januari')->nullable();
+            $table->integer('terlayani_februari')->nullable();
+            $table->integer('terlayani_maret')->nullable();
+            $table->integer('terlayani_april')->nullable();
+            $table->integer('terlayani_mei')->nullable();
+            $table->integer('terlayani_juni')->nullable();
+            $table->integer('terlayani_juli')->nullable();
+            $table->integer('terlayani_agustus')->nullable();
+            $table->integer('terlayani_september')->nullable();
+            $table->integer('terlayani_oktober')->nullable();
+            $table->integer('terlayani_november')->nullable();
+            $table->integer('terlayani_desember')->nullable();
+            $table->integer('total_dilayani')->nullable();
             $table->timestamps();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
-        });
-
-        Schema::create('spm_total', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('spm_id');
-            $table->foreign('spm_id')->references('id')->on('spms')->onDelete('cascade');
-            $table->integer('total_dilayani')->nullable();
-            $table->integer('total_terlayani')->nullable();
-            $table->integer('total_belum_terlayani')->nullable();
-            $table->decimal('total_pencapaian', 5, 2)->nullable();
-            $table->timestamps();
         });
 
 

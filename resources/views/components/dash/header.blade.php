@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" dir="ltr" data-navigation-type="default" data-navbar-horizontal-shape="default">
+<html lang="{{ app()->getLocale() }}" dir="ltr" data-navigation-type="horizontal"
+    data-navbar-horizontal-shape="default">
 
 <head>
     <meta charset="utf-8">
