@@ -95,6 +95,8 @@
             // datatable serverside
             function tableYajra() {
                 $('#yajra').DataTable({
+                    scrollY: '500px',
+                    scrollCollapse: true,
                     processing: true,
                     serverSide: true,
                     responsive: true,

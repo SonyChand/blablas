@@ -36,76 +36,43 @@ class Spm extends Model
         'updated_by',
     ];
 
-    public static function totalTerlayani($subLayananId, $tahunId = null, $bulan = null)
+
+    public function getTotalTerlayaniAttribute()
     {
-        $query = self::where('sub_layanan_id', $subLayananId);
-
-        if ($tahunId) {
-            $query->where('tahun_id', $tahunId);
-        }
-
-        if ($bulan) {
-            $query->where('bulan', $bulan);
-        }
-
-        return $query->sum('terlayani_januari') +
-            $query->sum('terlayani_februari') +
-            $query->sum('terlayani_maret') +
-            $query->sum('terlayani_april') +
-            $query->sum('terlayani_mei') +
-            $query->sum('terlayani_juni') +
-            $query->sum('terlayani_juli') +
-            $query->sum('terlayani_agustus') +
-            $query->sum('terlayani_september') +
-            $query->sum('terlayani_oktober') +
-            $query->sum('terlayani_november') +
-            $query->sum('terlayani_desember');
+        return $this->terlayani_januari +
+            $this->terlayani_februari +
+            $this->terlayani_maret +
+            $this->terlayani_april +
+            $this->terlayani_mei +
+            $this->terlayani_juni +
+            $this->terlayani_juli +
+            $this->terlayani_agustus +
+            $this->terlayani_september +
+            $this->terlayani_oktober +
+            $this->terlayani_november +
+            $this->terlayani_desember;
     }
 
 
-    public static function totalPencapaian($subLayananId, $tahunId = null, $bulan = null)
+    public function getPencapaianAttribute()
     {
-        $query = self::where('sub_layanan_id', $subLayananId);
-
-        if ($tahunId) {
-            $query->where('tahun_id', $tahunId);
-        }
-
-        if ($bulan) {
-            $query->where('bulan', $bulan);
-        }
-
-        $totalTerlayani = self::totalTerlayani($subLayananId, $tahunId, $bulan);
-        $totalDilayani = $query->sum('total_dilayani');
+        $totalDilayani = $this->total_dilayani ?? 0; // Ensure it's not null
+        $totalTerlayani = $this->total_terlayani; // Use the existing accessor
 
         // Validasi untuk menghindari division by zero
         if ($totalDilayani == 0) {
-            return 0; // Atau bisa juga return null atau 'N/A' sesuai kebutuhan
+            return 0; // Or return null or 'N/A' as per your requirement
         }
 
-        return ($totalTerlayani / $totalDilayani) * 100;
+        return ($totalTerlayani / $totalDilayani) * 100; // Return percentage
     }
 
-    public static function belumTerlayani($subLayananId, $tahunId = null, $bulan = null)
+    public function getBelumTerlayaniAttribute()
     {
-        $query = self::where('sub_layanan_id', $subLayananId);
+        $totalDilayani = $this->total_dilayani ?? 0; // Ensure it's not null
+        $totalTerlayani = $this->total_terlayani; // Use the existing accessor
 
-        if ($tahunId) {
-            $query->where('tahun_id', $tahunId);
-        }
-
-        if ($bulan) {
-            $query->where('bulan', $bulan);
-        }
-        $totalDilayani = $query->sum('total_dilayani');
-        $totalTerlayani = self::totalTerlayani($subLayananId, $tahunId, $bulan);
         return $totalDilayani - $totalTerlayani;
-    }
-
-    public static function totalTerlayaniperBulan($subLayananId, $bulanId)
-    {
-        return self::where('sub_layanan_id', $subLayananId)
-            ->sum('terlayani');
     }
 
     protected static function boot()

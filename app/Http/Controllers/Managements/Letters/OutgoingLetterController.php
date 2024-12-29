@@ -108,7 +108,6 @@ class OutgoingLetterController extends Controller
         $pdfPath = 'surat/surat_keluar/' . $letterTypeSlug . '/' . $outgoingLetter->letter_number . '-' . $outgoingLetter->id . '.pdf';
         Storage::disk('public')->put($pdfPath, $pdf->output());
 
-        // Mail::to('sonychandmaulana@gmail.com')->send(new OutgoingLetterNotification($request->user(), 'penambahan', $letter->id, null));
 
         return redirect()->route('outgoing-letters.index')
             ->with('success', 'Surat Keluar dan PDF berhasil dibuat.');
@@ -221,7 +220,6 @@ class OutgoingLetterController extends Controller
         $pdfPath = 'surat/surat_keluar/' . $letterTypeSlug . '/' . $letter->letter_number . '-' . $letter->id . '.pdf';
         Storage::disk('public')->put($pdfPath, $pdf->output());
 
-        // Mail::to('sonychandmaulana@gmail.com')->send(new OutgoingLetterNotification($request->user(), 'perubahan', $letter->id, $originalData));
 
         return redirect()->route('outgoing-letters.index')
             ->with('success', 'Surat Keluar dan PDF berhasil diperbarui.');

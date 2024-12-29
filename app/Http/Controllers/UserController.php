@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Backend\SPM\Puskesmas;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
@@ -44,10 +45,11 @@ class UserController extends Controller
      */
     public function create(): View
     {
+        $puskesmas = Puskesmas::all();
         $roles = Role::pluck('name', 'name')->all();
         $title = 'Create User';
 
-        return view('dashboard.users.create', compact('roles', 'title'));
+        return view('dashboard.users.create', compact('roles', 'title', 'puskesmas'));
     }
 
     /**
@@ -62,6 +64,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
+            'puskesmas_id' => 'required|exists:puskesmas,id',
             'roles' => 'required'
         ]);
 
@@ -74,7 +77,7 @@ class UserController extends Controller
         $user->assignRole($request->input('roles'));
 
         return redirect()->route('users.index')
-            ->with('success', 'User created successfully');
+            ->with('success', 'Pengguna berhasil ditambahkan.');
     }
 
     /**
@@ -96,11 +99,12 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
+        $puskesmas = Puskesmas::all();
         $title = 'Edit User';
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
 
-        return view('dashboard.users.edit', compact('user', 'roles', 'userRole', 'title'));
+        return view('dashboard.users.edit', compact('user', 'roles', 'userRole', 'title', 'puskesmas'));
     }
 
     /**
@@ -115,8 +119,10 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
+            'puskesmas_id' => 'required|exists:puskesmas,id',
             'roles' => 'required'
         ]);
+
 
         $input = $request->all();
         if (!empty($input['password'])) {

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Backend\SPM\Spm;
 use Illuminate\Support\Str;
+use App\Models\Backend\SPM\Spm;
+use App\Models\Backend\SPM\Puskesmas;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -36,6 +37,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'date_of_birth',
         'whatsapp',
         'picture',
+        'puskesmas_id',
         'email_verified_at'
     ];
 
@@ -72,6 +74,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function spmUpdate()
     {
         return $this->hasMany(Spm::class, 'id', 'updated_by');
+    }
+
+    public function puskesmas()
+    {
+        return $this->belongsTo(Puskesmas::class, 'puskesmas_id');
     }
 
     public function getMaskedEmailAttribute()

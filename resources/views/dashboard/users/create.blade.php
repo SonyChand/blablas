@@ -38,9 +38,22 @@
                 </div>
                 <div class="col-12">
                     <div class="form-floating form-floating-advance-select">
-                        <label>Role Access</label>
+                        <label>Puskesmas</label>
+                        <select class="form-select" id="puskesmas_id" required name="puskesmas_id">
+                            <option hidden value="">Pilih Puskesmas</option>
+                            @foreach ($puskesmas as $row)
+                                <option value="{{ $row->id }}">
+                                    {{ $row->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-floating form-floating-advance-select">
+                        <label>Peran Pengguna</label>
                         <select class="form-select" id="roles" required name="roles">
-                            <option hidden value="">Select Role</option>
+                            <option hidden value="">Pilih Peran</option>
                             @foreach ($roles as $value => $label)
                                 <option value="{{ $value }}">
                                     {{ $label }}

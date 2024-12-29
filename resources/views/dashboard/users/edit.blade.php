@@ -25,6 +25,22 @@
                 </div>
                 <div class="col-12">
                     <div class="form-floating form-floating-advance-select">
+                        <label>Puskesmas</label>
+                        <select class="form-select" id="puskesmas_id" required name="puskesmas_id">
+                            <option hidden value="{{ $user->puskesmas_id }}">
+                                {{ $user->puskesmas->nama ?? 'Pilih Puskesmas' }}
+                            </option>
+                            @foreach ($puskesmas as $row)
+                                <option value="{{ $row->id }}"
+                                    {{ $row->id == $user->puskesmas_id ? 'selected' : '' }}>
+                                    {{ $row->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-floating form-floating-advance-select">
                         <label>Role Access</label>
                         <select class="form-select" id="roles" required name="roles">
                             <option hidden value="{{ $user->roles->first()->name }}">

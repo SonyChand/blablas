@@ -2,6 +2,7 @@
 
 namespace App\Models\Backend\SPM;
 
+use App\Models\User;
 use App\Models\Backend\SPM\Spm;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,5 +18,10 @@ class Puskesmas extends Model
     public function spms()
     {
         return $this->hasMany(Spm::class, 'puskesmas_id');
+    }
+
+    public function user()
+    {
+        return $this->hasMany(User::class, 'puskesmas_id');
     }
 }

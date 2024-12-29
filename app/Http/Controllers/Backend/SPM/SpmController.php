@@ -30,7 +30,7 @@ class SpmController extends Controller
         $tahuns = Tahun::all();
         $tahunSpm = Tahun::where('id', session('tahun_spm', 1))->first();
         $title = 'Data SPM';
-        $spms = Spm::paginate(200);
+        // $spms = Spm::paginate(200);
         $columns = $this->spmService->columns();
 
         $columnLabels = $this->spmService->columnLabels();
@@ -40,7 +40,7 @@ class SpmController extends Controller
 
         $columnDetail = $this->spmService->getAttributesWithDetails();
 
-        return view('backend.spm.spm.index', compact('spms', 'title', 'columns', 'columnLabels', 'excludedColumns', 'columnDetail', 'tahuns', 'tahunSpm'));
+        return view('backend.spm.spm.index', compact('title', 'columns', 'columnLabels', 'excludedColumns', 'columnDetail', 'tahuns', 'tahunSpm'));
     }
 
 

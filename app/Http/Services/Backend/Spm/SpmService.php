@@ -132,17 +132,17 @@ class SpmService
                     })
                     ->addColumn('total_terlayani', function ($data) {
                         $total_terlayani = '
-                        <div class="text-center">' . Spm::totalTerlayani($data->sub_layanan_id) . '</div>';
+                        <div class="text-center">' . $data->total_terlayani . '</div>';
                         return $total_terlayani;
                     })
                     ->addColumn('belum_terlayani', function ($data) {
                         $belum_terlayani = '
-                        <div class="text-center">' . Spm::belumTerlayani($data->sub_layanan_id) . '</div>';
+                        <div class="text-center">' . $data->belum_terlayani . '</div>';
                         return $belum_terlayani;
                     })
                     ->addColumn('total_pencapaian', function ($data) {
                         $total_pencapaian = '
-                        <div class="text-center">' . round(Spm::totalPencapaian($data->sub_layanan_id), 2) . '%</div>';
+                        <div class="text-center">' . round($data->pencapaian, 2) . '%</div>';
                         return $total_pencapaian;
                     })
                     ->addColumn('action', function ($data) {
