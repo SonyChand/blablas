@@ -215,6 +215,8 @@
                                         </div>
                                     </li>
 
+
+
                                     <li class="nav-item">
                                         <a class="nav-link dropdown-indicator {{ request()->routeIs('master-spm-*.*') ? '' : 'collapsed' }}"
                                             href="#nv-master-spm" data-bs-toggle="collapse" aria-expanded="true"
@@ -386,16 +388,51 @@
                             </div>
                         </a>
                     </div>
-                    <div class="nav-item-wrapper"><a class="nav-link label-1" href="{{ route('spm.index') }}"
-                            role="button" data-bs-toggle="" aria-expanded="false">
-                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                        data-feather="database"></span></span><span
-                                    class="nav-link-text-wrapper"><span class="nav-link-text">e-SPM <span
-                                            class="badge ms-2 badge badge-phoenix badge-phoenix-warning ">Demo</span></span></span>
+                    @canany(['spm-list', 'spm-edit'])
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link dropdown-indicator label-1 {{ request()->routeIs('users.*') ? '' : 'collapsed' }}"
+                                href="#nv-user" role="button" data-bs-toggle="collapse"
+                                aria-expanded="{{ request()->is('spm/*') ? 'true' : 'false' }}" aria-controls="nv-user">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon-wrapper"><span
+                                            class="fas fa-caret-right dropdown-indicator-icon"></span></div><span
+                                        class="nav-link-icon"><span data-feather="database"></span></span><span
+                                        class="nav-link-text">e-SPM</span>
+                                </div>
+                            </a>
+                            <div class="parent-wrapper label-1">
+                                <ul class="nav collapse parent {{ request()->routeIs('spm.*') ? 'show' : '' }}"
+                                    data-bs-parent="#navbarVerticalCollapse" id="nv-user">
+                                    <li class="collapsed-nav-item-title d-none">Pengguna
+                                    </li>
+                                    @can('spm-list')
+                                        <li class="nav-item"><a
+                                                class="nav-link {{ request()->routeIs('spm.index') ? 'active' : '' }}"
+                                                href="{{ route('spm.index') }}">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">
+                                                        StaPMinKes
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    @endcan
+                                    @can('spm-dinkes')
+                                        <li class="nav-item">
+                                            <a class="nav-link {{ request()->routeIs('spm.rekap') ? 'active' : '' }}"
+                                                href="{{ route('spm.rekap') }}">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">
+                                                        Rekap
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    @endcan
+                                </ul>
                             </div>
-                        </a>
-                    </div>
-
+                        </div>
+                    @endcan
                     <div class="nav-item-wrapper">
                         <a class="nav-link dropdown-indicator label-1 {{ request()->routeIs('profiles.*') ? '' : 'collapsed' }}"
                             href="#nv-profile" role="button" data-bs-toggle="collapse"

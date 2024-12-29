@@ -19,6 +19,8 @@
             </a>
         </div>
 
+        <span class="badge bg-primary">{{ auth::user()->puskesmas->nama ?? 'Anda belum memilih Puskesmas' }}</span>
+
         <ul class="navbar-nav navbar-nav-icons flex-row">
             <li class="nav-item d-print-none">
                 <div class="theme-control-toggle fa-icon-wait px-2">

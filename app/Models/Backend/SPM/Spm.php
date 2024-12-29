@@ -36,6 +36,14 @@ class Spm extends Model
         'updated_by',
     ];
 
+    public function getTotalTerlayaniJanuariAttribute()
+    {
+        return self::where('sub_layanan_id', $this->sub_layanan_id)
+            ->where('tahun_id', session('tahun_spm', 1))
+            ->sum('terlayani_januari');
+    }
+
+
 
     public function getTotalTerlayaniAttribute()
     {

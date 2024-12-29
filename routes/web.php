@@ -114,7 +114,11 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'master'], funct
     Route::put('spm/liveUpdate', [SpmController::class, 'liveUpdate'])->name('spm.liveupdate');
     Route::get('spm/export/{format}', [SpmController::class, 'export'])->name('spm.export');
     Route::get('spm/serverside', [SpmController::class, 'serverside'])->name('spm.serverside');
-    Route::resource('spm', SpmController::class);
+    Route::get('spm/rekap-serverside', [SpmController::class, 'rekapServerside'])->name('spm.rekapServerside');
+    Route::get('spm', [SpmController::class, 'index'])->name('spm.index');
+    Route::get('spm/create', [SpmController::class, 'create'])->name('spm.create');
+    Route::get('spm/rekap', [SpmController::class, 'rekap'])->name('spm.rekap');
+    Route::put('spm/{id}', [SpmController::class, 'update'])->name('spm.update');
 });
 
 require __DIR__ . '/auth.php';

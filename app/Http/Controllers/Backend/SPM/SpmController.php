@@ -23,6 +23,7 @@ class SpmController extends Controller
         $this->middleware('permission:spm-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:spm-delete', ['only' => ['destroy']]);
         $this->middleware('permission:spm-download', ['only' => ['export']]);
+        $this->middleware('permission:spm-dinkes', ['only' => ['rekap']]);
         $this->spmService = $spmService;
     }
     public function index()
@@ -41,6 +42,15 @@ class SpmController extends Controller
         $columnDetail = $this->spmService->getAttributesWithDetails();
 
         return view('backend.spm.spm.index', compact('title', 'columns', 'columnLabels', 'excludedColumns', 'columnDetail', 'tahuns', 'tahunSpm'));
+    }
+
+    public function rekap()
+    {
+        $tahuns = Tahun::all();
+        $tahunSpm = Tahun::where('id', session('tahun_spm', 1))->first();
+        $title = 'Data SPM';
+
+        return view('backend.spm.spm.rekap.index', compact('title', 'tahuns', 'tahunSpm'));
     }
 
 
@@ -149,6 +159,11 @@ class SpmController extends Controller
         return $this->spmService->dataTable($request);
     }
 
+    public function rekapServerside(Request $request): JsonResponse
+    {
+        return $this->spmService->dataTable2($request);
+    }
+
     public function tahunSpm(Request $request)
     {
         $validatedData = $request->validate([
@@ -158,6 +173,6 @@ class SpmController extends Controller
         session([
             'tahun_spm' => $validatedData['tahun'],
         ]);
-        return redirect()->route('spm.index')->with('success', 'Tahun SPM berhasil diubah.');
+        return redirect()->back()->with('success', 'Tahun SPM berhasil diubah.');
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Http\Services\Backend\Spm;
 
-use App\Models\Backend\SPM\Spm;
 use Exception;
+use App\Models\Backend\SPM\Spm;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -160,6 +161,207 @@ class SpmService
                         return $actionBtn;
                     })
                     ->rawColumns(['sub_layanan_id', 'sub_id', 'action', 'kode', 'satuan', 'total_dilayani', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember', 'total_terlayani', 'belum_terlayani', 'total_pencapaian'])
+                    ->with([
+                        'recordsTotal' => $totalData,
+                        'recordsFiltered' => $totalFiltered,
+                        'start' => $start
+                    ])
+                    ->make();
+            } catch (\Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        }
+    }
+
+    public function dataTable2($request)
+    {
+        if ($request->ajax()) {
+            try {
+                $totalDilayani = Spm::where('tahun_id', session('tahun_spm', 1))
+                    ->select('sub_layanan_id', DB::raw('SUM(total_dilayani) as total'))
+                    ->groupBy('sub_layanan_id')
+                    ->pluck('total', 'sub_layanan_id');
+                $totalJanuari = Spm::where('tahun_id', session('tahun_spm', 1))
+                    ->select('sub_layanan_id', DB::raw('SUM(terlayani_januari) as total'))
+                    ->groupBy('sub_layanan_id')
+                    ->pluck('total', 'sub_layanan_id');
+                $totalFebruari = Spm::where('tahun_id', session('tahun_spm', 1))
+                    ->select('sub_layanan_id', DB::raw('SUM(terlayani_februari) as total'))
+                    ->groupBy('sub_layanan_id')
+                    ->pluck('total', 'sub_layanan_id');
+                $totalMaret = Spm::where('tahun_id', session('tahun_spm', 1))
+                    ->select('sub_layanan_id', DB::raw('SUM(terlayani_maret) as total'))
+                    ->groupBy('sub_layanan_id')
+                    ->pluck('total', 'sub_layanan_id');
+                $totalApril = Spm::where('tahun_id', session('tahun_spm', 1))
+                    ->select('sub_layanan_id', DB::raw('SUM(terlayani_april) as total'))
+                    ->groupBy('sub_layanan_id')
+                    ->pluck('total', 'sub_layanan_id');
+                $totalMei = Spm::where('tahun_id', session('tahun_spm', 1))
+                    ->select('sub_layanan_id', DB::raw('SUM(terlayani_mei) as total'))
+                    ->groupBy('sub_layanan_id')
+                    ->pluck('total', 'sub_layanan_id');
+                $totalJuni = Spm::where('tahun_id', session('tahun_spm', 1))
+                    ->select('sub_layanan_id', DB::raw('SUM(terlayani_juni) as total'))
+                    ->groupBy('sub_layanan_id')
+                    ->pluck('total', 'sub_layanan_id');
+                $totalJuli = Spm::where('tahun_id', session('tahun_spm', 1))
+                    ->select('sub_layanan_id', DB::raw('SUM(terlayani_juli) as total'))
+                    ->groupBy('sub_layanan_id')
+                    ->pluck('total', 'sub_layanan_id');
+                $totalAgustus = Spm::where('tahun_id', session('tahun_spm', 1))
+                    ->select('sub_layanan_id', DB::raw('SUM(terlayani_agustus) as total'))
+                    ->groupBy('sub_layanan_id')
+                    ->pluck('total', 'sub_layanan_id');
+                $totalSeptember = Spm::where('tahun_id', session('tahun_spm', 1))
+                    ->select('sub_layanan_id', DB::raw('SUM(terlayani_september) as total'))
+                    ->groupBy('sub_layanan_id')
+                    ->pluck('total', 'sub_layanan_id');
+                $totalOktober = Spm::where('tahun_id', session('tahun_spm', 1))
+                    ->select('sub_layanan_id', DB::raw('SUM(terlayani_oktober) as total'))
+                    ->groupBy('sub_layanan_id')
+                    ->pluck('total', 'sub_layanan_id');
+                $totalNovember = Spm::where('tahun_id', session('tahun_spm', 1))
+                    ->select('sub_layanan_id', DB::raw('SUM(terlayani_november) as total'))
+                    ->groupBy('sub_layanan_id')
+                    ->pluck('total', 'sub_layanan_id');
+                $totalDesember = Spm::where('tahun_id', session('tahun_spm', 1))
+                    ->select('sub_layanan_id', DB::raw('SUM(terlayani_desember) as total'))
+                    ->groupBy('sub_layanan_id')
+                    ->pluck('total', 'sub_layanan_id');
+
+                $totalData = Spm::where('tahun_id', session('tahun_spm') ?? 1)
+                    ->where('puskesmas_id', 1)
+                    ->count();
+                $totalFiltered = $totalData;
+
+                $limit = $request->length;
+                $start = $request->start;
+
+                if (empty($request->search['value'])) {
+                    $data = Spm::where('tahun_id', session('tahun_spm', 1))
+                        ->where('puskesmas_id', 1)
+                        ->with('subLayanan:id,kode,uraian,satuan')
+                        ->skip($start)
+                        ->take($limit)
+                        ->orderBy('sub_layanan_id', 'desc')
+                        ->get(['id', 'sub_layanan_id', 'terlayani_januari', 'terlayani_februari', 'terlayani_maret', 'terlayani_april', 'terlayani_mei', 'terlayani_juni', 'terlayani_juli', 'terlayani_agustus', 'terlayani_september', 'terlayani_oktober', 'terlayani_november', 'terlayani_desember', 'total_dilayani']);
+                } else {
+                    $data = Spm::filter($request->search['value'])
+                        ->latest()
+                        ->where('puskesmas_id', 1)
+                        ->where('tahun_id', session('tahun_spm', 1))
+                        ->with('subLayanan:id,kode,uraian,satuan')
+                        ->skip($start)
+                        ->take($limit)
+                        ->orderBy('sub_layanan_id', 'desc')
+                        ->get(['id', 'sub_layanan_id', 'terlayani_januari', 'terlayani_februari', 'terlayani_maret', 'terlayani_april', 'terlayani_mei', 'terlayani_juni', 'terlayani_juli', 'terlayani_agustus', 'terlayani_september', 'terlayani_oktober', 'terlayani_november', 'terlayani_desember', 'total_dilayani']);
+
+                    $totalFiltered = $data->count();
+                }
+
+                return DataTables::of($data)
+                    ->setOffset($start)
+                    ->editColumn('sub_layanan_id', function ($data) {
+                        return $data->subLayanan->uraian;
+                    })
+                    ->addColumn('sub_id', function ($data) {
+                        $id = '
+                        <div class="text-center">' . $data->subLayanan->id . '</div>';
+                        return $id;
+                    })
+                    ->addColumn('kode', function ($data) {
+                        $kode = '
+                        <div class="text-center">' . $data->subLayanan->kode . '</div>';
+                        return $kode;
+                    })
+                    ->addColumn('satuan', function ($data) {
+                        $satuan = '
+                        <div class="text-center">' . $data->subLayanan->satuan . '</div>';
+                        return $satuan;
+                    })
+                    ->addColumn('total_dilayani', function ($data) use ($totalDilayani) {
+                        $total_dilayani = '
+                        <div class="text-center">' . $totalDilayani[$data->sub_layanan_id] . '</div>';
+                        return $total_dilayani;
+                    })
+                    ->addColumn('januari', function ($data) use ($totalJanuari) {
+                        $januari = '
+                        <div class="text-center">' . $totalJanuari[$data->sub_layanan_id] . '</div>';
+                        return $januari;
+                    })
+                    ->addColumn('februari', function ($data) use ($totalFebruari) {
+                        $februari = '
+                        <div class="text-center">' . $totalFebruari[$data->sub_layanan_id] . '</div>';
+                        return $februari;
+                    })
+                    ->addColumn('maret', function ($data) use ($totalMaret) {
+                        $maret = '
+                        <div class="text-center">' . $totalMaret[$data->sub_layanan_id] . '</div>';
+                        return $maret;
+                    })
+                    ->addColumn('april', function ($data) use ($totalApril) {
+                        $april = '
+                        <div class="text-center">' . $totalApril[$data->sub_layanan_id] . '</div>';
+                        return $april;
+                    })
+                    ->addColumn('mei', function ($data) use ($totalMei) {
+                        $mei = '
+                        <div class="text-center">' . $totalMei[$data->sub_layanan_id] . '</div>';
+                        return $mei;
+                    })
+                    ->addColumn('juni', function ($data) use ($totalJuni) {
+                        $juni = '
+                        <div class="text-center">' . $totalJuni[$data->sub_layanan_id] . '</div>';
+                        return $juni;
+                    })
+                    ->addColumn('juli', function ($data) use ($totalJuli) {
+                        $juli = '
+                        <div class="text-center">' . $totalJuli[$data->sub_layanan_id] . '</div>';
+                        return $juli;
+                    })
+                    ->addColumn('agustus', function ($data) use ($totalAgustus) {
+                        $agustus = '
+                        <div class="text-center">' . $totalAgustus[$data->sub_layanan_id] . '</div>';
+                        return $agustus;
+                    })
+                    ->addColumn('september', function ($data) use ($totalSeptember) {
+                        $september = '
+                        <div class="text-center">' . $totalSeptember[$data->sub_layanan_id] . '</div>';
+                        return $september;
+                    })
+                    ->addColumn('oktober', function ($data) use ($totalOktober) {
+                        $oktober = '
+                        <div class="text-center">' . $totalOktober[$data->sub_layanan_id] . '</div>';
+                        return $oktober;
+                    })
+                    ->addColumn('november', function ($data) use ($totalNovember) {
+                        $november = '
+                        <div class="text-center">' . $totalNovember[$data->sub_layanan_id] . '</div>';
+                        return $november;
+                    })
+                    ->addColumn('desember', function ($data) use ($totalDesember) {
+                        $desember = '
+                        <div class="text-center">' . $totalDesember[$data->sub_layanan_id] . '</div>';
+                        return $desember;
+                    })
+                    ->addColumn('total_terlayani', function ($data) {
+                        $total_terlayani = '
+                        <div class="text-center">' . $data->total_terlayani . '</div>';
+                        return $total_terlayani;
+                    })
+                    ->addColumn('belum_terlayani', function ($data) use ($totalDilayani, $totalJanuari, $totalFebruari, $totalMaret, $totalApril, $totalMei, $totalJuni, $totalJuli, $totalAgustus, $totalSeptember, $totalOktober, $totalNovember, $totalDesember) {
+                        $totalD = $totalDilayani[$data->sub_layanan_id] ?? 0;
+                        $totalT = ($totalJanuari[$data->sub_layanan_id] ?? 0) + ($totalFebruari[$data->sub_layanan_id] ?? 0) + ($totalMaret[$data->sub_layanan_id] ?? 0) + ($totalApril[$data->sub_layanan_id] ?? 0) + ($totalMei[$data->sub_layanan_id] ?? 0) + ($totalJuni[$data->sub_layanan_id] ?? 0) + ($totalJuli[$data->sub_layanan_id] ?? 0) + ($totalAgustus[$data->sub_layanan_id] ?? 0) + ($totalSeptember[$data->sub_layanan_id] ?? 0) + ($totalOktober[$data->sub_layanan_id] ?? 0) + ($totalNovember[$data->sub_layanan_id] ?? 0) + ($totalDesember[$data->sub_layanan_id] ?? 0);
+                        return '<div class="text-center">' . ($totalD - $totalT) . '</div >';
+                    })
+                    ->addColumn('total_pencapaian', function ($data) use ($totalDilayani, $totalJanuari, $totalFebruari, $totalMaret, $totalApril, $totalMei, $totalJuni, $totalJuli, $totalAgustus, $totalSeptember, $totalOktober, $totalNovember, $totalDesember) {
+                        $totalD = $totalDilayani[$data->sub_layanan_id] ?? 0;
+                        $totalT = ($totalJanuari[$data->sub_layanan_id] ?? 0) + ($totalFebruari[$data->sub_layanan_id] ?? 0) + ($totalMaret[$data->sub_layanan_id] ?? 0) + ($totalApril[$data->sub_layanan_id] ?? 0) + ($totalMei[$data->sub_layanan_id] ?? 0) + ($totalJuni[$data->sub_layanan_id] ?? 0) + ($totalJuli[$data->sub_layanan_id] ?? 0) + ($totalAgustus[$data->sub_layanan_id] ?? 0) + ($totalSeptember[$data->sub_layanan_id] ?? 0) + ($totalOktober[$data->sub_layanan_id] ?? 0) + ($totalNovember[$data->sub_layanan_id] ?? 0) + ($totalDesember[$data->sub_layanan_id] ?? 0);
+                        $pencapaian = $totalD > 0 ? round(($totalT / $totalD) * 100, 2) : 0;
+                        return '<div class="text-center">' . $pencapaian . '%</div>';
+                    })
+                    ->rawColumns(['sub_layanan_id', 'sub_id', 'kode', 'satuan', 'total_dilayani', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember', 'total_terlayani', 'belum_terlayani', 'total_pencapaian'])
                     ->with([
                         'recordsTotal' => $totalData,
                         'recordsFiltered' => $totalFiltered,
