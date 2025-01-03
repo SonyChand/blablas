@@ -49,6 +49,11 @@
         id="user-style-default">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr@latest/build/toastr.min.css">
     <style>
+        @font-face {
+            font-family: mistral;
+            src: url({{ asset('assets/font/MISTRAL.TTF') }});
+        }
+
         #loader {
             position: fixed;
             left: 0px;

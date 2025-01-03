@@ -501,7 +501,7 @@
                 "preventDuplicates": true
             }
 
-            @if ($errors->any())
+            @if (isset($errors) && $errors->any())
                 @foreach ($errors->all() as $error)
                     toastr.error("{{ $error }}");
                 @endforeach
