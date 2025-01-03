@@ -14,7 +14,7 @@
             <div class="row g-3 justify-content-between align-items-end mb-4">
                 <div class="col-12 col-sm-auto">
                     <div class="d-flex align-items-center">
-                        @can('tahun-create')
+                        @can('master-spm-create')
                             <div class="mt-3 mx-2">
                                 <a class="btn btn-primary btn-sm" href="{{ route('master-spm-tahun.create') }}">
                                     <i class="fa-solid fa-plus me-2"></i>Tambah
@@ -61,11 +61,11 @@
                                                 <span class="fas fa-ellipsis-h fs-10"></span>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-end py-2">
-                                                @can('tahun-edit')
+                                                @can('master-spm-edit')
                                                     <a class="dropdown-item"
                                                         href="{{ route('master-spm-tahun.edit', $row->id) }}">Edit</a>
                                                 @endcan
-                                                @can('tahun-delete')
+                                                @can('master-spm-delete')
                                                     <div class="dropdown-divider"></div>
                                                     <form method="POST"
                                                         action="{{ route('master-spm-tahun.destroy', $row->id) }}"

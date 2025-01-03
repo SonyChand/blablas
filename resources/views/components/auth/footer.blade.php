@@ -46,7 +46,7 @@
         <span style="--i:7">G</span>
 
     </div>
-    <img src="{{ asset('assets') }}\assets\img\logos\logoDinkes.png">
+    <img src="{{ asset('assets') }}\assets\img\logo\dinkes.png">
     <div class="waviy">
     </div>
 </div>

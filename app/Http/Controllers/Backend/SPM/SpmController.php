@@ -18,12 +18,9 @@ class SpmController extends Controller
     use LogsActivity;
     public function __construct(private SpmService $spmService)
     {
-        $this->middleware('permission:spm-list|spm-create|spm-edit|spm-delete', ['only' => ['index', 'store']]);
-        $this->middleware('permission:spm-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:spm-list|spm-edit', ['only' => ['index', 'full']]);
         $this->middleware('permission:spm-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:spm-delete', ['only' => ['destroy']]);
-        $this->middleware('permission:spm-download', ['only' => ['export']]);
-        $this->middleware('permission:spm-dinkes', ['only' => ['rekap']]);
+        $this->middleware('permission:spm-dinkes', ['only' => ['rekap', 'rekapFull']]);
         $this->spmService = $spmService;
     }
     public function index()
@@ -31,17 +28,29 @@ class SpmController extends Controller
         $tahuns = Tahun::all();
         $tahunSpm = Tahun::where('id', session('tahun_spm', 1))->first();
         $title = 'Data SPM';
-        // $spms = Spm::paginate(200);
-        $columns = $this->spmService->columns();
 
-        $columnLabels = $this->spmService->columnLabels();
+        if (session('versi_spm', 1) == 1) {
+            return view('backend.spm.spm.indexv1', compact('title', 'tahuns', 'tahunSpm'));
+        } else {
+            return view('backend.spm.spm.indexv2', compact('title', 'tahuns', 'tahunSpm'));
+        }
+    }
+    public function full()
+    {
+        $layanan1 = SubLayanan::where('layanan_id', 1)->where('versi', session('versi_spm', 1))->get();
+        $layanan2 = SubLayanan::where('layanan_id', 2)->where('versi', session('versi_spm', 1))->get();
+        $layanan3 = SubLayanan::where('layanan_id', 3)->where('versi', session('versi_spm', 1))->get();
 
-        // Define columns to exclude
-        $excludedColumns = $this->spmService->columnExclude();
+        $tahuns = Tahun::all();
+        $tahun = Tahun::where('id', session('tahun_spm', 1))->first();
+        $title = 'Data SPM';
 
-        $columnDetail = $this->spmService->getAttributesWithDetails();
+        return view('backend.spm.spm.tes', compact('title', 'tahun', 'tahuns', 'layanan1', 'layanan2', 'layanan3'));
+    }
 
-        return view('backend.spm.spm.index', compact('title', 'columns', 'columnLabels', 'excludedColumns', 'columnDetail', 'tahuns', 'tahunSpm'));
+    public function fullStore(Request $request)
+    {
+        dd($request->all());
     }
 
     public function rekap()
@@ -54,95 +63,73 @@ class SpmController extends Controller
     }
 
 
-    public function create()
-    {
-        $puskesmas = Puskesmas::all();
-        $subLayanans = SubLayanan::all();
-        $tahuns = Tahun::all();
-        $title = 'Tambah SPM';
-        return view('backend.spm.spm.create', compact('title', 'puskesmas', 'subLayanans', 'tahuns'));
-    }
-
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'puskesmas_id' => 'required|exists:puskesmas,id',
-            'sub_layanan_id' => 'required|exists:sub_layanans,id',
-            'tahun_id' => 'required|exists:tahuns,id',
-            'dilayani' => 'required|integer',
-            'terlayani' => 'required|integer',
-            'bulan' => 'required|integer|min:1|max:12',
-        ]);
-
-        Spm::create($validatedData);
-
-        return redirect()->route('spm.index')->with('success', 'SPM berhasil ditambahkan.');
-    }
-
-    public function edit($id)
-    {
-        $title = 'Edit SPM';
-        $spm = Spm::findOrFail($id);
-
-        return view('backend.spm.spm.edit', compact('spm', 'title'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'puskesmas_id' => 'required|exists:puskesmas,id',
-            'sub_layanan_id' => 'required|exists:sub_layanans,id',
-            'tahun_id' => 'required|exists:tahuns,id',
-            'dilayani' => 'required|integer',
-            'terlayani' => 'required|integer',
-            'bulan' => 'required|integer|min:1|max:12',
-        ]);
-
-        $spm = Spm::findOrFail($id);
-        $spm->update($validatedData);
-
-        return redirect()->route('spm.index')->with('success', 'SPM berhasil diubah.');
-    }
 
     public function liveUpdate(Request $request)
     {
         try {
+            // Preprocess the input data to remove dots and commas
+            $inputData = $request->all();
+            foreach ($inputData as $key => $value) {
+                if (is_string($value)) {
+                    // Remove dots and commas from the input
+                    $inputData[$key] = str_replace(['.', ','], '', $value);
+                }
+            }
+
+            if (session('versi_spm', 1) == 2) {
+                $validatedData = validator($inputData, [
+                    'terlayani_januari' => 'integer|nullable',
+                    'terlayani_februari' => 'integer|nullable',
+                    'terlayani_maret' => 'integer|nullable',
+                    'terlayani_april' => 'integer|nullable',
+                    'terlayani_mei' => 'integer|nullable',
+                    'terlayani_juni' => 'integer|nullable',
+                    'terlayani_juli' => 'integer|nullable',
+                    'terlayani_agustus' => 'integer|nullable',
+                    'terlayani_september' => 'integer|nullable',
+                    'terlayani_oktober' => 'integer|nullable',
+                    'terlayani_november' => 'integer|nullable',
+                    'terlayani_desember' => 'integer|nullable',
+                    'total_dilayani' => 'integer|nullable',
+                ])->validate();
+            } else {
+                $validatedData = validator($inputData, [
+                    'terlayani' => 'integer|nullable',
+                    'total_dilayani' => 'integer|nullable',
+                ])->validate();
+            }
+
             // Validate the incoming request data
-            $validatedData = $request->validate([
-                'terlayani_januari' => 'integer|nullable',
-                'terlayani_februari' => 'integer|nullable',
-                'terlayani_maret' => 'integer|nullable',
-                'terlayani_april' => 'integer|nullable',
-                'terlayani_mei' => 'integer|nullable',
-                'terlayani_juni' => 'integer|nullable',
-                'terlayani_juli' => 'integer|nullable',
-                'terlayani_agustus' => 'integer|nullable',
-                'terlayani_september' => 'integer|nullable',
-                'terlayani_oktober' => 'integer|nullable',
-                'terlayani_november' => 'integer|nullable',
-                'terlayani_desember' => 'integer|nullable',
-                'total_dilayani' => 'integer|nullable',
-            ]);
-
-            // dd($validatedData);
 
 
-            // Find the user by ID
+            // Find the SPM record by ID
             $spm = Spm::findOrFail($request->id);
-            $spmOriginal = Spm::findOrFail($request->id);
-            $spm->update($validatedData);
+            $spmOriginal = $spm->getOriginal(); // Get the original values before the update
 
+            // Compare original values with validated data
+            $hasChanges = false;
+            foreach ($validatedData as $key => $value) {
+                if ($spmOriginal[$key] != $value) {
+                    $hasChanges = true;
+                    break;
+                }
+            }
 
+            if ($hasChanges) {
+                $spm->update($validatedData);
 
+                $description = "Nilai SPM " . $spm->subLayanan->kode . " telah diubah oleh " . Auth::user()->name;
+                $this->logActivity('spms', Auth::user(), null, $description);
 
-            $description = "Nilai SPM " . $spmOriginal->subLayanan->kode . " telah diubah oleh " . Auth::user()->name;
-            $this->logActivity('spms', Auth::user(), null, $description);
-
-            // Return a success response
-            return response()->json(['message' => 'Nilai SPM Berhasil Diubah...']);
+                // Return a success response
+                return response()->json(['message' => 'Nilai SPM Berhasil Diubah...']);
+            } else {
+                // Return a message indicating no changes were made
+                return response()->json(['message' => 'Tidak ada perubahan'], 200);
+            }
         } catch (\Exception $error) {
             // Return an error response
-            return response()->json($error->getMessage(), 500); // Return a 500 status code for server errors
+            return response()->json(['error' => $error->getMessage()], 500); // Return a 500 status code for server errors
         }
     }
 
@@ -154,9 +141,14 @@ class SpmController extends Controller
         return redirect()->route('spm.index')->with('success', 'SPM berhasil dihapus.');
     }
 
-    public function serverside(Request $request): JsonResponse
+    public function serversidev1(Request $request): JsonResponse
     {
-        return $this->spmService->dataTable($request);
+        return $this->spmService->dataTablev1($request);
+    }
+
+    public function serversidev2(Request $request): JsonResponse
+    {
+        return $this->spmService->dataTablev2($request);
     }
 
     public function rekapServerside(Request $request): JsonResponse
@@ -167,12 +159,14 @@ class SpmController extends Controller
     public function tahunSpm(Request $request)
     {
         $validatedData = $request->validate([
+            'versi' => 'required|min:1|max:2',
             'tahun' => 'required|min:1|max:2'
         ]);
         // put to session
         session([
+            'versi_spm' => $validatedData['versi'],
             'tahun_spm' => $validatedData['tahun'],
         ]);
-        return redirect()->back()->with('success', 'Tahun SPM berhasil diubah.');
+        return redirect()->back()->with('success', 'Tahun dan versi SPM berhasil diubah.');
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Letters\Disposition;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -108,14 +107,19 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'master'], funct
     Route::resource('master-spm-puskesmas', PuskesmasController::class);
     Route::resource('master-spm-layanan', LayananController::class);
     Route::resource('master-spm-sub-layanan', SubLayananController::class);
+});
 
+Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'e-spm'], function () {
 
     Route::post('spm/tahunSpm', [SpmController::class, 'tahunSpm'])->name('spm.tahunspm');
     Route::put('spm/liveUpdate', [SpmController::class, 'liveUpdate'])->name('spm.liveupdate');
     Route::get('spm/export/{format}', [SpmController::class, 'export'])->name('spm.export');
-    Route::get('spm/serverside', [SpmController::class, 'serverside'])->name('spm.serverside');
+    Route::get('spm/serversidev1', [SpmController::class, 'serversidev1'])->name('spm.serversidev1');
+    Route::get('spm/serversidev2', [SpmController::class, 'serversidev2'])->name('spm.serversidev2');
     Route::get('spm/rekap-serverside', [SpmController::class, 'rekapServerside'])->name('spm.rekapServerside');
     Route::get('spm', [SpmController::class, 'index'])->name('spm.index');
+    Route::get('spm/full-version', [SpmController::class, 'full'])->name('spm.full');
+    Route::post('spm/full-version', [SpmController::class, 'fullStore'])->name('spm.fullStore');
     Route::get('spm/create', [SpmController::class, 'create'])->name('spm.create');
     Route::get('spm/rekap', [SpmController::class, 'rekap'])->name('spm.rekap');
     Route::put('spm/{id}', [SpmController::class, 'update'])->name('spm.update');

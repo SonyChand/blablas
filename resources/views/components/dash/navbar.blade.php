@@ -8,10 +8,14 @@
                         class="toggle-line"></span></span></button>
             <a class="navbar-brand me-1 me-sm-3" href="{{ route('home.index') }}">
                 <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center"><img
-                            src="{{ asset('assets') }}\assets\img\logos\logoDinkes.png" alt="Logo SiDANIS"
-                            width="27" />
-                        <h5 class="logo-text ms-2 d-none d-sm-block">
+                    <div class="d-flex align-items-center"><img src="{{ asset('assets') }}\assets\img\logo\dinkes.png"
+                            alt="Logo SiDANIS" width="37" />
+                        <h5 class="logo-text ms-2 d-none d-sm-block text-lower"
+                            style="text-shadow: 1px 1px 10px rgb(203, 195, 195);
+                                   background: linear-gradient(90deg, rgb(114, 0, 208), rgb(2, 255, 44));
+                                   -webkit-background-clip: text;
+                                   -webkit-text-fill-color: transparent;
+                                   font-weight: bolder;font-family: mistral;letter-spacing: 5px;">
                             {{ config('app.name', 'Laravel') }}
                         </h5>
                     </div>

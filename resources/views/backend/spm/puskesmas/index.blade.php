@@ -14,7 +14,7 @@
             <div class="row g-3 justify-content-between align-items-end mb-4">
                 <div class="col-12 col-sm-auto">
                     <div class="d-flex align-items-center">
-                        @can('puskesmas-create')
+                        @can('master-spm-create')
                             <div class="mt-3 mx-2">
                                 <a class="btn btn-primary btn-sm" href="{{ route('master-spm-puskesmas.create') }}">
                                     <i class="fa-solid fa-plus me-2"></i>Tambah
@@ -53,7 +53,7 @@
                                 <td class="text-center">{{ ++$i }}</td>
                                 <td class="nama">{{ $row->nama }}</td>
                                 <td class="alamat">{{ $row->alamat }}</td>
-                                @canany(['puskesmas-edit', 'puskesmas-delete'])
+                                @canany(['master-spm-edit', 'master-spm-delete'])
                                     <td class="text-end white-space-nowrap pe-0 action">
                                         <div class="btn-reveal-trigger position-static">
                                             <button
@@ -63,11 +63,11 @@
                                                 <span class="fas fa-ellipsis-h fs-10"></span>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-end py-2">
-                                                @can('puskesmas-edit')
+                                                @can('master-spm-edit')
                                                     <a class="dropdown-item"
                                                         href="{{ route('master-spm-puskesmas.edit', $row->id) }}">Edit</a>
                                                 @endcan
-                                                @can('puskesmas-delete')
+                                                @can('master-spm-delete')
                                                     <div class="dropdown-divider"></div>
                                                     <form method="POST"
                                                         action="{{ route('master-spm-puskesmas.destroy', $row->id) }}"

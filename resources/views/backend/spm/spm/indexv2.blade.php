@@ -17,6 +17,15 @@
                         onsubmit="showLoader()">
                         @csrf
                         <div class="input-group mb-3">
+                            <select name="versi" class="form-select" id="versi" required>
+                                <option value="" hidden>Pilih Versi</option>
+                                <option value="1" {{ old('versi', session('versi_spm')) == 1 ? 'selected' : '' }}>
+                                    Versi 1
+                                </option>
+                                <option value="2" {{ old('versi', session('versi_spm')) == 2 ? 'selected' : '' }}>
+                                    Versi 2
+                                </option>
+                            </select>
                             <select name="tahun" class="form-select" id="tahun" required>
                                 <option value="" hidden>Pilih Tahun</option>
                                 @foreach ($tahuns as $tahunItem)
@@ -38,8 +47,17 @@
                 <div class="card-header p-4 border-bottom bg-body">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="mb-0" autofocus>{{ $title }} tahun {{ $tahunSpm->tahun }}<span
-                                    class="fw-normal text-body-tertiary ms-3"></span></h4>
+                            <h4 class="mb-0" autofocus>StaPMinKes Ciamis tahun {{ $tahunSpm->tahun }} versi
+                                {{ session('versi_spm', 1) }}
+                                <span class="fw-normal text-body-tertiary ms-3"></span>
+                            </h4>
+                        </div>
+                        <div class="col col-md-auto">
+                            <nav class="nav justify-content-end doc-tab-nav align-items-center" role="tablist">
+                                <button type="button" class="btn btn-sm btn-outline-info"
+                                    onclick="window.location.href='{{ route('spm.full') }}'">
+                                    <i class="fas fa-expand me-2"></i>Versi Full Screen</button>
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -100,7 +118,7 @@
                     processing: true,
                     serverSide: true,
                     responsive: true,
-                    ajax: "{{ route('spm.serverside') }}",
+                    ajax: "{{ route('spm.serversidev2') }}",
                     columns: [{
                             data: 'sub_id',
                             name: 'sub_id',
@@ -188,8 +206,8 @@
                             name: 'action',
                         }
                     ],
-                    lengthMenu: [10, 20, 50, 100, 200], // Menyediakan opsi untuk 100, 200
-                    pageLength: 200
+                    lengthMenu: [10, 20, 50, 100, 200, 250], // Menyediakan opsi untuk 100, 200
+                    pageLength: 250
                 });
             };
 
@@ -205,6 +223,11 @@
                 }
                 makeEditableRow(currentRow);
                 currentEditableRow = currentRow;
+
+                currentRow.find('td:first').html(
+                    '<button class="btn btn-sm btn-primary btn-save" type="button" data-id="' + dataId +
+                    '"><i class="fas fa-check"></i></button>'
+                )
 
                 currentRow.find('td:last').html(
                     '<button class="btn btn-sm btn-primary btn-save" type="button" data-id="' + dataId +
@@ -236,6 +259,13 @@
                 })
 
                 const dataId = currentEditableRow.find('.btn-save').data('id');
+                currentEditableRow.find('td:first').html(`
+    <div class="btn-group mx-1">
+        <button id="btn-edit" type="button" class="btn btn-sm btn-warning" data-id="${dataId}">
+            <i class="fas fa-edit"></i>
+        </button>
+    </div>
+`);
                 currentEditableRow.find('td:last').html(`
     <div class="btn-group mx-1">
         <button id="btn-edit" type="button" class="btn btn-sm btn-warning" data-id="${dataId}">

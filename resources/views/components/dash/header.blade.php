@@ -69,6 +69,11 @@
     </script>
 
     <style>
+        @font-face {
+            font-family: mistral;
+            src: url({{asset('assets/font/MISTRAL.TTF')}});
+        }
+
         #loader {
             position: fixed;
             left: 0px;

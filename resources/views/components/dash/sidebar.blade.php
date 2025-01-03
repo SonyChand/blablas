@@ -391,8 +391,8 @@
                     @canany(['spm-list', 'spm-edit'])
                         <div class="nav-item-wrapper">
                             <a class="nav-link dropdown-indicator label-1 {{ request()->routeIs('users.*') ? '' : 'collapsed' }}"
-                                href="#nv-user" role="button" data-bs-toggle="collapse"
-                                aria-expanded="{{ request()->is('spm/*') ? 'true' : 'false' }}" aria-controls="nv-user">
+                                href="#nv-spm" role="button" data-bs-toggle="collapse"
+                                aria-expanded="{{ request()->is('spm/*') ? 'true' : 'false' }}" aria-controls="nv-spm">
                                 <div class="d-flex align-items-center">
                                     <div class="dropdown-indicator-icon-wrapper"><span
                                             class="fas fa-caret-right dropdown-indicator-icon"></span></div><span
@@ -402,7 +402,7 @@
                             </a>
                             <div class="parent-wrapper label-1">
                                 <ul class="nav collapse parent {{ request()->routeIs('spm.*') ? 'show' : '' }}"
-                                    data-bs-parent="#navbarVerticalCollapse" id="nv-user">
+                                    data-bs-parent="#navbarVerticalCollapse" id="nv-spm">
                                     <li class="collapsed-nav-item-title d-none">Pengguna
                                     </li>
                                     @can('spm-list')

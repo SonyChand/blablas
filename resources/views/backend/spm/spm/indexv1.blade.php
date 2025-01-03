@@ -52,6 +52,13 @@
                                 <span class="fw-normal text-body-tertiary ms-3"></span>
                             </h4>
                         </div>
+                        <div class="col col-md-auto">
+                            <nav class="nav justify-content-end doc-tab-nav align-items-center" role="tablist">
+                                <button type="button" class="btn btn-sm btn-outline-info"
+                                    onclick="window.location.href='{{ route('spm.full') }}'">
+                                    <i class="fas fa-expand me-2"></i>Versi Full Screen</button>
+                            </nav>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body p-4">
@@ -60,29 +67,15 @@
                             style="font-size: 11pt;">
                             <thead>
                                 <tr class="text-center align-middle">
-                                    <th rowspan="2">*</th>
-                                    <th rowspan="2">Kode</th>
-                                    <th rowspan="2" class="text-center">Uraian</th>
-                                    <th rowspan="2">Satuan</th>
-                                    <th rowspan="2">Total Dilayani</th>
-                                    <th colspan="13" class="text-center">Jumlah yang Terlayani</th>
-                                    <th rowspan="2">Yang belum Terlayani</th>
-                                    <th rowspan="2">%</th>
-                                </tr>
-                                <tr class="text-center">
-                                    <th><span class="mx-2">Januari</span></th>
-                                    <th><span class="mx-2">Februari</span></th>
-                                    <th><span class="mx-2">Maret</span></th>
-                                    <th><span class="mx-2">April</span></th>
-                                    <th><span class="mx-2">Mei</span></th>
-                                    <th><span class="mx-2">Juni</span></th>
-                                    <th><span class="mx-2">Juli</span></th>
-                                    <th><span class="mx-2">Agustus</span></th>
-                                    <th><span class="mx-2">September</span></th>
-                                    <th><span class="mx-2">Oktober</span></th>
-                                    <th><span class="mx-2">November</span></th>
-                                    <th><span class="mx-2">Desember</span></th>
-                                    <th>Total</th>
+                                    <th>*</th>
+                                    <th>Kode</th>
+                                    <th class="text-center">Uraian SPM</th>
+                                    <th class="text-center">Satuan</th>
+                                    <th class="text-center">Jumlah Total Yang Harus Dilayani</th>
+                                    <th class="text-center">Jumlah Total Yang Terlayani</th>
+                                    <th class="text-center">Yang belum Terlayani</th>
+                                    <th>%</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -110,7 +103,7 @@
                     processing: true,
                     serverSide: true,
                     responsive: true,
-                    ajax: "{{ route('spm.rekapServerside') }}",
+                    ajax: "{{ route('spm.serversidev1') }}",
                     columns: [{
                             data: 'sub_id',
                             name: 'sub_id',
@@ -134,54 +127,6 @@
                             name: 'total_dilayani',
                         },
                         {
-                            data: 'januari',
-                            name: 'januari',
-                        },
-                        {
-                            data: 'februari',
-                            name: 'februari',
-                        },
-                        {
-                            data: 'maret',
-                            name: 'maret',
-                        },
-                        {
-                            data: 'april',
-                            name: 'april',
-                        },
-                        {
-                            data: 'mei',
-                            name: 'mei',
-                        },
-                        {
-                            data: 'juni',
-                            name: 'juni',
-                        },
-                        {
-                            data: 'juli',
-                            name: 'juli',
-                        },
-                        {
-                            data: 'agustus',
-                            name: 'agustus',
-                        },
-                        {
-                            data: 'september',
-                            name: 'september',
-                        },
-                        {
-                            data: 'oktober',
-                            name: 'oktober',
-                        },
-                        {
-                            data: 'november',
-                            name: 'november',
-                        },
-                        {
-                            data: 'desember',
-                            name: 'desember',
-                        },
-                        {
                             data: 'total_terlayani',
                             name: 'total_terlayani',
                         },
@@ -193,11 +138,114 @@
                             data: 'total_pencapaian',
                             name: 'total_pencapaian',
                         },
+                        {
+                            data: 'action',
+                            name: 'action',
+                        }
                     ],
                     lengthMenu: [10, 20, 50, 100, 200, 250], // Menyediakan opsi untuk 100, 200
                     pageLength: 250
                 });
             };
+
+            const editableColumns = [4, 5];
+            let currentEditableRow = null;
+
+            $('#yajra').on('click', '#btn-edit', function(e) {
+                const dataId = $(this).data('id');
+                const currentRow = $(this).closest('tr');
+
+                if (currentEditableRow && currentEditableRow !== currentRow) {
+                    resetEditableRow(currentEditableRow);
+                }
+                makeEditableRow(currentRow);
+                currentEditableRow = currentRow;
+
+                currentRow.find('td:first').html(
+                    '<button class="btn btn-sm btn-primary btn-save" type="button" data-id="' + dataId +
+                    '"><i class="fas fa-check"></i></button>'
+                )
+
+                currentRow.find('td:last').html(
+                    '<button class="btn btn-sm btn-primary btn-save" type="button" data-id="' + dataId +
+                    '"><i class="fas fa-check"></i></button>'
+                )
+
+            });
+
+
+
+            function makeEditableRow(currentRow) {
+                currentRow.find('td').each(function(index) {
+                    const currentCell = $(this);
+                    const currentText = currentCell.text().trim();
+                    if (editableColumns.includes(index)) {
+                        currentCell.html('<input type="text" class="form-control editable-input"  value="' +
+                            currentText + '" />');
+                    }
+                })
+            }
+
+            function resetEditableRow(currentEditableRow) {
+                currentEditableRow.find('td').each(function(index) {
+                    const currentCell = $(this);
+                    if (editableColumns.includes(index)) {
+                        const currentValue = currentCell.find('input').val();
+                        currentCell.html(`${currentValue}`);
+                    }
+                })
+
+                const dataId = currentEditableRow.find('.btn-save').data('id');
+                currentEditableRow.find('td:first').html(`
+    <div class="btn-group mx-1">
+        <button id="btn-edit" type="button" class="btn btn-sm btn-warning" data-id="${dataId}">
+            <i class="fas fa-edit"></i>
+        </button>
+    </div>
+`);
+                currentEditableRow.find('td:last').html(`
+    <div class="btn-group mx-1">
+        <button id="btn-edit" type="button" class="btn btn-sm btn-warning" data-id="${dataId}">
+            <i class="fas fa-edit"></i>
+        </button>
+    </div>
+`);
+            }
+
+            $('#yajra').on('click', '.btn-save', function(e) {
+                const dataId = $(this).data('id');
+                const currentRow = $(this).closest('tr');
+                const updatedData = {};
+                currentRow.find('td').each(function(index) {
+                    if (editableColumns.includes(index)) {
+                        const inputValue = $(this).find('input').val();
+
+                        if (index === 4)
+                            updatedData.total_dilayani = inputValue;
+                        if (index === 5)
+                            updatedData.total_terlayani = inputValue;
+                    }
+                })
+
+                $.ajax({
+                    url: "{{ route('spm.liveupdate') }}",
+                    type: 'PUT',
+                    data: {
+                        id: dataId,
+                        total_dilayani: updatedData.total_dilayani,
+                        terlayani: updatedData.total_terlayani,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        reloadTable();
+                        toastr.success(response.message);
+                    },
+                    error: function(response) {
+                        console.log(response);
+                        toastr.error(response.responseText);
+                    }
+                })
+            })
         </script>
     @endpush
 </x-dash.layout>

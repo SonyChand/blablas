@@ -34,8 +34,10 @@ return new class extends Migration
             $table->unsignedBigInteger('layanan_id');
             $table->foreign('layanan_id')->references('id')->on('layanans')->onDelete('cascade');
             $table->string('kode');
-            $table->string('uraian');
+            $table->text('uraian');
             $table->string('satuan');
+            $table->text('catatan')->nullable();
+            $table->enum('versi', ['1', '2'])->default('1');
             $table->timestamps();
         });
         Schema::create('spms', function (Blueprint $table) {
@@ -58,6 +60,7 @@ return new class extends Migration
             $table->integer('terlayani_oktober')->nullable();
             $table->integer('terlayani_november')->nullable();
             $table->integer('terlayani_desember')->nullable();
+            $table->integer('terlayani')->nullable();
             $table->integer('total_dilayani')->nullable();
             $table->timestamps();
             $table->unsignedBigInteger('updated_by')->nullable();

@@ -22,6 +22,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+
+        $this->call(MasterSeeder::class);
+        $this->call(TahunSeeder::class);
+        $this->call(PuskesmasSeeder::class);
+        $this->call(LayananSeeder::class);
+        $this->call(SubLayananSeeder::class);
+        $this->call(SpmSeeder::class);
+
         $permissions = [
             ['name' => 'role-list', 'description' => 'Melihat data Peran'],
             ['name' => 'role-create', 'description' => 'Menambah data Peran'],
@@ -88,30 +97,16 @@ class DatabaseSeeder extends Seeder
             ['name' => 'master-edit', 'description' => 'Mengubah data Master'],
             ['name' => 'master-delete', 'description' => 'Menghapus data Master'],
             ['name' => 'master-download', 'description' => 'Mengunduh data Master'],
-            ['name' => 'tahun-list', 'description' => 'Melihat data Tahun'],
-            ['name' => 'tahun-create', 'description' => 'Menambah data Tahun'],
-            ['name' => 'tahun-edit', 'description' => 'Mengubah data Tahun'],
-            ['name' => 'tahun-delete', 'description' => 'Menghapus data Tahun'],
-            ['name' => 'tahun-download', 'description' => 'Mengunduh data Tahun'],
-            ['name' => 'layanan-list', 'description' => 'Melihat data Layanan SPM'],
-            ['name' => 'layanan-create', 'description' => 'Menambah data Layanan SPM'],
-            ['name' => 'layanan-edit', 'description' => 'Mengubah data Layanan SPM'],
-            ['name' => 'layanan-delete', 'description' => 'Menghapus data Layanan SPM'],
-            ['name' => 'layanan-download', 'description' => 'Mengunduh data Layanan SPM'],
-            ['name' => 'sub-layanan-list', 'description' => 'Melihat data Sub Layanan SPM'],
-            ['name' => 'sub-layanan-create', 'description' => 'Menambah data Sub Layanan SPM'],
-            ['name' => 'sub-layanan-edit', 'description' => 'Mengubah data Sub Layanan SPM'],
-            ['name' => 'sub-layanan-delete', 'description' => 'Menghapus data Sub Layanan SPM'],
-            ['name' => 'sub-layanan-download', 'description' => 'Mengunduh data Sub Layanan SPM'],
             ['name' => 'spm-list', 'description' => 'Melihat data SPM Puskesmas sendiri'],
             ['name' => 'spm-edit', 'description' => 'Mengubah data SPM Puskesmas sendiri'],
             ['name' => 'spm-dinkes', 'description' => 'Melihat data SPM Seluruh Puskesmas'],
-            ['name' => 'puskesmas-list', 'description' => 'Melihat data Puskesmas'],
-            ['name' => 'puskesmas-create', 'description' => 'Menambah data Puskesmas'],
-            ['name' => 'puskesmas-edit', 'description' => 'Mengubah data Puskesmas'],
-            ['name' => 'puskesmas-delete', 'description' => 'Menghapus data Puskesmas'],
-            ['name' => 'puskesmas-download', 'description' => 'Mengunduh data Puskesmas'],
+            ['name' => 'master-spm-list', 'description' => 'Melihat data Master SPM'],
+            ['name' => 'master-spm-create', 'description' => 'Menambah data Master SPM'],
+            ['name' => 'master-spm-edit', 'description' => 'Mengubah data Master SPM'],
+            ['name' => 'master-spm-delete', 'description' => 'Menghapus data Master SPM'],
+            ['name' => 'master-spm-download', 'description' => 'Mengunduh data Master SPM'],
         ];
+
 
         foreach ($permissions as $permission) {
             Permission::create([
@@ -122,25 +117,37 @@ class DatabaseSeeder extends Seeder
 
         $user = User::create([
             'uuid' => Str::uuid()->toString(),
-            'name' => 'Lord Daud',
-            'email' => 'admin@gmail.com',
+            'name' => 'Admin',
+            'email' => 'sonychandmaulana@gmail.com',
             'password' => bcrypt('12344321'),
             'email_verified_at' => now(),
         ]);
 
+        $user2 = User::create([
+            'uuid' => Str::uuid()->toString(),
+            'name' => 'Operator PKM',
+            'email' => 'operator@gmail.com',
+            'password' => bcrypt('12344321'),
+            'puskesmas_id' => 1,
+            'email_verified_at' => now(),
+        ]);
+
+        // Create roles
         $role = Role::create(['name' => 'Admin']);
+        $role2 = Role::create(['name' => 'Operator SPM Puskesmas']);
 
-        $permissions = Permission::pluck('id', 'id')->all();
+        // Get all permissions
+        $allPermissions = Permission::pluck('id', 'id')->all();
 
-        $role->syncPermissions($permissions);
+        // Sync all permissions with the Admin role
+        $role->syncPermissions($allPermissions);
 
+        // Sync only 'spm-list' and 'spm-edit' permissions with the Operator SPM Puskesmas role
+        $spmPermissions = Permission::whereIn('name', ['spm-list', 'spm-edit'])->pluck('id')->all();
+        $role2->syncPermissions($spmPermissions);
+
+        // Assign roles to users
         $user->assignRole([$role->id]);
-
-        $this->call(MasterSeeder::class);
-        $this->call(TahunSeeder::class);
-        $this->call(PuskesmasSeeder::class);
-        $this->call(LayananSeeder::class);
-        $this->call(SubLayananSeeder::class);
-        $this->call(SpmSeeder::class);
+        $user2->assignRole([$role2->id]);
     }
 }

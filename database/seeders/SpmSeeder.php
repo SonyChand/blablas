@@ -40,6 +40,7 @@ class SpmSeeder extends Seeder
                         'terlayani_oktober' => 0,
                         'terlayani_november' => 0,
                         'terlayani_desember' => 0,
+                        'terlayani' => 0,
                         'total_dilayani' => 0,
                         'created_at' => now(), // Tambahkan timestamp
                         'updated_at' => now(), // Tambahkan timestamp

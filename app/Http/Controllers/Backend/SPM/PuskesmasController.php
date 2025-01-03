@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class PuskesmasController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:master-spm-list|master-spm-create|master-spm-edit|master-spm-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:master-spm-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:master-spm-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:master-spm-delete', ['only' => ['destroy', 'bulkDestroy']]);
+        $this->middleware('permission:master-spm-download', ['only' => ['download', 'index']]);
+    }
     public function index()
     {
         $title = 'Data Puskesmas';

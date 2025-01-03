@@ -32,17 +32,10 @@ class Spm extends Model
         'terlayani_oktober',
         'terlayani_november',
         'terlayani_desember',
+        'terlayani',
         'total_dilayani',
         'updated_by',
     ];
-
-    public function getTotalTerlayaniJanuariAttribute()
-    {
-        return self::where('sub_layanan_id', $this->sub_layanan_id)
-            ->where('tahun_id', session('tahun_spm', 1))
-            ->sum('terlayani_januari');
-    }
-
 
 
     public function getTotalTerlayaniAttribute()
@@ -74,11 +67,31 @@ class Spm extends Model
 
         return ($totalTerlayani / $totalDilayani) * 100; // Return percentage
     }
+    public function getPencapaianV1Attribute()
+    {
+        $totalDilayani = $this->total_dilayani ?? 0; // Ensure it's not null
+        $totalTerlayani = $this->terlayani; // Use the existing accessor
+
+        // Validasi untuk menghindari division by zero
+        if ($totalDilayani == 0) {
+            return 0; // Or return null or 'N/A' as per your requirement
+        }
+
+        return ($totalTerlayani / $totalDilayani) * 100; // Return percentage
+    }
 
     public function getBelumTerlayaniAttribute()
     {
         $totalDilayani = $this->total_dilayani ?? 0; // Ensure it's not null
         $totalTerlayani = $this->total_terlayani; // Use the existing accessor
+
+        return $totalDilayani - $totalTerlayani;
+    }
+
+    public function getBelumTerlayaniV1Attribute()
+    {
+        $totalDilayani = $this->total_dilayani ?? 0; // Ensure it's not null
+        $totalTerlayani = $this->terlayani; // Use the existing accessor
 
         return $totalDilayani - $totalTerlayani;
     }
