@@ -45,7 +45,7 @@ class SpmController extends Controller
         $tahun = Tahun::where('id', session('tahun_spm', 1))->first();
         $title = 'Data SPM';
 
-        return view('backend.spm.spm.tes', compact('title', 'tahun', 'tahuns', 'layanan1', 'layanan2', 'layanan3'));
+        return view('backend.spm.spm.full', compact('title', 'tahun', 'tahuns', 'layanan1', 'layanan2', 'layanan3'));
     }
 
     public function fullStore(Request $request)
@@ -59,7 +59,11 @@ class SpmController extends Controller
         $tahunSpm = Tahun::where('id', session('tahun_spm', 1))->first();
         $title = 'Data SPM';
 
-        return view('backend.spm.spm.rekap.index', compact('title', 'tahuns', 'tahunSpm'));
+        if (session('versi_spm', 1) == 1) {
+            return view('backend.spm.spm.rekap.indexv1', compact('title', 'tahuns', 'tahunSpm'));
+        } else {
+            return view('backend.spm.spm.rekap.indexv2', compact('title', 'tahuns', 'tahunSpm'));
+        }
     }
 
 
@@ -151,9 +155,14 @@ class SpmController extends Controller
         return $this->spmService->dataTablev2($request);
     }
 
-    public function rekapServerside(Request $request): JsonResponse
+    public function rekapServersideV1(Request $request): JsonResponse
     {
-        return $this->spmService->dataTable2($request);
+        return $this->spmService->dataTableRekapv1($request);
+    }
+
+    public function rekapServersideV2(Request $request): JsonResponse
+    {
+        return $this->spmService->dataTableRekapv2($request);
     }
 
     public function tahunSpm(Request $request)

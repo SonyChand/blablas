@@ -110,7 +110,7 @@
                     processing: true,
                     serverSide: true,
                     responsive: true,
-                    ajax: "{{ route('spm.rekapServerside') }}",
+                    ajax: "{{ route('spm.rekapServersidev2') }}",
                     columns: [{
                             data: 'sub_id',
                             name: 'sub_id',

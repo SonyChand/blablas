@@ -116,7 +116,8 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'e-spm'], functi
     Route::get('spm/export/{format}', [SpmController::class, 'export'])->name('spm.export');
     Route::get('spm/serversidev1', [SpmController::class, 'serversidev1'])->name('spm.serversidev1');
     Route::get('spm/serversidev2', [SpmController::class, 'serversidev2'])->name('spm.serversidev2');
-    Route::get('spm/rekap-serverside', [SpmController::class, 'rekapServerside'])->name('spm.rekapServerside');
+    Route::get('spm/rekap-serverside-v1', [SpmController::class, 'rekapServersidev1'])->name('spm.rekapServersidev1');
+    Route::get('spm/rekap-serverside-v2', [SpmController::class, 'rekapServersidev2'])->name('spm.rekapServersidev2');
     Route::get('spm', [SpmController::class, 'index'])->name('spm.index');
     Route::get('spm/full-version', [SpmController::class, 'full'])->name('spm.full');
     Route::post('spm/full-version', [SpmController::class, 'fullStore'])->name('spm.fullStore');
