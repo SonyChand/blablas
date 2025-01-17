@@ -1,4 +1,4 @@
-<nav class="navbar navbar-top fixed-top navbar-expand d-print-none" id="navbarDefault">
+<nav class="navbar navbar-top fixed-top navbar-expand d-print-none mt-4" id="navbarDefault">
     <div class="collapse navbar-collapse justify-content-between">
         <div class="navbar-logo">
 
@@ -102,7 +102,65 @@
                 </div>
             </li>
         </ul>
+
     </div>
+    <style>
+        .marquee {
+            background-color: black;
+            height: 20pt;
+            line-height: 20pt;
+            overflow: hidden;
+            filter: brightness(200%);
+        }
+
+        .marquee span {
+            display: inline-block;
+            vertical-align: middle;
+            white-space: nowrap;
+            font-weight: 900;
+            font-size: 15pt;
+            text-shadow: 2px 0px 5px red;
+            filter: drop-shadow(0px 0px 5px red);
+        }
+    </style>
+    <marquee class="marquee fixed-top">
+        <span class="text-primary text-uppercase align-middle" id="marqueeText">
+
+        </span>
+    </marquee>
+    @php
+        $periodeTanggalSPMMarquee = \App\Models\Backend\SPM\PeriodeSPM::where(
+            'tahun_id',
+            session('tahun_spm', 1),
+        )->first();
+        $tahunSPMMarquee = \App\Models\Backend\SPM\Tahun::where('id', session('tahun_spm', 1))->first();
+    @endphp
+    <script>
+        let messages = [];
+        @if (!auth()->user()->puskesmas_id)
+            messages.push("Anda belum memilih puskesmas");
+        @else
+            messages.push("{{ auth()->user()->puskesmas->nama }}");
+        @endif
+        @if (!$periodeTanggalSPMMarquee)
+            messages.push("Periode Input SPM Tahun {{ $tahunSPMMarquee->tahun }} pada bulan ini belum diatur");
+        @else
+            messages.push(
+                "Periode Input SPM Tahun {{ $tahunSPMMarquee->tahun }} bulan ini yaitu tanggal {{ $periodeTanggalSPMMarquee->periode_awal }} hingga {{ $periodeTanggalSPMMarquee->periode_akhir }}"
+            );
+        @endif
+        let currentIndex = 0;
+
+        function displayMessage() {
+            document.getElementById("marqueeText").textContent = messages[currentIndex];
+            const displayDuration = 5000;
+            currentIndex = (currentIndex + 1) % messages.length;
+            setTimeout(displayMessage, displayDuration);
+        }
+
+        displayMessage();
+    </script>
+
 </nav>
 
 

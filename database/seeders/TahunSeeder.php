@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Backend\SPM\Tahun;
+use App\Models\Backend\SPM\PeriodeSPM;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class TahunSeeder extends Seeder
@@ -24,5 +25,9 @@ class TahunSeeder extends Seeder
         foreach ($dataTahun as $tahun) {
             Tahun::create($tahun);
         }
+
+        PeriodeSPM::create([
+            'tahun_id' => 1
+        ]);
     }
 }

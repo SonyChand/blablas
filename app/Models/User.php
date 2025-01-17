@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use App\Models\Backend\SPM\Spm;
+use Spatie\Permission\Models\Role;
 use App\Models\Backend\SPM\Puskesmas;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -88,5 +89,10 @@ class User extends Authenticatable implements MustVerifyEmail
         $domain = explode('.', $parts[1]);
         $domain = $domain[0] . '.' . (isset($domain[1]) ? $domain[1] : '');
         return $username . '@' . $domain;
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
 }

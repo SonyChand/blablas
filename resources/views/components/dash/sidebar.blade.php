@@ -1,19 +1,59 @@
-<nav class="navbar navbar-vertical navbar-expand-lg d-print-none">
+<nav class="navbar navbar-vertical navbar-expand-lg d-print-none mt-3">
     <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
         <div class="navbar-vertical-content">
             <ul class="navbar-nav flex-column" id="navbarVerticalNav">
 
                 <li class="nav-item">
-                    <div class="nav-item-wrapper"><a
-                            class="nav-link {{ request()->routeIs('dashboard.*') ? 'active' : '' }} label-1"
-                            href="{{ route('dashboard.index') }}" role="button" data-bs-toggle="" aria-expanded="false">
-                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                        data-feather="pie-chart"></span></span><span class="nav-link-text-wrapper"><span
-                                        class="nav-link-text">Dashboard <span
-                                            class="badge ms-2 badge badge-phoenix badge-phoenix-warning ">Demo</span></span></span>
+                    @if (auth()->user()->roles->first()->id == 1)
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link dropdown-indicator label-1 {{ request()->routeIs('dashboard.*') ? '' : 'collapsed' }}"
+                                href="#nv-dashboard" role="button" data-bs-toggle="collapse"
+                                aria-expanded="{{ request()->is('panel/*') ? 'true' : 'false' }}"
+                                aria-controls="nv-dashboard">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon-wrapper"><span
+                                            class="fas fa-caret-right dropdown-indicator-icon"></span></div><span
+                                        class="nav-link-icon"><span data-feather="grid"></span></span><span
+                                        class="nav-link-text">Dashboard</span>
+                                </div>
+                            </a>
+                            <div class="parent-wrapper label-1">
+                                <ul class="nav collapse parent {{ request()->routeIs('dashboard.*') ? 'show' : '' }}"
+                                    data-bs-parent="#navbarVerticalCollapse" id="nv-dashboard">
+                                    <li class="collapsed-nav-item-title d-none">Dashboard
+                                    </li>
+                                    <li class="nav-item"><a
+                                            class="nav-link {{ request()->routeIs('dashboard.index') ? 'active' : '' }}"
+                                            href="{{ route('dashboard.index') }}">
+                                            <div class="d-flex align-items-center"><span class="nav-link-text">
+                                                    Dashboard Surat
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->routeIs('dashboard.indexSpm') ? 'active' : '' }}"
+                                            href="{{ route('dashboard.indexSpm') }}">
+                                            <div class="d-flex align-items-center"><span class="nav-link-text">Dashboard
+                                                    SPM</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
-                        </a>
-                    </div>
+                        </div>
+                    @else
+                        <div class="nav-item-wrapper"><a
+                                class="nav-link label-1 {{ request()->routeIs('dashboard.indexSpm') ? 'active' : '' }}"
+                                href="{{ route('dashboard.indexSpm') }}" role="button" data-bs-toggle=""
+                                aria-expanded="false">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                            data-feather="grid"></span></span><span class="nav-link-text-wrapper"><span
+                                            class="nav-link-text">Dashboard </span></span>
+                                </div>
+                            </a>
+                        </div>
+                    @endif
 
 
                     @canany(['user-list', 'user-create', 'user-edit', 'user-delete'])
@@ -119,7 +159,8 @@
                                             aria-controls="nv-master-surat">
                                             <div class="d-flex align-items-center">
                                                 <div class="dropdown-indicator-icon-wrapper"><span
-                                                        class="fas fa-caret-right dropdown-indicator-icon"></span></div>
+                                                        class="fas fa-caret-right dropdown-indicator-icon"></span>
+                                                </div>
                                                 <span class="nav-link-text">Surat <span
                                                         class="badge ms-2 badge badge-phoenix badge-phoenix-warning ">Demo</span></span>
                                             </div>
@@ -162,7 +203,8 @@
                                             aria-controls="nv-master-pegawai">
                                             <div class="d-flex align-items-center">
                                                 <div class="dropdown-indicator-icon-wrapper"><span
-                                                        class="fas fa-caret-right dropdown-indicator-icon"></span></div>
+                                                        class="fas fa-caret-right dropdown-indicator-icon"></span>
+                                                </div>
                                                 <span class="nav-link-text">Pegawai <span
                                                         class="badge ms-2 badge badge-phoenix badge-phoenix-warning ">Demo</span></span>
                                             </div>
@@ -223,7 +265,8 @@
                                             aria-controls="nv-master-spm">
                                             <div class="d-flex align-items-center">
                                                 <div class="dropdown-indicator-icon-wrapper"><span
-                                                        class="fas fa-caret-right dropdown-indicator-icon"></span></div>
+                                                        class="fas fa-caret-right dropdown-indicator-icon"></span>
+                                                </div>
                                                 <span class="nav-link-text">e-SPM <span
                                                         class="badge ms-2 badge badge-phoenix badge-phoenix-warning ">Demo</span></span>
                                             </div>
@@ -307,7 +350,8 @@
                                                 aria-controls="nv-carousel">
                                                 <div class="d-flex align-items-center">
                                                     <div class="dropdown-indicator-icon-wrapper"><span
-                                                            class="fas fa-caret-right dropdown-indicator-icon"></span></div>
+                                                            class="fas fa-caret-right dropdown-indicator-icon"></span>
+                                                    </div>
                                                     <span class="nav-link-text">Surat <span
                                                             class="badge ms-2 badge badge-phoenix badge-phoenix-warning ">Demo</span></span>
                                                 </div>
@@ -376,18 +420,6 @@
                         </div>
                     @endcanany
 
-
-
-                    <div class="nav-item-wrapper"><a class="nav-link label-1"
-                            onclick="return alert('belum tersedia :)')" href="#" role="button"
-                            data-bs-toggle="" aria-expanded="false">
-                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                        data-feather="file"></span></span><span class="nav-link-text-wrapper"><span
-                                        class="nav-link-text">Renstra <span
-                                            class="badge ms-2 badge-sm badge-phoenix badge-phoenix-danger ">!</span></span></span>
-                            </div>
-                        </a>
-                    </div>
                     @canany(['spm-list', 'spm-edit'])
                         <div class="nav-item-wrapper">
                             <a class="nav-link dropdown-indicator label-1 {{ request()->routeIs('users.*') ? '' : 'collapsed' }}"

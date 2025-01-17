@@ -17,15 +17,6 @@
                         onsubmit="showLoader()">
                         @csrf
                         <div class="input-group mb-3">
-                            <select name="versi" class="form-select" id="versi" required>
-                                <option value="" hidden>Pilih Versi</option>
-                                <option value="1" {{ old('versi', session('versi_spm')) == 1 ? 'selected' : '' }}>
-                                    Versi 1
-                                </option>
-                                <option value="2" {{ old('versi', session('versi_spm')) == 2 ? 'selected' : '' }}>
-                                    Versi 2
-                                </option>
-                            </select>
                             <select name="tahun" class="form-select" id="tahun" required>
                                 <option value="" hidden>Pilih Tahun</option>
                                 @foreach ($tahuns as $tahunItem)
@@ -47,8 +38,7 @@
                 <div class="card-header p-4 border-bottom bg-body">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="mb-0" autofocus>StaPMinKes Ciamis tahun {{ $tahunSpm->tahun }} versi
-                                {{ session('versi_spm', 1) }}
+                            <h4 class="mb-0" autofocus>StaPMinKes Ciamis tahun {{ $tahunSpm->tahun }}
                                 <span class="fw-normal text-body-tertiary ms-3"></span>
                             </h4>
                         </div>
@@ -110,7 +100,7 @@
                     processing: true,
                     serverSide: true,
                     responsive: true,
-                    ajax: "{{ route('spm.rekapServersidev2') }}",
+                    ajax: "{{ route('spm.rekapServerside') }}",
                     columns: [{
                             data: 'sub_id',
                             name: 'sub_id',

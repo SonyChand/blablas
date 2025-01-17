@@ -27,7 +27,7 @@
             </button>
         </div>
         <div class="fixed-top text-end my-2 mx-2">
-            <span class="badge bg-warning">Versi {{ session('versi_spm', 1) }}</span>
+            <span class="badge bg-warning">Versi 2</span>
             <span class="badge bg-primary">{{ Auth::user()->puskesmas->nama ?? 'Dinas Kesehatan' }}</span>
             <span class="badge bg-secondary">Tahun : {{ $tahun->tahun }}</span>
         </div>
@@ -234,14 +234,11 @@
                     <th rowspan="2">Uraian SPM</th>
                     <th rowspan="2">Satuan</th>
                     <th rowspan="2">
-                        Jumlah Mutu
-                        Yang Harus
-                        Dilayani / Dipenuhi
+                        Alokasi Anggaran (Rp.)
                     </th>
-                    <th colspan="13">Jumlah Mutu Yang Terlayani / Terpenuhi </th>
+                    <th colspan="13">Realisasi (Rp.) </th>
                     <th rowspan="2">
-                        Mutu Yang Belum
-                        Terlayani / Terpenuhi
+                        Selisih
                     </th>
                     <th rowspan="2">%</th>
                 </tr>
@@ -258,11 +255,17 @@
                     <th>Okt</th>
                     <th>Nov</th>
                     <th>Des</th>
-                    <th>Total</th>
+                    <th>Jumlah</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($layanan3 as $layanan3)
+                    @php
+                        $data = \App\Models\Backend\SPM\Spm::where('tahun_id', $tahun->id)
+                            ->where('sub_layanan_id', $layanan3->id)
+                            ->where('puskesmas_id', Auth::user()->puskesmas_id ?? 1)
+                            ->first();
+                    @endphp
                     <tr>
                         <td style="width: 1%">{{ $layanan3->kode }}</td>
                         <td style="width: 8%">

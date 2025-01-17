@@ -27,15 +27,17 @@ use App\Http\Controllers\Master\Employee\MasterEmployeeEducationController;
 
 Route::get('/', function () {
     if (auth()->check()) {
-        return redirect()->route('dashboard.index');
+        return redirect()->route('dashboard.indexSpm');
     }
     return redirect()->route('login');
 })->name('home.index');
 
 
 Route::group(['middleware' => ['auth', 'verified',], 'prefix' => 'panel'], function () {
-    Route::resource('dashboard', DashboardController::class);
-    // Route::get('/uhuys', [DashboardController::class, 'uhuy'])->name('uhuys');
+    Route::get('dashboard-surat', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('dashboard-spm', [DashboardController::class, 'indexSpm'])->name('dashboard.indexSpm');
+    Route::post('dashboard-chart-spm', [DashboardController::class, 'chartSpm'])->name('dashboard.chartSpm');
+    Route::post('dashboard-chart-spm-puskesmas', [DashboardController::class, 'chartSpmPuskesmas'])->name('dashboard.chartSpmPuskesmas');
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('profiles', ProfileController::class);
@@ -111,18 +113,24 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'master'], funct
 
 Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'e-spm'], function () {
 
+    Route::get('spm/rekap', [SpmController::class, 'rekap'])->name('spm.rekap');
     Route::post('spm/tahunSpm', [SpmController::class, 'tahunSpm'])->name('spm.tahunspm');
+    Route::post('spm/tahunSpm-rekap', [SpmController::class, 'tahunSpmRekap'])->name('spm.tahunspmrekap');
+    Route::post('spm/periodeSpm', [SpmController::class, 'periodeSpm'])->name('spm.periodespm');
     Route::put('spm/liveUpdate', [SpmController::class, 'liveUpdate'])->name('spm.liveupdate');
+    Route::get('spm/{id}/detail', [SpmController::class, 'detail'])->name('spm.detail');
+    Route::get('spm/{id}/detail-rekap', [SpmController::class, 'detailRekap'])->name('spm.detailRekap');
     Route::get('spm/export/{format}', [SpmController::class, 'export'])->name('spm.export');
-    Route::get('spm/serversidev1', [SpmController::class, 'serversidev1'])->name('spm.serversidev1');
-    Route::get('spm/serversidev2', [SpmController::class, 'serversidev2'])->name('spm.serversidev2');
-    Route::get('spm/rekap-serverside-v1', [SpmController::class, 'rekapServersidev1'])->name('spm.rekapServersidev1');
-    Route::get('spm/rekap-serverside-v2', [SpmController::class, 'rekapServersidev2'])->name('spm.rekapServersidev2');
+    Route::get('spm/serverside', [SpmController::class, 'serverside'])->name('spm.serverside');
+    Route::get('spm/serverside-anggaran', [SpmController::class, 'serversideAnggaran'])->name('spm.serversideAnggaran');
+    Route::get('spm/get-sublayanan/{id}', [SpmController::class, 'getSubLayanan'])->name('spm.getSubLayanan');
+    Route::get('spm/get-sublayanan-rekap/{id}', [SpmController::class, 'getSubLayananRekap'])->name('spm.getSubLayananRekap');
+    Route::get('spm/rekap-serverside', [SpmController::class, 'rekapServerside'])->name('spm.rekapServerside');
+    Route::get('spm/rekap-serverside-anggaran', [SpmController::class, 'rekapServersideAnggaran'])->name('spm.rekapServersideAnggaran');
     Route::get('spm', [SpmController::class, 'index'])->name('spm.index');
     Route::get('spm/full-version', [SpmController::class, 'full'])->name('spm.full');
     Route::post('spm/full-version', [SpmController::class, 'fullStore'])->name('spm.fullStore');
     Route::get('spm/create', [SpmController::class, 'create'])->name('spm.create');
-    Route::get('spm/rekap', [SpmController::class, 'rekap'])->name('spm.rekap');
     Route::put('spm/{id}', [SpmController::class, 'update'])->name('spm.update');
 });
 

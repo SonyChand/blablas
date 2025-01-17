@@ -71,7 +71,12 @@
     <style>
         @font-face {
             font-family: mistral;
-            src: url({{asset('assets/font/MISTRAL.TTF')}});
+            src: url({{ asset('assets/font/MISTRAL.TTF') }});
+        }
+
+        .bg-loud-warning {
+            background-color: yellow !important;
+            font-weight: 900 !important;
         }
 
         #loader {

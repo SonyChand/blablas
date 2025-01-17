@@ -1,206 +1,3 @@
-<div class="modal fade" id="searchBoxModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="true"
-    data-phoenix-modal="data-phoenix-modal" style="--phoenix-backdrop-opacity: 1;">
-    <div class="modal-dialog">
-        <div class="modal-content mt-15 rounded-pill">
-            <div class="modal-body p-0">
-                <div class="search-box navbar-top-search-box" data-list='{"valueNames":["title"]}' style="width: auto;">
-                    <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                        <input class="form-control search-input fuzzy-search rounded-pill form-control-lg"
-                            type="search" placeholder="Search..." aria-label="Search" />
-                        <span class="fas fa-search search-box-icon"></span>
-
-                    </form>
-                    <div class="btn-close position-absolute end-0 top-50 translate-middle cursor-pointer shadow-none"
-                        data-bs-dismiss="search">
-                        <button class="btn btn-link p-0" aria-label="Close"></button>
-                    </div>
-                    <div class="dropdown-menu border start-0 py-0 overflow-hidden w-100">
-                        <div class="scrollbar-overlay" style="max-height: 30rem;">
-                            <div class="list pb-3">
-                                <h6 class="dropdown-header text-body-highlight fs-10 py-2">24 <span
-                                        class="text-body-quaternary">results</span></h6>
-                                <hr class="my-0" />
-                                <h6
-                                    class="dropdown-header text-body-highlight fs-9 border-bottom border-translucent py-2 lh-sm">
-                                    Recently Searched </h6>
-                                <div class="py-2"><a class="dropdown-item"
-                                        href="{{ asset('assets') }}/apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-
-                                            <div class="fw-normal text-body-highlight title"><span
-                                                    class="fa-solid fa-clock-rotate-left"
-                                                    data-fa-transform="shrink-2"></span> Store Macbook</div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item"
-                                        href="{{ asset('assets') }}/apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-
-                                            <div class="fw-normal text-body-highlight title"> <span
-                                                    class="fa-solid fa-clock-rotate-left"
-                                                    data-fa-transform="shrink-2"></span> MacBook Air - 13″</div>
-                                        </div>
-                                    </a>
-
-                                </div>
-                                <hr class="my-0" />
-                                <h6
-                                    class="dropdown-header text-body-highlight fs-9 border-bottom border-translucent py-2 lh-sm">
-                                    Products</h6>
-                                <div class="py-2"><a class="dropdown-item py-2 d-flex align-items-center"
-                                        href="{{ asset('assets') }}/apps/e-commerce/landing/product-details.html">
-                                        <div class="file-thumbnail me-2"><img
-                                                class="h-100 w-100 object-fit-cover rounded-3"
-                                                src="{{ asset('assets') }}/assets/img/products/60x60/3.png"
-                                                alt="" /></div>
-                                        <div class="flex-1">
-                                            <h6 class="mb-0 text-body-highlight title">MacBook Air - 13″</h6>
-                                            <p class="fs-10 mb-0 d-flex text-body-tertiary"><span
-                                                    class="fw-medium text-body-tertiary text-opactity-85">8GB Memory -
-                                                    1.6GHz - 128GB Storage</span></p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item py-2 d-flex align-items-center"
-                                        href="{{ asset('assets') }}/apps/e-commerce/landing/product-details.html">
-                                        <div class="file-thumbnail me-2"><img class="img-fluid"
-                                                src="{{ asset('assets') }}/assets/img/products/60x60/3.png"
-                                                alt="" /></div>
-                                        <div class="flex-1">
-                                            <h6 class="mb-0 text-body-highlight title">MacBook Pro - 13″</h6>
-                                            <p class="fs-10 mb-0 d-flex text-body-tertiary"><span
-                                                    class="fw-medium text-body-tertiary text-opactity-85">30 Sep at
-                                                    12:30 PM</span></p>
-                                        </div>
-                                    </a>
-
-                                </div>
-                                <hr class="my-0" />
-                                <h6
-                                    class="dropdown-header text-body-highlight fs-9 border-bottom border-translucent py-2 lh-sm">
-                                    Quick Links</h6>
-                                <div class="py-2"><a class="dropdown-item"
-                                        href="{{ asset('assets') }}/apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-
-                                            <div class="fw-normal text-body-highlight title"><span
-                                                    class="fa-solid fa-link text-body"
-                                                    data-fa-transform="shrink-2"></span> Support MacBook House</div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item"
-                                        href="{{ asset('assets') }}/apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-
-                                            <div class="fw-normal text-body-highlight title"> <span
-                                                    class="fa-solid fa-link text-body"
-                                                    data-fa-transform="shrink-2"></span> Store MacBook″</div>
-                                        </div>
-                                    </a>
-
-                                </div>
-                                <hr class="my-0" />
-                                <h6
-                                    class="dropdown-header text-body-highlight fs-9 border-bottom border-translucent py-2 lh-sm">
-                                    Files</h6>
-                                <div class="py-2"><a class="dropdown-item"
-                                        href="{{ asset('assets') }}/apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-
-                                            <div class="fw-normal text-body-highlight title"><span
-                                                    class="fa-solid fa-file-zipper text-body"
-                                                    data-fa-transform="shrink-2"></span> Library MacBook folder.rar
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item"
-                                        href="{{ asset('assets') }}/apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-
-                                            <div class="fw-normal text-body-highlight title"> <span
-                                                    class="fa-solid fa-file-lines text-body"
-                                                    data-fa-transform="shrink-2"></span> Feature MacBook extensions.txt
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item"
-                                        href="{{ asset('assets') }}/apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-
-                                            <div class="fw-normal text-body-highlight title"> <span
-                                                    class="fa-solid fa-image text-body"
-                                                    data-fa-transform="shrink-2"></span> MacBook Pro_13.jpg</div>
-                                        </div>
-                                    </a>
-
-                                </div>
-                                <hr class="my-0" />
-                                <h6
-                                    class="dropdown-header text-body-highlight fs-9 border-bottom border-translucent py-2 lh-sm">
-                                    Members</h6>
-                                <div class="py-2"><a class="dropdown-item py-2 d-flex align-items-center"
-                                        href="{{ asset('assets') }}/pages/members.html">
-                                        <div class="avatar avatar-l status-online  me-2 text-body">
-                                            <img class="rounded-circle "
-                                                src="{{ asset('assets') }}/assets/img/team/40x40/10.webp"
-                                                alt="" />
-
-                                        </div>
-                                        <div class="flex-1">
-                                            <h6 class="mb-0 text-body-highlight title">Carry Anna</h6>
-                                            <p class="fs-10 mb-0 d-flex text-body-tertiary">anna@technext.it</p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item py-2 d-flex align-items-center"
-                                        href="{{ asset('assets') }}/pages/members.html">
-                                        <div class="avatar avatar-l  me-2 text-body">
-                                            <img class="rounded-circle "
-                                                src="{{ asset('assets') }}/assets/img/team/40x40/12.webp"
-                                                alt="" />
-
-                                        </div>
-                                        <div class="flex-1">
-                                            <h6 class="mb-0 text-body-highlight title">John Smith</h6>
-                                            <p class="fs-10 mb-0 d-flex text-body-tertiary">smith@technext.it</p>
-                                        </div>
-                                    </a>
-
-                                </div>
-                                <hr class="my-0" />
-                                <h6
-                                    class="dropdown-header text-body-highlight fs-9 border-bottom border-translucent py-2 lh-sm">
-                                    Related Searches</h6>
-                                <div class="py-2"><a class="dropdown-item"
-                                        href="{{ asset('assets') }}/apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-
-                                            <div class="fw-normal text-body-highlight title"><span
-                                                    class="fa-brands fa-firefox-browser text-body"
-                                                    data-fa-transform="shrink-2"></span> Search in the Web MacBook
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item"
-                                        href="{{ asset('assets') }}/apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-
-                                            <div class="fw-normal text-body-highlight title"> <span
-                                                    class="fa-brands fa-chrome text-body"
-                                                    data-fa-transform="shrink-2"></span> Store MacBook″</div>
-                                        </div>
-                                    </a>
-
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <p class="fallback fw-bold fs-7 d-none">No Result Found.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <script>
     var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
     var navbarTop = document.querySelector('.navbar-top');
@@ -218,8 +15,8 @@
     <div class="row g-0 justify-content-between align-items-center h-100">
         <div class="col-12 col-sm-auto text-center">
             <p class="mb-0 mt-2 mt-sm-0 text-body">Sistem Informasi<span class="d-none d-sm-inline-block"></span><span
-                    class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2024 &copy;<a
-                    class="mx-1" href="#">Mitra</a>
+                    class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2024 &copy;<a class="mx-1"
+                    href="#">Mitra</a>
             </p>
         </div>
         <div class="col-12 col-sm-auto text-center">
@@ -238,42 +35,87 @@
     <div class="offcanvas-header align-items-start border-bottom flex-column border-translucent">
         <div class="pt-1 w-100 mb-6 d-flex justify-content-between align-items-start">
             <div>
-                <h5 class="mb-2 me-2 lh-sm"><span class="fas fa-palette me-2 fs-8"></span>Theme Customizer</h5>
-                <p class="mb-0 fs-9">Explore different styles according to your preferences</p>
+                <h5 class="mb-2 me-2 lh-sm"><span class="fas fa-palette me-2 fs-8"></span>Kustom Tema</h5>
+                <p class="mb-0 fs-9">Kustomisasi tema sesuai preferensi anda</p>
             </div>
             <button class="btn p-1 fw-bolder" type="button" data-bs-dismiss="offcanvas" aria-label="Close"><span
                     class="fas fa-times fs-8"> </span></button>
         </div>
         <button class="btn btn-phoenix-secondary w-100" data-theme-control="reset"><span
-                class="fas fa-arrows-rotate me-2 fs-10"></span>Reset to default</button>
+                class="fas fa-arrows-rotate me-2 fs-10"></span>Reset</button>
     </div>
+    @php
+        $periodeTanggalSPMFooter = \App\Models\Backend\SPM\PeriodeSPM::where(
+            'tahun_id',
+            session('tahun_spm', 1),
+        )->first();
+        $tahunSPMFooter = \App\Models\Backend\SPM\Tahun::where('id', session('tahun_spm', 1))->first();
+    @endphp
     <div class="offcanvas-body scrollbar px-card" id="themeController">
-        <div class="setting-panel-item mt-0">
-            <h5 class="setting-panel-item-title">Color Scheme</h5>
+        @if (auth()->user()->roles->first()->id == 1)
+            <div class="setting-panel-item mt-0">
+                <h5 class="setting-panel-item-title">Periode Tanggal Input StaPMinKes Ciamis
+                    {{ $tahunSPMFooter->tahun }}
+                </h5>
+                <form action="{{ route('spm.periodespm') }}" method="POST" class="needs-validation row gx-2"
+                    novalidate>
+                    @csrf
+                    <div class="col-6">
+                        <select name="periode_awal" id="periode_awal" class="form-control">
+                            <option value="{{ $periodeTanggalSPMFooter->periode_awal ?? '' }}" hidden>
+                                {{ $periodeTanggalSPMFooter->periode_awal ?? 'Pilih Tanggal Awal' }}
+                            </option>
+                            @for ($i = 1; $i <= 31; $i++)
+                                <option value="{{ $i }}"
+                                    {{ ($periodeTanggalSPMFooter->periode_awal ?? null) == $i ? 'selected' : '' }}>
+                                    {{ $i }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <select name="periode_akhir" id="periode_akhir" class="form-control">
+                            <option value="{{ $periodeTanggalSPMFooter->periode_akhir ?? '' }}" hidden>
+                                {{ $periodeTanggalSPMFooter->periode_akhir ?? 'Pilih Tanggal Akhir' }}
+                            </option>
+                            @for ($i = 2; $i <= 31; $i++)
+                                <option value="{{ $i }}"
+                                    {{ ($periodeTanggalSPMFooter->periode_akhir ?? null) == $i ? 'selected' : '' }}>
+                                    {{ $i }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                    <div class="col-12 my-2">
+                        <button type="submit" class="btn btn-primary w-100">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        @endif
+        <div class="setting-panel-item">
+            <h5 class="setting-panel-item-title">Skema Warna</h5>
             <div class="row gx-2">
                 <div class="col-4">
-                    <input class="btn-check" id="themeSwitcherLight" name="theme-color" type="radio"
-                        value="light" data-theme-control="phoenixTheme" />
+                    <input class="btn-check" id="themeSwitcherLight" name="theme-color" type="radio" value="light"
+                        data-theme-control="phoenixTheme" />
                     <label class="btn d-inline-block btn-navbar-style fs-9" for="themeSwitcherLight"> <span
                             class="mb-2 rounded d-block"><img class="img-fluid img-prototype mb-0"
                                 src="{{ asset('assets') }}/assets/img/generic/default-light.png"
-                                alt="" /></span><span class="label-text">Light</span></label>
+                                alt="" /></span><span class="label-text">Terang</span></label>
                 </div>
                 <div class="col-4">
-                    <input class="btn-check" id="themeSwitcherDark" name="theme-color" type="radio"
-                        value="dark" data-theme-control="phoenixTheme" />
+                    <input class="btn-check" id="themeSwitcherDark" name="theme-color" type="radio" value="dark"
+                        data-theme-control="phoenixTheme" />
                     <label class="btn d-inline-block btn-navbar-style fs-9" for="themeSwitcherDark"> <span
                             class="mb-2 rounded d-block"><img class="img-fluid img-prototype mb-0"
                                 src="{{ asset('assets') }}/assets/img/generic/default-dark.png"
-                                alt="" /></span><span class="label-text"> Dark</span></label>
+                                alt="" /></span><span class="label-text"> Gelap</span></label>
                 </div>
                 <div class="col-4">
-                    <input class="btn-check" id="themeSwitcherAuto" name="theme-color" type="radio"
-                        value="auto" data-theme-control="phoenixTheme" />
+                    <input class="btn-check" id="themeSwitcherAuto" name="theme-color" type="radio" value="auto"
+                        data-theme-control="phoenixTheme" />
                     <label class="btn d-inline-block btn-navbar-style fs-9" for="themeSwitcherAuto"> <span
                             class="mb-2 rounded d-block"><img class="img-fluid img-prototype mb-0"
                                 src="{{ asset('assets') }}/assets/img/generic/auto.png" alt="" /></span><span
-                            class="label-text"> Auto</span></label>
+                            class="label-text"> Otomatis</span></label>
                 </div>
             </div>
         </div>
@@ -284,59 +126,10 @@
                     <input class="form-check-input ms-auto" type="checkbox" data-theme-control="phoenixIsRTL" />
                 </div>
             </div>
-            <p class="mb-0 text-body-tertiary">Change text direction</p>
+            <p class="mb-0 text-body-tertiary">Mengubah arah teks dan gambar</p>
         </div>
-        {{-- <div class="setting-panel-item">
-            <h5 class="setting-panel-item-title">Navigation Type</h5>
-            <div class="row gx-2">
-                <div class="col-6">
-                    <input class="btn-check" id="navbarPositionVertical" name="navigation-type" type="radio"
-                        value="vertical" data-theme-control="phoenixNavbarPosition"
-                        data-page-url="documentation/layouts/vertical-navbar.html" />
-                    <label class="btn d-inline-block btn-navbar-style fs-9" for="navbarPositionVertical"> <span
-                            class="rounded d-block"><img class="img-fluid img-prototype d-dark-none"
-                                src="{{ asset('assets') }}/assets/img/generic/default-light.png"
-                                alt="" /><img class="img-fluid img-prototype d-light-none"
-                                src="{{ asset('assets') }}/assets/img/generic/default-dark.png"
-                                alt="" /></span><span class="label-text">Vertical</span></label>
-                </div>
-                <div class="col-6">
-                    <input class="btn-check" id="navbarPositionHorizontal" name="navigation-type" type="radio"
-                        value="horizontal" data-theme-control="phoenixNavbarPosition"
-                        data-page-url="documentation/layouts/horizontal-navbar.html" />
-                    <label class="btn d-inline-block btn-navbar-style fs-9" for="navbarPositionHorizontal"> <span
-                            class="rounded d-block"><img class="img-fluid img-prototype d-dark-none"
-                                src="{{ asset('assets') }}/assets/img/generic/top-default.png" alt="" /><img
-                                class="img-fluid img-prototype d-light-none"
-                                src="{{ asset('assets') }}/assets/img/generic/top-default-dark.png"
-                                alt="" /></span><span class="label-text"> Horizontal</span></label>
-                </div>
-                <div class="col-6">
-                    <input class="btn-check" id="navbarPositionCombo" name="navigation-type" type="radio"
-                        value="combo" data-theme-control="phoenixNavbarPosition"
-                        data-page-url="documentation/layouts/combo-navbar.html" />
-                    <label class="btn d-inline-block btn-navbar-style fs-9" for="navbarPositionCombo"> <span
-                            class="rounded d-block"><img class="img-fluid img-prototype d-dark-none"
-                                src="{{ asset('assets') }}/assets/img/generic/nav-combo-light.png"
-                                alt="" /><img class="img-fluid img-prototype d-light-none"
-                                src="{{ asset('assets') }}/assets/img/generic/nav-combo-dark.png"
-                                alt="" /></span><span class="label-text"> Combo</span></label>
-                </div>
-                <div class="col-6">
-                    <input class="btn-check" id="navbarPositionTopDouble" name="navigation-type" type="radio"
-                        value="dual-nav" data-theme-control="phoenixNavbarPosition"
-                        data-page-url="documentation/layouts/dual-nav.html" />
-                    <label class="btn d-inline-block btn-navbar-style fs-9" for="navbarPositionTopDouble"> <span
-                            class="rounded d-block"><img class="img-fluid img-prototype d-dark-none"
-                                src="{{ asset('assets') }}/assets/img/generic/dual-light.png" alt="" /><img
-                                class="img-fluid img-prototype d-light-none"
-                                src="{{ asset('assets') }}/assets/img/generic/dual-dark.png"
-                                alt="" /></span><span class="label-text"> Dual nav</span></label>
-                </div>
-            </div>
-        </div> --}}
         <div class="setting-panel-item">
-            <h5 class="setting-panel-item-title">Vertical Navbar Appearance</h5>
+            <h5 class="setting-panel-item-title">Skema Navbar</h5>
             <div class="row gx-2">
                 <div class="col-6">
                     <input class="btn-check" id="navbar-style-default" type="radio" name="config.name"
@@ -346,8 +139,8 @@
                             src="{{ asset('assets') }}/assets/img/generic/default-light.png" alt="" /><img
                             class="img-fluid img-prototype d-light-none"
                             src="{{ asset('assets') }}/assets/img/generic/default-dark.png" alt="" /><span
-                            class="label-text d-dark-none"> Default</span><span
-                            class="label-text d-light-none">Default</span></label>
+                            class="label-text d-dark-none"> Bawaan</span><span
+                            class="label-text d-light-none">Bawaan</span></label>
                 </div>
                 <div class="col-6">
                     <input class="btn-check" id="navbar-style-dark" type="radio" name="config.name"
@@ -357,13 +150,13 @@
                             src="{{ asset('assets') }}/assets/img/generic/vertical-darker.png" alt="" /><img
                             class="img-fluid img-prototype d-light-none"
                             src="{{ asset('assets') }}/assets/img/generic/vertical-lighter.png"
-                            alt="" /><span class="label-text d-dark-none"> Darker</span><span
-                            class="label-text d-light-none">Lighter</span></label>
+                            alt="" /><span class="label-text d-dark-none"> Gelap</span><span
+                            class="label-text d-light-none">Terang</span></label>
                 </div>
             </div>
         </div>
         <div class="setting-panel-item">
-            <h5 class="setting-panel-item-title">Horizontal Navbar Appearance</h5>
+            <h5 class="setting-panel-item-title">Skema Navbar Atas</h5>
             <div class="row gx-2">
                 <div class="col-6">
                     <input class="btn-check" id="navbarTopDefault" name="navbar-top-style" type="radio"
@@ -373,7 +166,7 @@
                                 src="{{ asset('assets') }}/assets/img/generic/top-default.png" alt="" /><img
                                 class="img-fluid img-prototype d-light-none mb-0"
                                 src="{{ asset('assets') }}/assets/img/generic/top-style-darker.png"
-                                alt="" /></span><span class="label-text">Default</span></label>
+                                alt="" /></span><span class="label-text">Bawaan</span></label>
                 </div>
                 <div class="col-6">
                     <input class="btn-check" id="navbarTopDarker" name="navbar-top-style" type="radio"
@@ -383,8 +176,8 @@
                                 src="{{ asset('assets') }}/assets/img/generic/navbar-top-style-light.png"
                                 alt="" /><img class="img-fluid img-prototype d-light-none mb-0"
                                 src="{{ asset('assets') }}/assets/img/generic/top-style-lighter.png"
-                                alt="" /></span><span class="label-text d-dark-none">Darker</span><span
-                            class="label-text d-light-none">Lighter</span></label>
+                                alt="" /></span><span class="label-text d-dark-none">Gelap</span><span
+                            class="label-text d-light-none">Terang</span></label>
                 </div>
             </div>
         </div>
@@ -428,7 +221,7 @@
 
 <script type="text/javascript">
     const reloadTable = () => {
-        $('#yajra').DataTable().draw(false);
+        $('#yajra, #yajra2').DataTable().draw(false);
     }
     const resetForm = (form) => {
         $(form)[0].reset();
@@ -436,7 +229,6 @@
 </script>
 @stack('footer')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 @stack('chart')
 
 <div id="loader" data-wordLoad="{{ config('app.name', 'Sistem') . ' - ' . $subtitle }}">

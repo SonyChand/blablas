@@ -40,7 +40,7 @@ class AuthenticatedSessionController extends Controller
         $this->logActivity('login', $request->user(), null, $description);
 
 
-        return redirect()->intended(route('dashboard.index', absolute: false))->with('success', 'Login berhasil.');
+        return redirect()->intended(route('dashboard.indexSpm', absolute: false))->with('success', 'Login berhasil.');
     }
 
     /**

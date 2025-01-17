@@ -73,6 +73,15 @@ return new class extends Migration
             $table->unsignedBigInteger('puskesmas_id')->nullable()->after('id'); // Add the column after 'id'
             $table->foreign('puskesmas_id')->references('id')->on('puskesmas')->onDelete('cascade');
         });
+
+        Schema::create('periode_spms', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('tahun_id')->nullable();
+            $table->foreign('tahun_id')->references('id')->on('tahuns')->onDelete('cascade');
+            $table->integer('periode_awal')->nullable();
+            $table->integer('periode_akhir')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -89,5 +98,6 @@ return new class extends Migration
             $table->dropForeign(['puskesmas_id']); // Drop the foreign key constraint
             $table->dropColumn('puskesmas_id'); // Drop the column
         });
+        Schema::dropIfExists('periode_spms');
     }
 };
